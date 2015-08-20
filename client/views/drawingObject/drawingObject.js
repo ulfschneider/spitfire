@@ -1,5 +1,5 @@
-dragTime = 0;
-DRAG_UPDATE_DELAY = 100; //milliseconds interval for writing to db
+var dragTime;
+var DRAG_UPDATE_DELAY = 100; //milliseconds interval for writing to db
 
 
 Meteor.drawingObject = {
@@ -78,10 +78,10 @@ Meteor.drawingObject = {
             'dragstop': function (event) {
                 Meteor.drawingObject.updatePosition(this._id, event);
             },
-            'resizestart': function (event) {
+            'resizestart': function () {
                 Meteor.canvas.setOverlay(true, this._id);
             },
-            'resizestop': function (event) {
+            'resizestop': function () {
                 var id = this._id;
                 var sizeable = $('#sizeable' + id);
                 var width = sizeable.width();
@@ -101,7 +101,7 @@ Meteor.drawingObject = {
 
         Template.drawingObject.rendered = function () {
             Meteor.drawingObject.enableDrag(Template.currentData()._id);
-        }
+        };
 
 
         Template.drawingObject.helpers({
@@ -115,4 +115,4 @@ Meteor.drawingObject = {
 
     }
 
-}
+};

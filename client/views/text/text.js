@@ -1,12 +1,12 @@
-editText = null;
-editId = null;
-initId = null;
-INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
+var editText;
+var editId;
+var initId;
+var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
 
 Meteor.text = {
     clearText: function () {
         var id = Meteor.canvas.overlayAssignedId();
-        if (id && id.indexOf('textinput') ^== 0) {
+        if (id && id.indexOf('textinput') == 0) {
             Meteor.canvas.setOverlay(false, id);
         }
 
@@ -71,7 +71,7 @@ Meteor.text = {
                 left: event.pageX.valueOf(),
                 top: event.pageY.valueOf(),
                 width: 200,
-                height: 20,
+                height: 20
             }, function (error, result) {
                 editId = result;
             });
@@ -80,13 +80,12 @@ Meteor.text = {
 
     updateEditing: function (event) {
         if (event && editId) {
-            var text = null;
+            var text;
             var textControl = $('#textinput' + editId);
             text = event.target.value;
 
 
             if (text != null && textControl) {
-                var textControl = $(event.target);
                 var width = textControl.width();
                 var height = textControl.height();
 
@@ -159,7 +158,7 @@ Meteor.text = {
             textControl.val(editText);
             textControl.autosize();
             textControl.focus();
-        }
+        };
 
         Template.text.helpers({
             hasSize: function () {
@@ -172,4 +171,4 @@ Meteor.text = {
             Meteor.drawingObject.enableResize(Template.currentData()._id);
         }
     }
-}
+};

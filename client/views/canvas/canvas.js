@@ -58,7 +58,7 @@ Meteor.canvas = {
                 Meteor.editor.maintainMarker();
 
                 return fetch;
-            },
+            }
         });
 
         Template.canvas.events({
@@ -73,4 +73,4 @@ Meteor.canvas = {
         });
     }
 
-}
+};

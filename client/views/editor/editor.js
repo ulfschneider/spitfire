@@ -47,4 +47,4 @@ Meteor.editor = {
             Meteor.editor.maintainMarker();
         }
     }
-}
+};
