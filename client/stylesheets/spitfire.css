@@ -1,0 +1,250 @@
+* {
+    font-family: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
+    font-size: 14px;
+    outline: none;
+    line-height: 20px;
+}
+
+body {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+header {
+    margin: 0px;
+    padding: 8px;
+    padding-right:40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    border: 0;
+    background: white;
+}
+
+h1, header, header * {
+    font-family: 'Input Sans', sans-serif;
+}
+
+mark {
+    background: lightgoldenrodyellow;
+}
+
+.aboutLink {
+    text-decoration: none;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 10000;
+    background: black;
+    color: white;
+    padding: 8px;
+}
+
+.about {
+    padding: 8px;
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.about, .about * {
+    font-size: 15px;
+    line-height: 1.8em;
+}
+
+a {
+    text-decoration: underline;
+    color: black;
+}
+
+::selection {
+    color: white;
+    background: cornflowerblue;
+}
+
+.ui-icon-gripsmall-diagonal-se {
+    background: cornflowerblue;
+    width: 12px;
+    height: 12px;
+}
+
+.drawing-object {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+}
+
+.drawing-object .text {
+    background: lightgoldenrodyellow;
+    display: inline-block;
+    overflow: hidden;
+    border: 1px solid lightgoldenrodyellow;
+    padding: 1px;
+}
+
+.drawing-object .text p {
+    margin:0;
+    padding:0;
+}
+
+.drawing-object .text a:active {
+    color: red;
+}
+
+.drawing-object:hover .text {
+    color: cornflowerblue;
+    margin-right: 10px;
+    border: 1px solid cornflowerblue;
+}
+
+.drawing-object:hover .text a {
+    color: cornflowerblue;
+}
+
+.drawing-object:hover .text a:active {
+    color: red;
+}
+
+.edit .text {
+    color: red;
+    font-style: italic;
+    -webkit-animation: glow 1500ms infinite;
+    -moz-animation: glow 1500ms infinite;
+    animation: glow 1500ms infinite;
+}
+
+.edit .text a{
+    color: red;
+}
+
+@-moz-keyframes glow {
+    0% {
+        border: 1px solid red;
+    }
+    50% {
+        border: 1px solid transparent;
+    }
+    100% {
+        border: 1px solid red;
+    }
+}
+
+@-webkit-keyframes glow {
+    0% {
+        border: 1px solid red;
+    }
+    50% {
+        border: 1px solid transparent;
+    }
+    100% {
+        border: 1px solid red;
+    }
+}
+
+@keyframes glow {
+    0% {
+        border: 1px solid red;
+    }
+    50% {
+        border: 1px solid transparent;
+    }
+    100% {
+        border: 1px solid red;
+    }
+}
+
+.drawing-object:hover .controls {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.drawing-object .controls {
+    display: none;
+    z-index: 10000;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+.drawing-object .controls a {
+    cursor: pointer;
+    margin-right: 10px;
+    width:22px;
+    text-align:center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.controls a.edit {
+    color: cornflowerblue;
+}
+
+.controls a.edit:hover {
+    background: cornflowerblue;
+    color: lightgoldenrodyellow;
+}
+
+.controls a.delete {
+    color: red;
+}
+
+.controls a.delete:hover {
+    background: red;
+    color: lightgoldenrodyellow;
+}
+
+#overlay {
+    position: absolute;
+    z-index: 100000;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: transparent;
+    display: none;
+}
+
+#canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding-top: 36px;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#editor {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#editor .boundary-marker {
+    display:none;
+    background:red;
+    position:fixed;
+}
+
+#textForm {
+    position: absolute;
+    z-index: 100000;
+}
+
+#textForm textarea {
+    border: 1px solid cornflowerblue;
+    padding: 1px;
+    margin: 0px;
+    color: cornflowerblue;
+    min-width: 20px;
+    min-height: 20px;
+    height: 20px;
+}
+
+

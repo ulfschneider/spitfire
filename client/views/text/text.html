@@ -1,0 +1,9 @@
+<template name="text">
+    {{#if hasSize}}
+        <div class="text sizeable" id="sizeable{{_id}}"
+             style="width:{{width}}px; height:{{height}}px;">{{#autolink}}{{#markdown}}{{text}}{{/markdown}}{{/autolink}}</div>
+    {{else}}
+        <div class="text sizeable"
+             id="sizeable{{_id}}">{{#autolink}}{{#markdown}}{{text}}{{/markdown}}{{/autolink}}</div>
+    {{/if}}
+</template>
