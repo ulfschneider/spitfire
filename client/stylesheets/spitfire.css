@@ -12,7 +12,7 @@ body {
 }
 
 header {
-    margin: 0px;
+    margin: 0;
     padding: 8px;
     padding-right:40px;
     position: fixed;
@@ -31,11 +31,24 @@ mark {
     background: lightgoldenrodyellow;
 }
 
+textarea {
+    position: absolute;
+    z-index: 100000;
+    border: 1px solid cornflowerblue;
+    padding: 1px;
+    margin: 0;
+    color: cornflowerblue;
+    min-width: 20px;
+    min-height: 20px;
+    height: 20px;
+}
+
+
 .aboutLink {
     text-decoration: none;
     position: fixed;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     z-index: 10000;
     background: black;
     color: white;
@@ -197,20 +210,20 @@ a {
 #overlay {
     position: absolute;
     z-index: 100000;
-    left: 0px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     background: transparent;
     display: none;
 }
 
 #canvas {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     padding-top: 36px;
 
     -webkit-user-select: none;
@@ -222,8 +235,8 @@ a {
 
 #editor {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
 }
 
 #editor .boundary-marker {
@@ -232,19 +245,5 @@ a {
     position:fixed;
 }
 
-#textForm {
-    position: absolute;
-    z-index: 100000;
-}
-
-#textForm textarea {
-    border: 1px solid cornflowerblue;
-    padding: 1px;
-    margin: 0px;
-    color: cornflowerblue;
-    min-width: 20px;
-    min-height: 20px;
-    height: 20px;
-}
 
 

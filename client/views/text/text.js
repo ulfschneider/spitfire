@@ -106,12 +106,6 @@ Meteor.text = {
 
 
     init: function () {
-        Template.textForm.helpers({
-                isEdit: function () {
-                    return Meteor.spitfire.isEdit(this);
-                }
-            }
-        );
 
         Template.textInput.events({
                 'focusout': function (event) {
