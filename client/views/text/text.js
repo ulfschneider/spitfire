@@ -170,7 +170,7 @@ Meteor.text = {
             },
             votableText:function() {
                 if (this.vote && this.vote > 0) {
-                    return '<div class="vote">' + this.vote + '</div>' + this.text;
+                    return '<span class="vote">' + this.vote + '</span>' + this.text;
                 } else {
                     return this.text;
                 }
