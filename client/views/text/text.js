@@ -103,6 +103,16 @@ Meteor.text = {
     removeEditing: function (id) {
         Meteor.call('removeEditing', id);
     },
+    vote: function (id) {
+        if (id) {
+            Meteor.call('vote', id);
+        }
+    },
+    downVote: function (id) {
+        if (id) {
+            Meteor.call('downVote', id);
+        }
+    },
 
 
     init: function () {
@@ -157,6 +167,29 @@ Meteor.text = {
         Template.text.helpers({
             hasSize: function () {
                 return this.width && this.width > 0 && this.height && this.height > 0;
+            },
+            votableText:function() {
+                if (this.vote && this.vote > 0) {
+                    return '<div class="vote">' + this.vote + '</div>' + this.text;
+                } else {
+                    return this.text;
+                }
+            }
+
+        });
+
+        Template.text.events({
+            'click': function () {
+                if (event.target.tagName.toLowerCase() != 'a') {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    if (event.shiftKey && !event.altKey) {
+                        Meteor.text.vote(this._id);
+                    } else if (event.shiftKey && event.altKey) {
+                        Meteor.text.downVote(this._id);
+                    }
+                }
             }
         });
 

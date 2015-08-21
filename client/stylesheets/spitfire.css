@@ -23,7 +23,7 @@ header {
     background: white;
 }
 
-h1, header, header * {
+h1, h2, header, header * {
     font-family: 'Input Sans', sans-serif;
 }
 
@@ -94,12 +94,17 @@ a {
     overflow: hidden;
     border: 1px solid lightgoldenrodyellow;
     padding: 1px;
+    position:relative;
 }
 
 .drawing-object .text p {
     margin:0;
     padding:0;
+    overflow:hidden;
+    position:relative;
 }
+
+
 
 .drawing-object .text a:active {
     color: red;
@@ -167,10 +172,6 @@ a {
     }
 }
 
-.drawing-object:hover .controls {
-    display: inline-block;
-    vertical-align: top;
-}
 
 .drawing-object .controls {
     display: none;
@@ -179,6 +180,12 @@ a {
     left: 0;
     top: 0;
 }
+
+.drawing-object:hover .controls {
+    display: inline-block;
+    vertical-align: top;
+}
+
 
 .drawing-object .controls a {
     cursor: pointer;
@@ -206,6 +213,19 @@ a {
     background: red;
     color: lightgoldenrodyellow;
 }
+
+
+.vote  {
+    background:cornflowerblue;
+    color:white;
+    display:inline-block;
+    position:relative;
+    min-width:20px;
+    text-align:center;
+    vertical-align:middle;
+    margin-right:5px;
+}
+
 
 #overlay {
     position: absolute;

@@ -1,9 +1,11 @@
 <template name="text">
     {{#if hasSize}}
         <div class="text sizeable" id="sizeable{{_id}}"
-             style="width:{{width}}px; height:{{height}}px;">{{#autolink}}{{#markdown}}{{text}}{{/markdown}}{{/autolink}}</div>
+             style="width:{{width}}px; height:{{height}}px;">
+            {{#autolink}}{{#markdown}}{{votableText}}{{/markdown}}{{/autolink}}</div>
     {{else}}
         <div class="text sizeable"
-             id="sizeable{{_id}}">{{#autolink}}{{#markdown}}{{text}}{{/markdown}}{{/autolink}}</div>
+             id="sizeable{{_id}}">
+            {{#autolink}}{{#markdown}}{{votableText}}{{/markdown}}{{/autolink}}</div>
     {{/if}}
 </template>

@@ -44,22 +44,20 @@ Meteor.drawingObject = {
         }
     },
 
-
     init: function () {
         Template.drawingObject.events({
             'dblclick .text': function (event) {
                 //same as click .edit
                 event.preventDefault();
                 event.stopPropagation();
-
-                Meteor.text.editText(this);
+                if (!event.shiftKey) {
+                    Meteor.text.editText(this);
+                }
             },
             'click': function (event) {
                 //click is not supported here, except on links
-                if (event.target.tagName.toLowerCase() != 'a') {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                event.preventDefault();
+                event.stopPropagation();
             },
             'drag': function (event) {
 
