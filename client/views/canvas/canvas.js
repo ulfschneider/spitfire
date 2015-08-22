@@ -5,7 +5,6 @@ var maxZIndex = 0;
 Meteor.canvas = {
 
     setOverlay: function (overlay, id) {
-        zIndex = false;
         if (overlay) {
             $('#overlay').css('display', 'block');
         } else {

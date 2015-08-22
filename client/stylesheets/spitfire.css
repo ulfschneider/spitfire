@@ -191,7 +191,7 @@ a {
 
 .drawing-object:hover .controls {
     display: block;
-    margin-top:-20px;
+    margin-top:-20px; /*negative line height*/
 }
 
 
