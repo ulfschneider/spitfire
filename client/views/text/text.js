@@ -53,7 +53,8 @@ Meteor.text = {
                         id: editId,
                         text: text,
                         width: textControl.width(),
-                        height: textControl.height()
+                        height: textControl.height(),
+                        zIndex: Meteor.canvas.maxZIndex() + 1
                     });
                     Meteor.text.clearText();
                 }
@@ -71,7 +72,8 @@ Meteor.text = {
                 left: event.pageX.valueOf(),
                 top: event.pageY.valueOf(),
                 width: 200,
-                height: 20
+                height: 20,
+                zIndex: Meteor.canvas.maxZIndex() + 1
             }, function (error, result) {
                 editId = result;
             });

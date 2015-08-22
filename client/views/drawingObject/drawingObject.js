@@ -8,12 +8,11 @@ Meteor.drawingObject = {
         var now = new Date().getTime();
         return now - dragTime > DRAG_UPDATE_DELAY;
     },
-    enableDrag: function (id, zIndex) {
+    enableDrag: function (id) {
         if (id) {
             $('#draggable' + id).draggable({
                 scroll: true, helper: 'original', containment: '#canvas', stack: '.draggable'
             });
-            Meteor.drawingObject.setZIndex(id, zIndex);
         } else {
             $('.draggable').draggable({
                 scroll: true, helper: 'original', containment: '#canvas', stack: '.draggable'
@@ -31,24 +30,20 @@ Meteor.drawingObject = {
             });
         }
     },
-    setZIndex: function (id, zIndex) {
-        if (id && zIndex) {
-            $('#draggable' + id).css('z-index', zIndex);
-        }
-    },
     resize: function (id, zIndex) {
         if (id) {
             var sizeable = $('#sizeable' + id);
             if (sizeable) {
                 var width = sizeable.width();
                 var height = sizeable.height();
-                if (zIndex) {
-                    Meteor.call('resize', {id: id, width: width, height: height, zIndex: zIndex});
-                } else {
-                    Meteor.call('resize', {id: id, width: width, height: height});
-                }
+                Meteor.call('resize', {
+                    id: id,
+                    width: width,
+                    height: height,
+                    zIndex: zIndex
+                });
+
             }
-            Meteor.drawingObject.setZIndex(id, zIndex);
         }
     },
 
@@ -60,11 +55,11 @@ Meteor.drawingObject = {
                 id: id,
                 left: position.left,
                 top: position.top,
-                zIndex: zIndex >= 0 ? zIndex : 0
+                zIndex: zIndex
             });
+
             dragTime = new Date().getTime();
         }
-        Meteor.drawingObject.setZIndex(id, zIndex);
 
     },
     remove: function (id) {
@@ -88,8 +83,8 @@ Meteor.drawingObject = {
                 event.preventDefault();
                 event.stopPropagation();
             },
-            'dragStart': function (event) {
-                Meteor.drawingObject.setZIndex(this._id, Meteor.canvas.maxZIndex() + 1);
+            'dragstart': function (event) {
+                Meteor.drawingObject.updatePosition(this._id, event, Meteor.canvas.maxZIndex() + 1);
             },
             'drag': function (event) {
                 var e = $('#editor');
@@ -101,14 +96,13 @@ Meteor.drawingObject = {
                 }
 
                 if (Meteor.drawingObject.checkDragDelay()) {
-                    Meteor.drawingObject.updatePosition(this._id, event);
+                    Meteor.drawingObject.updatePosition(this._id, event); //intentionally not changing z-index
                 }
             },
             'dragstop': function (event) {
                 Meteor.drawingObject.updatePosition(this._id, event, Meteor.canvas.maxZIndex() + 1);
             },
             'resizestart': function () {
-                Meteor.drawingObject.setZIndex(this._id, Meteor.canvas.maxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
             },
             'resizestop': function () {
@@ -126,7 +120,7 @@ Meteor.drawingObject = {
         });
 
         Template.drawingObject.rendered = function () {
-            Meteor.drawingObject.enableDrag(Template.currentData()._id, Blaze.getData(Template.instance().view).zIndex);
+            Meteor.drawingObject.enableDrag(Template.currentData()._id);
         };
 
 
@@ -136,12 +130,10 @@ Meteor.drawingObject = {
             },
             edit: function () {
                 return this.edit ? "edit" : "";
-            },
-            zIndex: function () {
-                return this.zIndex > 0 ? this.zIndex : 0;
             }
         });
 
     }
 
-};
+}
+;
