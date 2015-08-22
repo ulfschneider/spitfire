@@ -12,7 +12,7 @@ Meteor.canvas = {
         }
 
         if (overlay && id) {
-            $('#draggable' + id).css('z-index', '1000000');
+            $('#draggable' + id).css('z-index', '2147483647');
             $('#overlay').attr('data-id', id);
         } else if (!overlay && id) {
             $('#draggable' + id).css('z-index', '');

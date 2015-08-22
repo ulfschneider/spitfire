@@ -21,6 +21,7 @@ header {
     right: 0;
     border: 0;
     background: white;
+    z-index: 2147483646;
 }
 
 h1, h2, header, header * {
@@ -33,7 +34,7 @@ mark {
 
 textarea {
     position: absolute;
-    z-index: 100000;
+    z-index: 2147483646;
     border: 1px solid cornflowerblue;
     padding: 1px;
     margin: 0;
@@ -49,7 +50,7 @@ textarea {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 10000;
+    z-index: 2147483646;
     background: black;
     color: white;
     padding: 8px;
@@ -176,7 +177,6 @@ a {
 
 .drawing-object .controls {
     display: none;
-    z-index: 10000;
     position: relative;
     left: 0;
     top: 0;
@@ -230,7 +230,7 @@ a {
 
 #overlay {
     position: absolute;
-    z-index: 100000;
+    z-index: 2147483646;
     left: 0;
     top: 0;
     right: 0;
@@ -264,6 +264,7 @@ a {
     display:none;
     background:red;
     position:fixed;
+    z-index:2147483647;
 }
 
 
