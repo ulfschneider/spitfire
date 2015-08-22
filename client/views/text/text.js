@@ -34,7 +34,8 @@ Meteor.text = {
 
             Meteor.call('updateEditing', {
                 id: drawingObject._id,
-                text: editText
+                text: editText,
+                zIndex: Meteor.canvas.maxZIndex() + 1
             });
         }
 
@@ -170,7 +171,7 @@ Meteor.text = {
             hasSize: function () {
                 return this.width && this.width > 0 && this.height && this.height > 0;
             },
-            votableText:function() {
+            votableText: function () {
                 if (this.vote && this.vote > 0) {
                     return '<span class="vote">' + this.vote + '</span>' + this.text;
                 } else {
