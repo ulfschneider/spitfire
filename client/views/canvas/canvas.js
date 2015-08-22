@@ -4,7 +4,8 @@ var maxZIndex = 0;
 
 Meteor.canvas = {
 
-    setOverlay: function (overlay, id, zIndex) {
+    setOverlay: function (overlay, id) {
+        zIndex = false;
         if (overlay) {
             $('#overlay').css('display', 'block');
         } else {
@@ -15,11 +16,6 @@ Meteor.canvas = {
             $('#draggable' + id).css('z-index', '2147483647');
             $('#overlay').attr('data-id', id);
         } else if (!overlay && id) {
-            if (zIndex) {
-                $('#draggable' + id).css('z-index', zIndex);
-            } else {
-                $('#draggable' + id).css('z-index', '');
-            }
             $('#overlay').attr('data-id', '');
         }
 
@@ -35,7 +31,7 @@ Meteor.canvas = {
     drawingHeight: function () {
         return drawingHeight;
     },
-    maxZIndex: function() {
+    maxZIndex: function () {
         return maxZIndex;
     },
 
@@ -43,14 +39,23 @@ Meteor.canvas = {
         Template.canvas.helpers({
 
             drawingObjects: function () {
-                /*{}, {sort: {modifiedAt: 1}}*/
                 var fetch = DrawingObjects.find().fetch(); //fetch all, because contents will possibly be manipulated
-
+                var editId = Meteor.text.editId();
+                var initId = Meteor.text.initId();
+                var editOrInitFound = false;
 
                 drawingWidth = 0;
                 drawingHeight = 0;
 
                 fetch.forEach(function (drawObject) {
+
+                        if (!editOrInitFound) {
+                            if (initId && initId === drawObject.initId) {
+                                editOrInitFound = true;
+                            } else if (editId === drawObject._id) {
+                                editOrInitFound = true;
+                            }
+                        }
 
                         drawingWidth = Math.max(drawingWidth, drawObject.left + drawObject.width);
                         drawingHeight = Math.max(drawingHeight, drawObject.top + drawObject.height);
@@ -67,6 +72,13 @@ Meteor.canvas = {
                     }
                 );
                 Meteor.editor.maintainMarker();
+
+                if (editId || initId) {
+                    if (!editOrInitFound) {
+                        //someone else removed a drawing-object while this user was editing
+                        Meteor.text.clearText();
+                    }
+                }
 
                 return fetch;
             }

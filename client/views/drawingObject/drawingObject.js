@@ -101,7 +101,7 @@ Meteor.drawingObject = {
                 Meteor.canvas.setOverlay(true, this._id);
             },
             'resizestop': function () {
-                Meteor.canvas.setOverlay(false, this._id, Meteor.canvas.maxZIndex() + 1);
+                Meteor.canvas.setOverlay(false, this._id);
                 Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
             },
 

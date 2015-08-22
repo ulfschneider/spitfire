@@ -46,6 +46,7 @@ Meteor.text = {
             var textControl = $('#textinput' + editId);
 
             if (textControl) {
+
                 if (!text) {
                     Meteor.drawingObject.remove(editId);
                     Meteor.text.clearText();
