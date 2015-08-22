@@ -32,6 +32,14 @@ mark {
     background: lightgoldenrodyellow;
 }
 
+kbd {
+    background:black;
+    color:white;
+    margin:0;
+    padding:0;
+    border:0;
+}
+
 textarea {
     position: absolute;
     z-index: 2147483646;
