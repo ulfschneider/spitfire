@@ -114,7 +114,6 @@ a {
 
 .drawing-object:hover .text {
     color: cornflowerblue;
-    margin-right: 10px;
     border: 1px solid cornflowerblue;
 }
 
@@ -176,25 +175,24 @@ a {
 
 
 .drawing-object .controls {
-    display: none;
-    position: relative;
-    left: 0;
-    top: 0;
+    display:none;
+    border:none;
+    height:20px;
 }
 
 .drawing-object:hover .controls {
-    display: inline-block;
-    vertical-align: top;
+    display: block;
+    margin-top:-20px;
 }
 
 
 .drawing-object .controls a {
     cursor: pointer;
-    margin-right: 10px;
     width:22px;
     text-align:center;
-    display: inline-block;
     text-decoration: none;
+    float:right;
+    margin-left:10px;
 }
 
 .controls a.edit {
