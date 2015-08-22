@@ -78,11 +78,6 @@ Meteor.drawingObject = {
                     Meteor.text.editText(this);
                 }
             },
-            'click': function (event) {
-                //click is not supported here, except on links
-                event.preventDefault();
-                event.stopPropagation();
-            },
             'dragstart': function (event) {
                 Meteor.drawingObject.updatePosition(this._id, event, Meteor.canvas.maxZIndex() + 1);
             },

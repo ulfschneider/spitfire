@@ -152,9 +152,12 @@ Meteor.text = {
                 'mouseup': function (event) {
                     Meteor.text.updateEditing(event);
                 },
-                'dblclick': function () {
-                    event.stopPropagation();
+                'click': function() {
+                    if (event.target.tagName.toLowerCase() != 'a') {
+                        event.preventDefault();
+                    }
                 }
+
             }
         );
 
