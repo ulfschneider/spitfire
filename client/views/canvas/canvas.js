@@ -1,5 +1,6 @@
-var drawingWidth;
-var drawingHeight;
+var drawingWidth = 0;
+var drawingHeight = 0;
+var maxZIndex = 0;
 
 Meteor.canvas = {
 
@@ -30,6 +31,9 @@ Meteor.canvas = {
     drawingHeight: function () {
         return drawingHeight;
     },
+    maxZIndex: function() {
+        return maxZIndex;
+    },
 
     init: function () {
         Template.canvas.helpers({
@@ -46,6 +50,9 @@ Meteor.canvas = {
 
                         drawingWidth = Math.max(drawingWidth, drawObject.left + drawObject.width);
                         drawingHeight = Math.max(drawingHeight, drawObject.top + drawObject.height);
+                        if (drawObject.zIndex) {
+                            maxZIndex = Math.max(maxZIndex, drawObject.zIndex);
+                        }
                         if (Meteor.text.isInputTimeOut(drawObject)) {
                             drawObject.edit = null;
                             if (Meteor.text.editId() === drawObject._id) {
