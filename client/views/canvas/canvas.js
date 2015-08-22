@@ -4,7 +4,7 @@ var maxZIndex = 0;
 
 Meteor.canvas = {
 
-    setOverlay: function (overlay, id) {
+    setOverlay: function (overlay, id, zIndex) {
         if (overlay) {
             $('#overlay').css('display', 'block');
         } else {
@@ -15,7 +15,11 @@ Meteor.canvas = {
             $('#draggable' + id).css('z-index', '2147483647');
             $('#overlay').attr('data-id', id);
         } else if (!overlay && id) {
-            $('#draggable' + id).css('z-index', '');
+            if (zIndex) {
+                $('#draggable' + id).css('z-index', zIndex);
+            } else {
+                $('#draggable' + id).css('z-index', '');
+            }
             $('#overlay').attr('data-id', '');
         }
 
