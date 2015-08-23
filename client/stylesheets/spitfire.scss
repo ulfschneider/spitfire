@@ -1,8 +1,11 @@
+$line-height: 20px;
+$font-size: 14px;
+
 * {
     font-family: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
-    font-size: 14px;
+    font-size: $font-size;
     outline: none;
-    line-height: 20px;
+    line-height: $line-height;
 }
 
 body {
@@ -48,9 +51,9 @@ textarea {
     padding: 1px;
     margin: 0;
     color: cornflowerblue;
-    min-width: 20px;
-    min-height: 20px;
-    height: 20px;
+    min-width: $line-height;
+    min-height: $line-height;
+    height: $line-height;
 }
 
 .aboutLink {
@@ -191,12 +194,12 @@ a {
 
 .drawing-object:hover .controls {
     display: block;
-    margin-top: -20px; /*negative line height*/
+    margin-top: -$line-height;
 }
 
 .drawing-object .controls a {
     cursor: pointer;
-    width: 20px;
+    width: $line-height;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -234,7 +237,7 @@ a {
 }
 
 .controls a.delete {
-    margin-left: 20px;
+    margin-left: $line-height;
     color: red;
     float: right;
 }
@@ -249,7 +252,7 @@ a {
     color: white;
     display: inline-block;
     position: relative;
-    min-width: 20px;
+    min-width: $line-height;
     text-align: center;
     vertical-align: middle;
     margin-right: 5px;
@@ -272,7 +275,7 @@ a {
     left: 0;
     right: 0;
     bottom: 0;
-    padding-top: 36px;
+    padding-top: 2*$line-height;
 
     -webkit-user-select: none;
     -moz-user-select: none;
