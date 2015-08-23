@@ -25,8 +25,10 @@
 
 <template name="about">
     <div class="about">
-        <h1>About {{appTitle}}</h1>
-
+        <div style="text-align:center;">
+            <img src="/favicon-32x32.png"/>
+            <h1>About {{appTitle}}</h1>
+        </div>
         <p>{{appTitle}} is a virtual whiteboard to be shared by multiple persons at the same time. Users will be
             anonymous - so no one needs to sign in.</p>
 
@@ -46,7 +48,8 @@
 
         <p><b>Drag and resize:</b> Drag the text around and resize text boxes as you like.</p>
 
-        <p><b>Voting: </b>Dot voting is possible by clicking on the &#x25b2; symbol that appears top left when hovering over a
+        <p><b>Voting: </b>Dot voting is possible by clicking on the &#x25b2; symbol that appears top left when hovering
+            over a
             text, down voting by clicking on the &#x25bc; symbol.</p>
 
         <p>{{appTitle}} is free to use for everyone. It is built and shared by <a href="http://ulf.codes"
