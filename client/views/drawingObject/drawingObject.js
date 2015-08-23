@@ -51,8 +51,8 @@ Meteor.drawingObject = {
         }
     },
 
-    updatePosition: function (id, event, zIndex) {
-        var position = $(event.currentTarget).position();
+    updatePosition: function (id, zIndex) {
+        var position = $('#draggable' + id).position();
         if (position) {
 
             Meteor.call('updatePosition', {
@@ -96,7 +96,7 @@ Meteor.drawingObject = {
                 event.stopPropagation();
             },
             'dragstart': function (event) {
-                Meteor.drawingObject.updatePosition(this._id, event, Meteor.canvas.maxZIndex() + 1);
+                Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
             },
             'drag': function (event) {
                 var e = $('#editor');
@@ -108,24 +108,24 @@ Meteor.drawingObject = {
                 }
 
                 if (Meteor.drawingObject.checkDragDelay()) {
-                    Meteor.drawingObject.updatePosition(this._id, event); //intentionally not changing z-index
+                    Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
                 }
             },
             'dragstop': function (event) {
-                Meteor.drawingObject.updatePosition(this._id, event); //intentionally not changing z-index
+                Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
             },
             'resizestart': function () {
                 sizeId = this._id;
                 Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
             },
-            'resize' : function() {
+            'resize': function () {
                 Meteor.canvas.setOverlay(true, this._id);
             },
             'resizestop': function () {
                 sizeId = null;
                 Meteor.canvas.setOverlay(false, this._id);
-                Meteor.drawingObject.resize(this._id);  //intentionally not changing z-index
+                Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
 
             },
 
