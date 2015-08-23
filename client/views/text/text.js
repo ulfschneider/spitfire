@@ -149,6 +149,7 @@ Meteor.text = {
             textControl.focus();
         };
 
+
         Template.text.helpers({
             hasSize: function () {
                 return this.width && this.width > 0 && this.height && this.height > 0;
@@ -159,6 +160,9 @@ Meteor.text = {
                 } else {
                     return this.text;
                 }
+            },
+            height: function() {
+                return ''; //will set auto height that fits to content
             }
 
         });
