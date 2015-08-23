@@ -122,10 +122,12 @@ a {
     color: cornflowerblue;
 }
 
-.drawing-object:hover .text a:active, .drawing-object:hover .text a:hover {
+.drawing-object:hover .text a:hover {
     color:white;
     background:cornflowerblue;
 }
+
+
 
 .edit .text, .edit:hover .text {
     color: red;
@@ -138,6 +140,12 @@ a {
 .edit .text a, .edit:hover .text a {
     color: red;
 }
+
+.edit:hover .text a:hover {
+    color:white;
+    background:red;
+}
+
 
 @-moz-keyframes glow {
     0% {
