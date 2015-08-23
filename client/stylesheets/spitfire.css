@@ -14,7 +14,7 @@ body {
 header {
     margin: 0;
     padding: 8px;
-    padding-right:40px;
+    padding-right: 40px;
     position: fixed;
     left: 0;
     top: 0;
@@ -33,12 +33,12 @@ mark {
 }
 
 kbd {
-    background:black;
-    color:white;
-    margin:0;
-    padding:0;
-    border:0;
-    text-transform:uppercase;
+    background: black;
+    color: white;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-transform: uppercase;
 }
 
 textarea {
@@ -52,7 +52,6 @@ textarea {
     min-height: 20px;
     height: 20px;
 }
-
 
 .aboutLink {
     text-decoration: none;
@@ -72,7 +71,7 @@ textarea {
 }
 
 .about, .about * {
-    font-family:'Input Sans', sans-serif;
+    font-family: 'Input Sans', sans-serif;
     line-height: 1.8em;
 }
 
@@ -98,21 +97,20 @@ a {
     position: absolute;
 }
 
-
 .drawing-object .text {
     background: lightgoldenrodyellow;
     display: inline-block;
     overflow: hidden;
     border: 1px solid lightgoldenrodyellow;
     padding: 1px;
-    position:relative;
+    position: relative;
 }
 
 .drawing-object .text p {
-    margin:0;
-    padding:0;
-    overflow:hidden;
-    position:relative;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 .drawing-object:hover .text {
@@ -176,30 +174,28 @@ a {
     }
 }
 
-
 .drawing-object .controls {
-    display:none;
-    border:none;
-    height:20px;
+    display: none;
+    border: none;
+    height: 20px;
 }
 
 .drawing-object:hover .controls {
     display: block;
-    margin-top:-20px; /*negative line height*/
+    margin-top: -20px; /*negative line height*/
 }
-
 
 .drawing-object .controls a {
     cursor: pointer;
-    width:20px;
-    text-align:center;
+    width: 20px;
+    text-align: center;
     text-decoration: none;
-    display:inline-block;
+    display: inline-block;
 }
 
 .controls a.edit {
     color: cornflowerblue;
-    float:left;
+    float: left;
 }
 
 .controls a.edit:hover {
@@ -208,50 +204,47 @@ a {
 }
 
 .controls a.vote {
-    margin-right:5px;
-    color:cornflowerblue;
-    float:left;
+    margin-right: 5px;
+    color: cornflowerblue;
+    float: left;
 }
 
 .controls a.vote:hover {
-    color:white;
-    background:cornflowerblue;
+    color: white;
+    background: cornflowerblue;
 }
 
 .controls a.down-vote {
-    color:cornflowerblue;
-    float:left;
+    color: cornflowerblue;
+    float: left;
 }
 
 .controls a.down-vote:hover {
-    color:white;
-    background:cornflowerblue;
+    color: white;
+    background: cornflowerblue;
 }
 
 .controls a.delete {
-    margin-left:20px;
+    margin-left: 20px;
     color: red;
-    float:right;
+    float: right;
 }
-
 
 .controls a.delete:hover {
     background: red;
     color: lightgoldenrodyellow;
 }
 
-
-.vote-count  {
-    background:cornflowerblue;
-    color:white;
-    display:inline-block;
-    position:relative;
-    min-width:20px;
-    text-align:center;
-    vertical-align:middle;
-    margin-right:5px;
+.vote-count {
+    background: cornflowerblue;
+    color: white;
+    display: inline-block;
+    position: relative;
+    min-width: 20px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 5px;
 }
-
 
 #overlay {
     position: absolute;
@@ -286,10 +279,10 @@ a {
 }
 
 #editor .boundary-marker {
-    display:none;
-    background:red;
-    position:fixed;
-    z-index:2147483647;
+    display: none;
+    background: red;
+    position: fixed;
+    z-index: 2147483647;
 }
 
 
