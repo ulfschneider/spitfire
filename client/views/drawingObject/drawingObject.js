@@ -9,7 +9,7 @@ Meteor.drawingObject = {
         var now = new Date().getTime();
         return now - dragTime > DRAG_UPDATE_DELAY;
     },
-    sizeId:function() {
+    sizeId: function () {
         return sizeId;
     },
     enableDrag: function (id) {
@@ -71,6 +71,16 @@ Meteor.drawingObject = {
             Meteor.call('remove', id);
         }
     },
+    vote: function (id) {
+        if (id) {
+            Meteor.call('vote', id);
+        }
+    },
+    downVote: function (id) {
+        if (id) {
+            Meteor.call('downVote', id);
+        }
+    },
 
     init: function () {
         Template.drawingObject.events({
@@ -80,6 +90,10 @@ Meteor.drawingObject = {
                 if (!event.shiftKey && !event.ctrlKey && !event.altKey) {
                     Meteor.text.editText(this);
                 }
+            },
+            'dblclick' : function() {
+                event.preventDefault();
+                event.stopPropagation();
             },
             'dragstart': function (event) {
                 Meteor.drawingObject.updatePosition(this._id, event, Meteor.canvas.maxZIndex() + 1);
@@ -102,13 +116,26 @@ Meteor.drawingObject = {
             },
             'resizestart': function () {
                 sizeId = this._id;
+                Meteor.canvas.setOverlay(true, this._id);
                 Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
             },
             'resizestop': function () {
                 sizeId = null;
+                Meteor.canvas.setOverlay(false, this._id);
                 Meteor.drawingObject.resize(this._id);  //intentionally not changing z-index
+
             },
 
+            'click .vote': function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                Meteor.drawingObject.vote(this._id);
+            },
+            'click .down-vote': function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                Meteor.drawingObject.downVote(this._id);
+            },
 
             //must be last one, to not produce error: 'must be attached ...'
             'click .delete': function (event) {

@@ -14,8 +14,15 @@ Meteor.canvas = {
 
         if (overlay && id) {
             $('#draggable' + id).css('z-index', '2147483647');
+            $('#sizeable' + id).css('z-index', '2147483647');
+            $('#textinput' + id).css('z-index', '2147483647');
             $('#overlay').attr('data-id', id);
+        } else if (!overlay && id) {
+            $('#draggable' + id).css('z-index', '');
+            $('#sizeable' + id).css('z-index', '');
+            $('#textinput' + id).css('z-index', '');
         }
+
     },
     overlayAssignedId: function () {
         return $('#overlay').attr('data-id');

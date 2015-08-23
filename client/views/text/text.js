@@ -102,16 +102,6 @@ Meteor.text = {
     removeEditing: function (id) {
         Meteor.call('removeEditing', id);
     },
-    vote: function (id) {
-        if (id) {
-            Meteor.call('vote', id);
-        }
-    },
-    downVote: function (id) {
-        if (id) {
-            Meteor.call('downVote', id);
-        }
-    },
 
 
     init: function () {
@@ -147,13 +137,7 @@ Meteor.text = {
                 },
                 'mouseup': function (event) {
                     Meteor.text.updateEditing(event);
-                },
-                'click': function() {
-                    if (event.target.tagName.toLowerCase() != 'a') {
-                        //TOevent.preventDefault();
-                    }
                 }
-
             }
         );
 
@@ -171,7 +155,7 @@ Meteor.text = {
             },
             votableText: function () {
                 if (this.vote && this.vote > 0) {
-                    return '<span class="vote">' + this.vote + '</span>' + this.text;
+                    return '<span class="vote-count">' + this.vote + '</span>' + this.text;
                 } else {
                     return this.text;
                 }
@@ -179,20 +163,6 @@ Meteor.text = {
 
         });
 
-        Template.text.events({
-            'click': function () {
-                if (event.target.tagName.toLowerCase() != 'a') {
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    if (event.shiftKey && !event.altKey) {
-                        Meteor.text.vote(this._id);
-                    } else if (event.shiftKey && event.altKey) {
-                        Meteor.text.downVote(this._id);
-                    }
-                }
-            }
-        });
 
         Template.text.rendered = function () {
             Meteor.drawingObject.enableDrag(Template.currentData()._id);
