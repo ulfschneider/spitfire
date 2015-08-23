@@ -91,7 +91,7 @@ Meteor.drawingObject = {
                     Meteor.text.editText(this);
                 }
             },
-            'dblclick' : function() {
+            'dblclick': function () {
                 event.preventDefault();
                 event.stopPropagation();
             },
@@ -116,8 +116,11 @@ Meteor.drawingObject = {
             },
             'resizestart': function () {
                 sizeId = this._id;
-                Meteor.canvas.setOverlay(true, this._id);
                 Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
+                Meteor.canvas.setOverlay(true, this._id);
+            },
+            'resize' : function() {
+                Meteor.canvas.setOverlay(true, this._id);
             },
             'resizestop': function () {
                 sizeId = null;
@@ -154,7 +157,7 @@ Meteor.drawingObject = {
             isEdit: function () {
                 return Meteor.spitfire.isEdit(this);
             },
-            isVote: function() {
+            isVote: function () {
                 return this.vote > 0;
             },
             edit: function () {
