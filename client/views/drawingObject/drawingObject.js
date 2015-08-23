@@ -1,5 +1,6 @@
 var dragTime;
 var DRAG_UPDATE_DELAY = 100; //milliseconds interval for writing to db
+var sizeId;
 
 
 Meteor.drawingObject = {
@@ -7,6 +8,9 @@ Meteor.drawingObject = {
     checkDragDelay: function () {
         var now = new Date().getTime();
         return now - dragTime > DRAG_UPDATE_DELAY;
+    },
+    sizeId:function() {
+        return sizeId;
     },
     enableDrag: function (id) {
         if (id) {
@@ -71,10 +75,9 @@ Meteor.drawingObject = {
     init: function () {
         Template.drawingObject.events({
             'dblclick .text': function (event) {
-                //same as click .edit
                 event.preventDefault();
                 event.stopPropagation();
-                if (!event.shiftKey) {
+                if (!event.shiftKey && !event.ctrlKey && !event.altKey) {
                     Meteor.text.editText(this);
                 }
             },
@@ -95,14 +98,15 @@ Meteor.drawingObject = {
                 }
             },
             'dragstop': function (event) {
-                Meteor.drawingObject.updatePosition(this._id, event, Meteor.canvas.maxZIndex() + 1);
+                Meteor.drawingObject.updatePosition(this._id, event); //intentionally not changing z-index
             },
             'resizestart': function () {
-                Meteor.canvas.setOverlay(true, this._id);
+                sizeId = this._id;
+                Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
             },
             'resizestop': function () {
-                Meteor.canvas.setOverlay(false, this._id);
-                Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
+                sizeId = null;
+                Meteor.drawingObject.resize(this._id);  //intentionally not changing z-index
             },
 
 

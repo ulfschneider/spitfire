@@ -9,17 +9,13 @@ Meteor.canvas = {
             $('#overlay').css('display', 'block');
         } else {
             $('#overlay').css('display', 'none');
+            $('#overlay').attr('data-id', '');
         }
 
         if (overlay && id) {
             $('#draggable' + id).css('z-index', '2147483647');
             $('#overlay').attr('data-id', id);
-        } else if (!overlay && id) {
-            $('#overlay').attr('data-id', '');
         }
-
-        Meteor.drawingObject.enableDrag(id);
-        Meteor.drawingObject.enableResize(id);
     },
     overlayAssignedId: function () {
         return $('#overlay').attr('data-id');
@@ -41,10 +37,15 @@ Meteor.canvas = {
                 var fetch = DrawingObjects.find().fetch(); //fetch all, because contents will possibly be manipulated
                 var editId = Meteor.text.editId();
                 var initId = Meteor.text.initId();
+                var sizeId = Meteor.drawingObject.sizeId();
                 var editOrInitFound = false;
 
                 drawingWidth = 0;
                 drawingHeight = 0;
+
+                if (editId || sizeId) {
+                    Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
+                }
 
                 fetch.forEach(function (drawObject) {
 
@@ -76,7 +77,10 @@ Meteor.canvas = {
                     if (!editOrInitFound) {
                         //someone else removed a drawing-object while this user was editing
                         Meteor.text.clearText();
+                        Meteor.canvas.setOverlay(false);
                     }
+                } else if (!sizeId) {
+                    Meteor.canvas.setOverlay(false);
                 }
 
                 return fetch;

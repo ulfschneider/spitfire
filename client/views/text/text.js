@@ -5,11 +5,6 @@ var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
 
 Meteor.text = {
     clearText: function () {
-        var id = Meteor.canvas.overlayAssignedId();
-        if (id && id.indexOf('textinput') == 0) {
-            Meteor.canvas.setOverlay(false, id);
-        }
-
         editText = null;
         editId = null;
     },
@@ -155,7 +150,7 @@ Meteor.text = {
                 },
                 'click': function() {
                     if (event.target.tagName.toLowerCase() != 'a') {
-                        event.preventDefault();
+                        //TOevent.preventDefault();
                     }
                 }
 
@@ -164,7 +159,6 @@ Meteor.text = {
 
 
         Template.textInput.rendered = function () {
-            Meteor.canvas.setOverlay(true, 'textinput' + Template.currentData()._id);
             var textControl = $('#textinput' + Template.currentData()._id);
             textControl.val(editText);
             textControl.autosize();
