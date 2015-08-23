@@ -200,6 +200,7 @@ a {
 
 .controls a.edit {
     color: cornflowerblue;
+    float:left;
 }
 
 .controls a.edit:hover {
@@ -210,6 +211,7 @@ a {
 .controls a.vote {
     margin-right:5px;
     color:cornflowerblue;
+    float:left;
 }
 
 .controls a.vote:hover {
@@ -219,6 +221,7 @@ a {
 
 .controls a.down-vote {
     color:cornflowerblue;
+    float:left;
 }
 
 .controls a.down-vote:hover {
@@ -229,7 +232,9 @@ a {
 .controls a.delete {
     margin-left:20px;
     color: red;
+    float:right;
 }
+
 
 .controls a.delete:hover {
     background: red;
@@ -245,8 +250,7 @@ a {
     min-width:20px;
     text-align:center;
     vertical-align:middle;
-    margin-left:5px;
-    float:right;
+    margin-right:5px;
 }
 
 

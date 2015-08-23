@@ -5,9 +5,8 @@
         <div class="drawing-object draggable {{edit}}" id="draggable{{_id}}"
              style="left:{{left}}px; top:{{top}}px;z-index:{{zIndex}};">
             <div class="controls">{{#if isVote}}
-                <a class="down-vote"
-                   title="down vote">&#x25bc;</a>{{/if}}
                 <a class="vote" title="vote">&#x25b2;</a>
+                <a class="down-vote" title="down vote">&#x25bc;</a>{{/if}}
                 <a class="delete" title="delete">&#x232b;</a></div>
             {{> text}}
         </div>
