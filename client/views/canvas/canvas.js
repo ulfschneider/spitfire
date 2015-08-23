@@ -69,6 +69,15 @@ Meteor.canvas = {
                         if (drawObject.zIndex) {
                             maxZIndex = Math.max(maxZIndex, drawObject.zIndex);
                         }
+
+                        if (Meteor.drawingObject.isDragTimeOut(drawObject)) {
+                            drawObject.dragging = null;
+                            //TODO remove dragging
+                        }
+                        if (Meteor.drawingObject.isSizeTimeOut(drawObject)) {
+                            drawObject.sizing = null;
+                            //TODO remove dragging - combine removals (dragging, sizing, editing)
+                        }
                         if (Meteor.text.isInputTimeOut(drawObject)) {
                             drawObject.editing = null;
                             if (Meteor.text.editId() === drawObject._id) {
