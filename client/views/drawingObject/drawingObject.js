@@ -154,18 +154,24 @@ Meteor.drawingObject = {
 
 
         Template.drawingObject.helpers({
-            isEdit: function () {
-                return Meteor.spitfire.isEdit(this);
+            isEditing: function () {
+                return Meteor.spitfire.isEditing(this);
             },
             isVote: function () {
                 return this.vote > 0;
             },
-            edit: function () {
-                return this.edit ? "edit" : "";
+            editing: function () {
+                return this.editing ? 'editing' : '';
+            },
+            dragging:function(){
+                return this.dragging ? 'dragging' : '';
+            },
+            sizing:function() {
+                return this.sizing ? 'sizing' : '';
             }
+
         });
 
     }
 
-}
-;
+};

@@ -70,7 +70,7 @@ Meteor.canvas = {
                             maxZIndex = Math.max(maxZIndex, drawObject.zIndex);
                         }
                         if (Meteor.text.isInputTimeOut(drawObject)) {
-                            drawObject.edit = null;
+                            drawObject.editing = null;
                             if (Meteor.text.editId() === drawObject._id) {
                                 Meteor.text.clearText();
                                 Meteor.text.removeEditing(drawObject._id);

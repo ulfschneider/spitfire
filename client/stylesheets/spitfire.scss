@@ -54,6 +54,7 @@ textarea {
     min-width: $line-height;
     min-height: $line-height;
     height: $line-height;
+    resize:none;
 }
 
 .aboutLink {
@@ -132,7 +133,7 @@ a {
 
 
 
-.edit .text, .edit:hover .text {
+.editing .text, .editing:hover .text {
     color: red;
     font-style: italic;
     -webkit-animation: glow 1500ms infinite;
@@ -140,11 +141,11 @@ a {
     animation: glow 1500ms infinite;
 }
 
-.edit .text a, .edit:hover .text a {
+.editing .text a, .editing:hover .text a {
     color: red;
 }
 
-.edit:hover .text a:hover {
+.editing:hover .text a:hover {
     color:white;
     background:red;
 }
@@ -205,12 +206,12 @@ a {
     display: inline-block;
 }
 
-.controls a.edit {
+.controls a.editing {
     color: cornflowerblue;
     float: left;
 }
 
-.controls a.edit:hover {
+.controls a.editing:hover {
     background: cornflowerblue;
     color: lightgoldenrodyellow;
 }

@@ -15,9 +15,9 @@ Meteor.text = {
         return initId;
     },
     isInputTimeOut: function (drawingObject) {
-        if (drawingObject && drawingObject.edit) {
+        if (drawingObject && drawingObject.editing) {
             var now = new Date();
-            return now.getTime() - drawingObject.edit.getTime() > INPUT_TIME_OUT;
+            return now.getTime() - drawingObject.editing.getTime() > INPUT_TIME_OUT;
         } else {
             return false;
         }
@@ -134,10 +134,8 @@ Meteor.text = {
                         }
                     }
 
-                },
-                'mouseup': function (event) {
-                    Meteor.text.updateEditing(event);
                 }
+                //TODO use resizing for textarea
             }
         );
 
@@ -148,12 +146,6 @@ Meteor.text = {
             textControl.autosize();
             textControl.focus();
         };
-
-        Template.textInput.helpers({
-            height: function () {
-                return ''; //will set auto height that fits to content
-            }
-        });
 
 
         Template.text.helpers({
