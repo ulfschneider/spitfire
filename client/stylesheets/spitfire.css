@@ -115,12 +115,6 @@ a {
     position:relative;
 }
 
-
-
-.drawing-object .text a:active {
-    color: red;
-}
-
 .drawing-object:hover .text {
     color: cornflowerblue;
     border: 1px solid cornflowerblue;
@@ -130,7 +124,7 @@ a {
     color: cornflowerblue;
 }
 
-.drawing-object:hover .text a:active {
+.drawing-object:hover .text a:active, .drawing-object:hover .text a:hover {
     color: red;
 }
 

@@ -154,6 +154,9 @@ Meteor.drawingObject = {
             isEdit: function () {
                 return Meteor.spitfire.isEdit(this);
             },
+            isVote: function() {
+                return this.vote > 0;
+            },
             edit: function () {
                 return this.edit ? "edit" : "";
             }
