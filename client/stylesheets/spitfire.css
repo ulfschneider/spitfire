@@ -181,7 +181,6 @@ a {
     display:none;
     border:none;
     height:20px;
-    text-align:right;
 }
 
 .drawing-object:hover .controls {
