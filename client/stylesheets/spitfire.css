@@ -123,7 +123,8 @@ a {
 }
 
 .drawing-object:hover .text a:active, .drawing-object:hover .text a:hover {
-    color: red;
+    color:white;
+    background:cornflowerblue;
 }
 
 .edit .text, .edit:hover .text {
