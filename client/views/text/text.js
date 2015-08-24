@@ -23,6 +23,20 @@ Meteor.text = {
             return false;
         }
     },
+    maintainInputTimeout: function () {
+        Meteor.text.cleanupInputTimeout();
+        inputTimeoutId = setTimeout(function () {
+            if (Meteor.text.editId()) {
+                Meteor.text.removeEditing(Meteor.text.editId());
+            }
+            Meteor.text.clearText();
+        }, INPUT_TIME_OUT);
+    },
+    cleanupInputTimeout: function () {
+        if (inputTimeoutId) {
+            clearTimeout(inputTimeoutId);
+        }
+    },
     editText: function (drawingObject) {
         if (!editId) {
             editText = drawingObject.text;
@@ -57,20 +71,6 @@ Meteor.text = {
                     Meteor.text.clearText();
                 }
             }
-        }
-    },
-    maintainInputTimeout: function () {
-        Meteor.text.cleanupInputTimeout();
-        inputTimeoutId = setTimeout(function () {
-            if (Meteor.text.editId()) {
-                Meteor.text.removeEditing(Meteor.text.editId());
-            }
-            Meteor.text.clearText();
-        }, INPUT_TIME_OUT);
-    },
-    cleanupInputTimeout: function () {
-        if (inputTimeoutId) {
-            clearTimeout(inputTimeoutId);
         }
     },
     initEditing: function (event) {
