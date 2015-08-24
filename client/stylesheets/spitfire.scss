@@ -131,12 +131,18 @@ a {
   background: cornflowerblue;
 }
 
-.editing .text, .editing:hover .text, .dragging .text, .sizing .text {
+.editing .text, .editing:hover .text {
   color: cornflowerblue;
   font-style: italic;
   -webkit-animation: glow 1500ms infinite;
   -moz-animation: glow 1500ms infinite;
   animation: glow 1500ms infinite;
+}
+
+.dragging .text, .sizing .text {
+  color: cornflowerblue;
+  font-style: italic;
+  border:1px solid cornflowerblue;
 }
 
 .editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
