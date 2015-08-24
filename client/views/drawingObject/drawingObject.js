@@ -1,7 +1,7 @@
 var dragTime;
 var DRAG_UPDATE_DELAY = 100; //milliseconds interval for writing to db
 var sizeId;
-var DRAG_OR_SIZE_TIME_OUT = 1000 * 10; //milliseconds interval
+var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
 
 
 Meteor.drawingObject = {

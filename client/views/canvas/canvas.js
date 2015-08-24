@@ -36,6 +36,29 @@ Meteor.canvas = {
     maxZIndex: function () {
         return maxZIndex;
     },
+    cleanUp: function (data) {
+        var cleanup = false;
+        var cleanupData = {id : data._id};
+        if (Meteor.drawingObject.isDragTimeOut(data)) {
+            cleanupData.dragging = null;
+            cleanup = true;
+        }
+        if (Meteor.drawingObject.isSizeTimeOut(data)) {
+            cleanupData.sizing = null;
+            cleanup = true;
+        }
+        if (Meteor.text.isInputTimeOut(data)) {
+            cleanupData.editing = null;
+            cleanupData.initId = null;
+            cleanup = true;
+            if (Meteor.text.editId() === data._id) {
+                Meteor.text.clearText();
+            }
+        }
+        if (cleanup) {
+            Meteor.call('cleanUp', cleanupData);
+        }
+    },
 
     init: function () {
         Template.canvas.helpers({
@@ -70,21 +93,7 @@ Meteor.canvas = {
                             maxZIndex = Math.max(maxZIndex, drawObject.zIndex);
                         }
 
-                        if (Meteor.drawingObject.isDragTimeOut(drawObject)) {
-                            drawObject.dragging = null;
-                            //TODO remove dragging
-                        }
-                        if (Meteor.drawingObject.isSizeTimeOut(drawObject)) {
-                            drawObject.sizing = null;
-                            //TODO remove dragging - combine removals (dragging, sizing, editing)
-                        }
-                        if (Meteor.text.isInputTimeOut(drawObject)) {
-                            drawObject.editing = null;
-                            if (Meteor.text.editId() === drawObject._id) {
-                                Meteor.text.clearText();
-                                Meteor.text.removeEditing(drawObject._id);
-                            }
-                        }
+                        Meteor.canvas.cleanUp(drawObject);
                     }
                 );
                 Meteor.editor.maintainMarker();

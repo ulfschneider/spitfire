@@ -2,300 +2,297 @@ $line-height: 20px;
 $font-size: 14px;
 
 * {
-    font-family: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
-    font-size: $font-size;
-    outline: none;
-    line-height: $line-height;
+  font-family: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
+  font-size: $font-size;
+  outline: none;
+  line-height: $line-height;
 }
 
 body {
-    margin: 0;
-    border: 0;
-    padding: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
 }
 
 header {
-    margin: 0;
-    padding: 8px;
-    padding-right: 40px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    border: 0;
-    background: white;
-    z-index: 2147483646;
+  margin: 0;
+  padding: 8px;
+  padding-right: 40px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  border: 0;
+  background: white;
+  z-index: 2147483646;
 }
 
 h1, h2, header, header * {
-    font-family: 'Input Sans', sans-serif;
+  font-family: 'Input Sans', sans-serif;
 }
 
 mark {
-    background: lightgoldenrodyellow;
+  background: lightgoldenrodyellow;
 }
 
 kbd {
-    background: black;
-    color: white;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    text-transform: uppercase;
+  background: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-transform: uppercase;
 }
 
 textarea {
-    position: absolute;
-    z-index: 2147483646;
-    border: 1px solid cornflowerblue;
-    padding: 1px;
-    margin: 0;
-    color: cornflowerblue;
-    min-width: $line-height;
-    min-height: $line-height;
-    height: $line-height;
-    resize:none;
+  position: absolute;
+  z-index: 2147483646;
+  border: 1px solid cornflowerblue;
+  padding: 1px;
+  margin: 0;
+  color: cornflowerblue;
+  min-width: $line-height;
+  min-height: $line-height;
+  height: $line-height;
+  resize: none;
 }
 
 .aboutLink {
-    text-decoration: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 2147483646;
-    background: black;
-    color: white;
-    padding: 8px;
+  text-decoration: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2147483646;
+  background: black;
+  color: white;
+  padding: 8px;
 }
 
 .about {
-    padding: 8px;
-    max-width: 600px;
-    margin: 50px auto;
+  padding: 8px;
+  max-width: 600px;
+  margin: 50px auto;
 }
 
 .about, .about * {
-    font-family: 'Input Sans', sans-serif;
-    line-height: 1.8em;
+  font-family: 'Input Sans', sans-serif;
+  line-height: 1.8em;
 }
 
 a {
-    text-decoration: underline;
-    color: black;
+  text-decoration: underline;
+  color: black;
 }
 
 ::selection {
-    color: white;
-    background: cornflowerblue;
+  color: white;
+  background: cornflowerblue;
 }
 
 .ui-icon-gripsmall-diagonal-se {
-    background: cornflowerblue;
-    width: 12px;
-    height: 12px;
+  background: cornflowerblue;
+  width: 12px;
+  height: 12px;
 }
 
 .drawing-object {
-    cursor: pointer;
-    display: inline-block;
-    position: absolute;
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
 }
 
 .drawing-object .text {
-    background: lightgoldenrodyellow;
-    display: inline-block;
-    overflow: hidden;
-    border: 1px solid lightgoldenrodyellow;
-    padding: 1px;
-    position: relative;
+  background: lightgoldenrodyellow;
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid lightgoldenrodyellow;
+  padding: 1px;
+  position: relative;
 }
 
 .drawing-object .text p {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
 }
 
 .drawing-object:hover .text {
-    color: cornflowerblue;
-    border: 1px solid cornflowerblue;
+  color: cornflowerblue;
+  border: 1px solid cornflowerblue;
 }
 
 .drawing-object:hover .text a {
-    color: cornflowerblue;
+  color: cornflowerblue;
 }
 
 .drawing-object:hover .text a:hover {
-    color:white;
-    background:cornflowerblue;
+  color: white;
+  background: cornflowerblue;
 }
 
-
-
-.editing .text, .editing:hover .text {
-    color: red;
-    font-style: italic;
-    -webkit-animation: glow 1500ms infinite;
-    -moz-animation: glow 1500ms infinite;
-    animation: glow 1500ms infinite;
+.editing .text, .editing:hover .text, .dragging .text, .sizing .text {
+  color: cornflowerblue;
+  font-style: italic;
+  -webkit-animation: glow 1500ms infinite;
+  -moz-animation: glow 1500ms infinite;
+  animation: glow 1500ms infinite;
 }
 
-.editing .text a, .editing:hover .text a {
-    color: red;
+.editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
+  color: cornflowerblue;
 }
 
-.editing:hover .text a:hover {
-    color:white;
-    background:red;
+.editing:hover .text a:hover, .dragging:hover .text a:hover, .sizing:hover .text a:hover {
+  color: white;
+  background: cornflowerblue;
 }
-
 
 @-moz-keyframes glow {
-    0% {
-        border: 1px solid red;
-    }
-    50% {
-        border: 1px solid transparent;
-    }
-    100% {
-        border: 1px solid red;
-    }
+  0% {
+    border: 1px solid cornflowerblue;
+  }
+  50% {
+    border: 1px solid transparent;
+  }
+  100% {
+    border: 1px solid cornflowerblue;
+  }
 }
 
 @-webkit-keyframes glow {
-    0% {
-        border: 1px solid red;
-    }
-    50% {
-        border: 1px solid transparent;
-    }
-    100% {
-        border: 1px solid red;
-    }
+  0% {
+    border: 1px solid cornflowerblue;
+  }
+  50% {
+    border: 1px solid transparent;
+  }
+  100% {
+    border: 1px solid cornflowerblue;
+  }
 }
 
 @keyframes glow {
-    0% {
-        border: 1px solid red;
-    }
-    50% {
-        border: 1px solid transparent;
-    }
-    100% {
-        border: 1px solid red;
-    }
+  0% {
+    border: 1px solid cornflowerblue;
+  }
+  50% {
+    border: 1px solid transparent;
+  }
+  100% {
+    border: 1px solid cornflowerblue;
+  }
 }
 
 .drawing-object .controls {
-    display: none;
-    border: none;
-    height: 20px;
+  display: none;
+  border: none;
+  height: 20px;
 }
 
 .drawing-object:hover .controls {
-    display: block;
-    margin-top: -$line-height;
+  display: block;
+  margin-top: -$line-height;
 }
 
 .drawing-object .controls a {
-    cursor: pointer;
-    width: $line-height;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+  cursor: pointer;
+  width: $line-height;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .controls a.editing {
-    color: cornflowerblue;
-    float: left;
+  color: cornflowerblue;
+  float: left;
 }
 
 .controls a.editing:hover {
-    background: cornflowerblue;
-    color: lightgoldenrodyellow;
+  background: cornflowerblue;
+  color: lightgoldenrodyellow;
 }
 
 .controls a.vote {
-    margin-right: 5px;
-    color: cornflowerblue;
-    float: left;
+  margin-right: 5px;
+  color: cornflowerblue;
+  float: left;
 }
 
 .controls a.vote:hover {
-    color: white;
-    background: cornflowerblue;
+  color: white;
+  background: cornflowerblue;
 }
 
 .controls a.down-vote {
-    color: cornflowerblue;
-    float: left;
+  color: cornflowerblue;
+  float: left;
 }
 
 .controls a.down-vote:hover {
-    color: white;
-    background: cornflowerblue;
+  color: white;
+  background: cornflowerblue;
 }
 
 .controls a.delete {
-    margin-left: $line-height;
-    color: red;
-    float: right;
+  margin-left: $line-height;
+  color: red;
+  float: right;
 }
 
 .controls a.delete:hover {
-    background: red;
-    color: lightgoldenrodyellow;
+  background: red;
+  color: lightgoldenrodyellow;
 }
 
 .vote-count {
-    background: cornflowerblue;
-    color: white;
-    display: inline-block;
-    position: relative;
-    min-width: $line-height;
-    text-align: center;
-    vertical-align: middle;
-    margin-right: 5px;
+  background: cornflowerblue;
+  color: white;
+  display: inline-block;
+  position: relative;
+  min-width: $line-height;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 #overlay {
-    position: absolute;
-    z-index: 2147483646;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: transparent;
-    display: none;
+  position: absolute;
+  z-index: 2147483646;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  display: none;
 }
 
 #canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding-top: 2*$line-height;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 2*$line-height;
 
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #editor {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 #editor .boundary-marker {
-    display: none;
-    background: red;
-    position: fixed;
-    z-index: 2147483647;
+  display: none;
+  background: red;
+  position: fixed;
+  z-index: 2147483647;
 }
 
 
