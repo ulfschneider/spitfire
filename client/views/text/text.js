@@ -23,7 +23,7 @@ Meteor.text = {
             return false;
         }
     },
-    maintainInputTimeout: function () {
+    setInputTimeout: function () {
         Meteor.text.cleanupInputTimeout();
         inputTimeoutId = setTimeout(function () {
             if (Meteor.text.editId()) {
@@ -41,7 +41,7 @@ Meteor.text = {
         if (!editId) {
             editText = drawingObject.text;
             editId = drawingObject._id;
-            Meteor.text.maintainInputTimeout();
+            Meteor.text.setInputTimeout();
             Meteor.call('updateEditing', {
                 id: drawingObject._id,
                 text: editText,
@@ -77,7 +77,7 @@ Meteor.text = {
         //initEditing - when a user creates items where an editId is not immediatly available
         if (event && !editId) {
             initId = Meteor.spitfire.uid();
-            Meteor.text.maintainInputTimeout();
+            Meteor.text.setInputTimeout();
             Meteor.call('initEditing', {
                 sessionName: Meteor.spitfire.sessionName(),
                 initId: initId,
@@ -143,7 +143,7 @@ Meteor.text = {
                         Meteor.text.submitText(event);
                     } else {
                         var text = event.target.value;
-                        Meteor.text.maintainInputTimeout();
+                        Meteor.text.setInputTimeout();
                         if (editText != text) {
                             editText = text;
                             Meteor.text.updateEditing(event);

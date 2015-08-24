@@ -9,23 +9,18 @@ Meteor.canvas = {
             $('#overlay').css('display', 'block');
         } else {
             $('#overlay').css('display', 'none');
-            $('#overlay').attr('data-id', '');
         }
 
         if (overlay && id) {
             $('#draggable' + id).css('z-index', '2147483647');
             $('#sizeable' + id).css('z-index', '2147483647');
             $('#textinput' + id).css('z-index', '2147483647');
-            $('#overlay').attr('data-id', id);
         } else if (!overlay && id) {
             $('#draggable' + id).css('z-index', '');
             $('#sizeable' + id).css('z-index', '');
             $('#textinput' + id).css('z-index', '');
         }
 
-    },
-    overlayAssignedId: function () {
-        return $('#overlay').attr('data-id');
     },
     drawingWidth: function () {
         return drawingWidth;
@@ -36,30 +31,37 @@ Meteor.canvas = {
     maxZIndex: function () {
         return maxZIndex;
     },
-    cleanUp: function (data) {
+    cleanUp: function (drawingObject) {
         var cleanup = false;
-        var cleanupData = {id : data._id};
-        if (Meteor.drawingObject.isDragTimeout(data)) {
+        var cleanupData = {id : drawingObject._id};
+        if (Meteor.drawingObject.isDragTimeout(drawingObject)) {
             cleanupData.dragging = null;
             cleanup = true;
         }
-        if (Meteor.drawingObject.isSizeTimeout(data)) {
+        if (Meteor.drawingObject.isSizeTimeout(drawingObject)) {
             cleanupData.sizing = null;
             cleanup = true;
-            if (Meteor.drawingObject.sizeId() === data._id) {
+            if (Meteor.drawingObject.sizeId() === drawingObject._id) {
                 Meteor.drawingObject.clearSizing();
             }
         }
-        if (Meteor.text.isInputTimeout(data)) {
+        if (Meteor.text.isInputTimeout(drawingObject)) {
             cleanupData.editing = null;
             cleanupData.initId = null;
             cleanup = true;
-            if (Meteor.text.editId() === data._id) {
+            if (Meteor.text.editId() === drawingObject._id) {
                 Meteor.text.clearText();
             }
         }
         if (cleanup) {
             Meteor.call('cleanUp', cleanupData);
+        }
+    },
+    maxSizeAndZIndex:function(drawingObject) {
+        drawingWidth = Math.max(drawingWidth, drawingObject.left + drawingObject.width);
+        drawingHeight = Math.max(drawingHeight, drawingObject.top + drawingObject.height);
+        if (drawingObject.zIndex) {
+            maxZIndex = Math.max(maxZIndex, drawingObject.zIndex);
         }
     },
 
@@ -80,26 +82,20 @@ Meteor.canvas = {
                     Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
                 }
 
-                fetch.forEach(function (drawObject) {
+                fetch.forEach(function (drawingObject) {
 
                         if (!editOrInitFound) {
-                            if (initId && initId === drawObject.initId) {
+                            if (initId && initId === drawingObject.initId) {
                                 editOrInitFound = true;
-                            } else if (editId === drawObject._id) {
+                            } else if (editId === drawingObject._id) {
                                 editOrInitFound = true;
                             }
                         }
-
-                        drawingWidth = Math.max(drawingWidth, drawObject.left + drawObject.width);
-                        drawingHeight = Math.max(drawingHeight, drawObject.top + drawObject.height);
-                        if (drawObject.zIndex) {
-                            maxZIndex = Math.max(maxZIndex, drawObject.zIndex);
-                        }
-
-                        Meteor.canvas.cleanUp(drawObject);
+                        Meteor.canvas.maxSizeAndZIndex(drawingObject);
+                        Meteor.canvas.cleanUp(drawingObject);
                     }
                 );
-                Meteor.editor.maintainMarker();
+                Meteor.editor.maintainBoundaryMarker();
 
                 if (editId || initId) {
                     if (!editOrInitFound) {

@@ -24,7 +24,7 @@ Meteor.editor = {
 
         return st + wh < eh;
     },
-    maintainMarker: function () {
+    maintainBoundaryMarker: function () {
         $('#topMarker').css('display', Meteor.editor.isTopMarker() ? 'block' : 'none');
         $('#leftMarker').css('display', Meteor.editor.isLeftMarker() ? 'block' : 'none');
         $('#rightMarker').css('display', Meteor.editor.isRightMarker() ? 'block' : 'none');
@@ -37,14 +37,14 @@ Meteor.editor = {
     },
     init: function () {
         $(window).on('scroll', function () {
-            Meteor.editor.maintainMarker();
+            Meteor.editor.maintainBoundaryMarker();
         });
         $(window).on('resize', function () {
-            Meteor.editor.maintainMarker();
+            Meteor.editor.maintainBoundaryMarker();
         });
 
         Template.editor.rendered = function () {
-            Meteor.editor.maintainMarker();
+            Meteor.editor.maintainBoundaryMarker();
         }
     }
 };

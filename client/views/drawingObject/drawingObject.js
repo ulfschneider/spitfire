@@ -70,8 +70,6 @@ Meteor.drawingObject = {
             }
         }
     },
-
-
     updatePosition: function (id, zIndex, stop) {
         var position = $('#draggable' + id).position();
         if (position) {
