@@ -138,7 +138,6 @@ a {
 
 .editing .text, .editing:hover .text {
   color: cornflowerblue;
-  font-style: italic;
   -webkit-animation: glow 1500ms infinite;
   -moz-animation: glow 1500ms infinite;
   animation: glow 1500ms infinite;
@@ -146,7 +145,6 @@ a {
 
 .dragging .text, .sizing .text {
   color: cornflowerblue;
-  font-style: italic;
   border:1px solid cornflowerblue;
 }
 
