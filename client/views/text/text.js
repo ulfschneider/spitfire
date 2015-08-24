@@ -2,6 +2,7 @@ var editText;
 var editId;
 var initId;
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
+var timeoutId;
 
 Meteor.text = {
     clearText: function () {
@@ -26,7 +27,7 @@ Meteor.text = {
         if (!editId) {
             editText = drawingObject.text;
             editId = drawingObject._id;
-
+            Meteor.text.maintainTimeout();
             Meteor.call('updateEditing', {
                 id: drawingObject._id,
                 text: editText,
@@ -39,7 +40,7 @@ Meteor.text = {
         if (event && editId) {
             var text = event.target.value;
             var textControl = $('#textinput' + editId);
-
+            Meteor.text.cleanupTimeout();
             if (textControl) {
 
                 if (!text) {
@@ -58,11 +59,25 @@ Meteor.text = {
             }
         }
     },
+    maintainTimeout: function () {
+        Meteor.text.cleanupTimeout();
+        timeoutId = setTimeout(function () {
+            if (Meteor.text.editId()) {
+                Meteor.text.removeEditing(Meteor.text.editId());
+            }
+            Meteor.text.clearText();
+        }, INPUT_TIME_OUT);
+    },
+    cleanupTimeout: function () {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+    },
     initEditing: function (event) {
         //initEditing - when a user creates items where an editId is not immediatly available
         if (event && !editId) {
             initId = Meteor.spitfire.uid();
-
+            Meteor.text.maintainTimeout();
             Meteor.call('initEditing', {
                 sessionName: Meteor.spitfire.sessionName(),
                 initId: initId,
@@ -82,7 +97,7 @@ Meteor.text = {
             var text;
             var textControl = $('#textinput' + editId);
             text = event.target.value;
-
+            Meteor.text.cleanupTimeout();
 
             if (text != null && textControl) {
                 var width = textControl.width();
@@ -128,6 +143,7 @@ Meteor.text = {
                         Meteor.text.submitText(event);
                     } else {
                         var text = event.target.value;
+                        Meteor.text.maintainTimeout();
                         if (editText != text) {
                             editText = text;
                             Meteor.text.updateEditing(event);
@@ -135,7 +151,6 @@ Meteor.text = {
                     }
 
                 }
-                //TODO use resizing for textarea
             }
         );
 
