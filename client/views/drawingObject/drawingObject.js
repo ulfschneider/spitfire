@@ -5,7 +5,7 @@ var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
 
 
 Meteor.drawingObject = {
-    isDragTimeOut: function (drawingObject) {
+    isDragTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.dragging) {
             var now = new Date();
             return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
@@ -13,7 +13,7 @@ Meteor.drawingObject = {
             return false;
         }
     },
-    isSizeTimeOut: function (drawingObject) {
+    isSizeTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.sizing) {
             var now = new Date();
             return now.getTime() - drawingObject.sizing.getTime() > DRAG_OR_SIZE_TIME_OUT;
@@ -27,6 +27,9 @@ Meteor.drawingObject = {
     },
     sizeId: function () {
         return sizeId;
+    },
+    clearSizing: function () {
+        sizeId = null;
     },
     enableDrag: function (id) {
         if (id) {

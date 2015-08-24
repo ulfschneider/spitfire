@@ -2,7 +2,7 @@ var editText;
 var editId;
 var initId;
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
-var timeoutId;
+var inputTimeoutId;
 
 Meteor.text = {
     clearText: function () {
@@ -15,7 +15,7 @@ Meteor.text = {
     initId: function () {
         return initId;
     },
-    isInputTimeOut: function (drawingObject) {
+    isInputTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.editing) {
             var now = new Date();
             return now.getTime() - drawingObject.editing.getTime() > INPUT_TIME_OUT;
@@ -27,7 +27,7 @@ Meteor.text = {
         if (!editId) {
             editText = drawingObject.text;
             editId = drawingObject._id;
-            Meteor.text.maintainTimeout();
+            Meteor.text.maintainInputTimeout();
             Meteor.call('updateEditing', {
                 id: drawingObject._id,
                 text: editText,
@@ -40,7 +40,7 @@ Meteor.text = {
         if (event && editId) {
             var text = event.target.value;
             var textControl = $('#textinput' + editId);
-            Meteor.text.cleanupTimeout();
+            Meteor.text.cleanupInputTimeout();
             if (textControl) {
 
                 if (!text) {
@@ -59,25 +59,25 @@ Meteor.text = {
             }
         }
     },
-    maintainTimeout: function () {
-        Meteor.text.cleanupTimeout();
-        timeoutId = setTimeout(function () {
+    maintainInputTimeout: function () {
+        Meteor.text.cleanupInputTimeout();
+        inputTimeoutId = setTimeout(function () {
             if (Meteor.text.editId()) {
                 Meteor.text.removeEditing(Meteor.text.editId());
             }
             Meteor.text.clearText();
         }, INPUT_TIME_OUT);
     },
-    cleanupTimeout: function () {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
+    cleanupInputTimeout: function () {
+        if (inputTimeoutId) {
+            clearTimeout(inputTimeoutId);
         }
     },
     initEditing: function (event) {
         //initEditing - when a user creates items where an editId is not immediatly available
         if (event && !editId) {
             initId = Meteor.spitfire.uid();
-            Meteor.text.maintainTimeout();
+            Meteor.text.maintainInputTimeout();
             Meteor.call('initEditing', {
                 sessionName: Meteor.spitfire.sessionName(),
                 initId: initId,
@@ -97,7 +97,7 @@ Meteor.text = {
             var text;
             var textControl = $('#textinput' + editId);
             text = event.target.value;
-            Meteor.text.cleanupTimeout();
+            Meteor.text.cleanupInputTimeout();
 
             if (text != null && textControl) {
                 var width = textControl.width();
@@ -143,7 +143,7 @@ Meteor.text = {
                         Meteor.text.submitText(event);
                     } else {
                         var text = event.target.value;
-                        Meteor.text.maintainTimeout();
+                        Meteor.text.maintainInputTimeout();
                         if (editText != text) {
                             editText = text;
                             Meteor.text.updateEditing(event);

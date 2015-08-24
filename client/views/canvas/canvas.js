@@ -39,15 +39,18 @@ Meteor.canvas = {
     cleanUp: function (data) {
         var cleanup = false;
         var cleanupData = {id : data._id};
-        if (Meteor.drawingObject.isDragTimeOut(data)) {
+        if (Meteor.drawingObject.isDragTimeout(data)) {
             cleanupData.dragging = null;
             cleanup = true;
         }
-        if (Meteor.drawingObject.isSizeTimeOut(data)) {
+        if (Meteor.drawingObject.isSizeTimeout(data)) {
             cleanupData.sizing = null;
             cleanup = true;
+            if (Meteor.drawingObject.sizeId() === data._id) {
+                Meteor.drawingObject.clearSizing();
+            }
         }
-        if (Meteor.text.isInputTimeOut(data)) {
+        if (Meteor.text.isInputTimeout(data)) {
             cleanupData.editing = null;
             cleanupData.initId = null;
             cleanup = true;

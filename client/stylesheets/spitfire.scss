@@ -101,6 +101,11 @@ a {
   position: absolute;
 }
 
+.drawing-object .text ul {
+  padding-left:$line-height;
+
+}
+
 .drawing-object .text {
   background: lightgoldenrodyellow;
   display: inline-block;
@@ -189,6 +194,7 @@ a {
     border: 1px solid cornflowerblue;
   }
 }
+
 
 .drawing-object .controls {
   display: none;
