@@ -90,20 +90,24 @@ a {
 }
 
 .ui-icon-gripsmall-diagonal-se {
-  background: cornflowerblue;
+  background: black;
   width: 12px;
   height: 12px;
+}
+
+.dragging .ui-icon-gripsmall-diagonal-se, .sizing .ui-icon-gripsmall-diagonal-se, .editing .ui-icon-gripsmall-diagonal-se {
+  background: white;
 }
 
 .drawing-object {
   cursor: pointer;
   display: inline-block;
   position: absolute;
-  vertical-align:top;
+  vertical-align: top;
 }
 
 .drawing-object .text ul {
-  padding-left:$line-height;
+  padding-left: $line-height;
 
 }
 
@@ -112,7 +116,7 @@ a {
   display: inline-block;
   overflow: hidden;
   border: 2px solid lightgoldenrodyellow;
-  padding:1px;
+  padding: 1px;
   position: relative;
 }
 
@@ -124,26 +128,26 @@ a {
 }
 
 .drawing-object:hover .text {
-  border: 2px solid cornflowerblue;
+  border: 2px solid black;
 }
 
 .drawing-object:hover .text a:hover {
   color: white;
-  background: cornflowerblue;
+  background: black;
 }
 
 .editing .text, .editing:hover .text {
   color: white;
-  background:cornflowerblue;
+  background: cornflowerblue;
   -webkit-animation: glow 1500ms infinite;
   -moz-animation: glow 1500ms infinite;
   animation: glow 1500ms infinite;
 }
 
-.dragging .text, .sizing .text {
+.dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
   color: white;
-  background:cornflowerblue;
-  border:1px solid cornflowerblue;
+  background: cornflowerblue;
+  border: 2px solid cornflowerblue;
 }
 
 .editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
@@ -191,7 +195,6 @@ a {
   }
 }
 
-
 .drawing-object .controls {
   display: none;
   border: none;
@@ -211,35 +214,25 @@ a {
   display: inline-block;
 }
 
-.controls a.editing {
-  color: cornflowerblue;
-  float: left;
-}
-
-.controls a.editing:hover {
-  background: cornflowerblue;
-  color: lightgoldenrodyellow;
-}
-
 .controls a.vote {
   margin-right: 5px;
-  color: cornflowerblue;
+  color: black;
   float: left;
 }
 
 .controls a.vote:hover {
   color: white;
-  background: cornflowerblue;
+  background: black;
 }
 
 .controls a.down-vote {
-  color: cornflowerblue;
+  color: black;
   float: left;
 }
 
 .controls a.down-vote:hover {
   color: white;
-  background: cornflowerblue;
+  background: black;
 }
 
 .controls a.delete {
@@ -253,8 +246,12 @@ a {
   color: lightgoldenrodyellow;
 }
 
+.dragging:hover .controls,  .editing:hover .controls, .sizing:hover .controls {
+  display:none;
+}
+
 .vote-count {
-  background: cornflowerblue;
+  background: black;
   color: white;
   display: inline-block;
   position: relative;
@@ -265,8 +262,8 @@ a {
 }
 
 .editing .vote-count, .sizing .vote-count, .dragging .vote-count {
-  color:cornflowerblue;
-  background:white;
+  color: cornflowerblue;
+  background: white;
 }
 
 #overlay {
