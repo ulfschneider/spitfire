@@ -112,7 +112,7 @@ Meteor.canvas = {
         });
 
         Template.canvas.events({
-            'dblclick': function (event) {
+            'dblclick #canvas': function (event) {
                 if (Meteor.spitfire.hasSessionName()) {
                     event.preventDefault();
                     event.stopPropagation();
