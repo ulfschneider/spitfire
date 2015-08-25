@@ -47,7 +47,7 @@ kbd {
 textarea {
   position: absolute;
   z-index: 2147483646;
-  border: 1px solid cornflowerblue;
+  border: 2px solid cornflowerblue;
   padding: 1px;
   margin: 0;
   color: cornflowerblue;
@@ -99,6 +99,7 @@ a {
   cursor: pointer;
   display: inline-block;
   position: absolute;
+  vertical-align:top;
 }
 
 .drawing-object .text ul {
@@ -110,8 +111,8 @@ a {
   background: lightgoldenrodyellow;
   display: inline-block;
   overflow: hidden;
-  border: 1px solid lightgoldenrodyellow;
-  padding: 1px;
+  border: 2px solid lightgoldenrodyellow;
+  padding:1px;
   position: relative;
 }
 
@@ -123,12 +124,7 @@ a {
 }
 
 .drawing-object:hover .text {
-  color: cornflowerblue;
-  border: 1px solid cornflowerblue;
-}
-
-.drawing-object:hover .text a {
-  color: cornflowerblue;
+  border: 2px solid cornflowerblue;
 }
 
 .drawing-object:hover .text a:hover {
@@ -137,59 +133,61 @@ a {
 }
 
 .editing .text, .editing:hover .text {
-  color: cornflowerblue;
+  color: white;
+  background:cornflowerblue;
   -webkit-animation: glow 1500ms infinite;
   -moz-animation: glow 1500ms infinite;
   animation: glow 1500ms infinite;
 }
 
 .dragging .text, .sizing .text {
-  color: cornflowerblue;
+  color: white;
+  background:cornflowerblue;
   border:1px solid cornflowerblue;
 }
 
 .editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
-  color: cornflowerblue;
+  color: white;
 }
 
 .editing:hover .text a:hover, .dragging:hover .text a:hover, .sizing:hover .text a:hover {
-  color: white;
-  background: cornflowerblue;
+  color: cornflowerblue;
+  background: white;
 }
 
 @-moz-keyframes glow {
   0% {
-    border: 1px solid cornflowerblue;
+    border: 2px solid cornflowerblue;
   }
   50% {
-    border: 1px solid transparent;
+    border: 2px solid white;
   }
   100% {
-    border: 1px solid cornflowerblue;
+    border: 2px solid cornflowerblue;
   }
 }
 
 @-webkit-keyframes glow {
   0% {
-    border: 1px solid cornflowerblue;
+    border: 2px solid cornflowerblue;
   }
   50% {
-    border: 1px solid transparent;
+    border: 2px solid white;
   }
   100% {
-    border: 1px solid cornflowerblue;
+    border: 2px solid cornflowerblue;
   }
 }
 
 @keyframes glow {
   0% {
-    border: 1px solid cornflowerblue;
+    border: 2px solid cornflowerblue;
   }
   50% {
-    border: 1px solid transparent;
+    border: 2px solid white;
   }
   100% {
-    border: 1px solid cornflowerblue;
+    border: 2px solid cornflowerblue;
   }
 }
 
@@ -264,6 +262,11 @@ a {
   text-align: center;
   vertical-align: middle;
   margin-right: 5px;
+}
+
+.editing .vote-count, .sizing .vote-count, .dragging .vote-count {
+  color:cornflowerblue;
+  background:white;
 }
 
 #overlay {
