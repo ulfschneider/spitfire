@@ -156,7 +156,7 @@ Meteor.drawingObject = {
             },
 
             //must be last one, to not produce error: 'must be attached ...'
-            'click .delete, .dblclick .delete': function (event) {
+            'click .delete, dblclick .delete': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.remove(this._id);
