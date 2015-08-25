@@ -47,10 +47,10 @@ kbd {
 textarea {
   position: absolute;
   z-index: 2147483646;
-  border: 2px solid cornflowerblue;
+  border: 2px solid black;
   padding: 1px;
   margin: 0;
-  color: cornflowerblue;
+  color: black;
   min-width: $line-height;
   min-height: $line-height;
   height: $line-height;
@@ -128,7 +128,8 @@ a {
 }
 
 .drawing-object:hover .text {
-  border: 2px solid black;
+  border: 1px solid black;
+  padding:2px;
 }
 
 .drawing-object:hover .text a:hover {
@@ -138,7 +139,7 @@ a {
 
 .editing .text, .editing:hover .text {
   color: white;
-  background: cornflowerblue;
+  background: black;
   -webkit-animation: glow 1500ms infinite;
   -moz-animation: glow 1500ms infinite;
   animation: glow 1500ms infinite;
@@ -146,8 +147,8 @@ a {
 
 .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
   color: white;
-  background: cornflowerblue;
-  border: 2px solid cornflowerblue;
+  background: black;
+  border: 2px solid black;
 }
 
 .editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
@@ -155,43 +156,43 @@ a {
 }
 
 .editing:hover .text a:hover, .dragging:hover .text a:hover, .sizing:hover .text a:hover {
-  color: cornflowerblue;
+  color: black;
   background: white;
 }
 
 @-moz-keyframes glow {
   0% {
-    border: 2px solid cornflowerblue;
+    border: 2px solid black;
   }
   50% {
     border: 2px solid white;
   }
   100% {
-    border: 2px solid cornflowerblue;
+    border: 2px solid black;
   }
 }
 
 @-webkit-keyframes glow {
   0% {
-    border: 2px solid cornflowerblue;
+    border: 2px solid black;
   }
   50% {
     border: 2px solid white;
   }
   100% {
-    border: 2px solid cornflowerblue;
+    border: 2px solid black;
   }
 }
 
 @keyframes glow {
   0% {
-    border: 2px solid cornflowerblue;
+    border: 2px solid black;
   }
   50% {
     border: 2px solid white;
   }
   100% {
-    border: 2px solid cornflowerblue;
+    border: 2px solid black;
   }
 }
 
@@ -262,7 +263,7 @@ a {
 }
 
 .editing .vote-count, .sizing .vote-count, .dragging .vote-count {
-  color: cornflowerblue;
+  color: black;
   background: white;
 }
 
