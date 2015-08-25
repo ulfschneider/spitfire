@@ -111,10 +111,6 @@ Meteor.drawingObject = {
                     Meteor.text.editText(this);
                 }
             },
-            'dblclick': function () {
-                event.preventDefault();
-                event.stopPropagation();
-            },
             'dragstart': function (event) {
                 Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
             },
@@ -148,19 +144,19 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1, true);
             },
 
-            'click .vote': function (event) {
+            'click .vote, dblclick .vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.vote(this._id);
             },
-            'click .down-vote': function (event) {
+            'click .down-vote, dblclick .down-vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.downVote(this._id);
             },
 
             //must be last one, to not produce error: 'must be attached ...'
-            'click .delete': function (event) {
+            'click .delete, .dblclick .delete': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.remove(this._id);
