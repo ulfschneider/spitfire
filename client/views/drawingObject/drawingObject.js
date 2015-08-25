@@ -104,64 +104,68 @@ Meteor.drawingObject = {
 
     init: function () {
         Template.drawingObject.events({
-            'dblclick .text': function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                if (!event.shiftKey && !event.ctrlKey && !event.altKey) {
-                    Meteor.text.editText(this);
-                }
-            },
-            'dragstart': function (event) {
-                Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
-            },
-            'drag': function (event) {
-                var e = $('#editor');
-                if (event.pageX + 200 > e.width()) {
-                    e.width(e.width() + 100);
-                }
-                if (event.pageY + 200 > e.height()) {
-                    e.height(e.height() + 100);
+                'dblclick .text': function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (!event.shiftKey && !event.ctrlKey && !event.altKey) {
+                        Meteor.text.editText(this);
+                    }
+                },
+                'dragstart': function (event) {
+                    Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
+                },
+                'drag': function (event) {
+                    var e = $('#editor');
+                    if (event.pageX + 200 > e.width()) {
+                        e.width(e.width() + 100);
+                    }
+                    if (event.pageY + 200 > e.height()) {
+                        e.height(e.height() + 100);
+                    }
+
+                    if (Meteor.drawingObject.checkDragDelay()) {
+                        Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
+                    }
+                },
+                'dragstop': function (event) {
+                    Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
                 }
 
-                if (Meteor.drawingObject.checkDragDelay()) {
-                    Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
+                ,
+                'resizestart': function () {
+                    sizeId = this._id;
+                    Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
+                    Meteor.canvas.setOverlay(true, this._id);
+                },
+                'resize': function () {
+                    Meteor.canvas.setOverlay(true, this._id);
+                },
+                'resizestop': function () {
+                    sizeId = null;
+                    Meteor.canvas.setOverlay(false, this._id);
+                    Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1, true);
+                },
+
+                'click .vote, dblclick .vote': function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.vote(this._id);
+                },
+                'click .down-vote, dblclick .down-vote': function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.downVote(this._id);
+                },
+
+                //must be last one, to not produce error: 'must be attached ...'
+                'click .delete, dblclick .delete': function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.remove(this._id);
                 }
-            },
-            'dragstop': function (event) {
-                Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
-            },
-            'resizestart': function () {
-                sizeId = this._id;
-                Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
-                Meteor.canvas.setOverlay(true, this._id);
-            },
-            'resize': function () {
-                Meteor.canvas.setOverlay(true, this._id);
-            },
-            'resizestop': function () {
-                sizeId = null;
-                Meteor.canvas.setOverlay(false, this._id);
-                Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1, true);
-            },
-
-            'click .vote, dblclick .vote': function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.vote(this._id);
-            },
-            'click .down-vote, dblclick .down-vote': function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.downVote(this._id);
-            },
-
-            //must be last one, to not produce error: 'must be attached ...'
-            'click .delete, dblclick .delete': function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.remove(this._id);
             }
-        });
+        )
+        ;
 
         Template.drawingObject.rendered = function () {
             Meteor.drawingObject.enableDrag(Template.currentData()._id);
@@ -189,4 +193,5 @@ Meteor.drawingObject = {
 
     }
 
-};
+}
+;
