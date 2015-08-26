@@ -33,7 +33,7 @@ Meteor.canvas = {
     },
     cleanUp: function (drawingObject) {
         var cleanup = false;
-        var cleanupData = {id : drawingObject._id};
+        var cleanupData = {id: drawingObject._id};
         if (Meteor.drawingObject.isDragTimeout(drawingObject)) {
             cleanupData.dragging = null;
             cleanup = true;
@@ -57,7 +57,7 @@ Meteor.canvas = {
             Meteor.call('cleanUp', cleanupData);
         }
     },
-    maxSizeAndZIndex:function(drawingObject) {
+    maxSizeAndZIndex: function (drawingObject) {
         drawingWidth = Math.max(drawingWidth, drawingObject.left + drawingObject.width);
         drawingHeight = Math.max(drawingHeight, drawingObject.top + drawingObject.height);
         if (drawingObject.zIndex) {
@@ -112,6 +112,9 @@ Meteor.canvas = {
         });
 
         Template.canvas.events({
+            'click #canvas' : function(event) {
+                Meteor.select.clearSelect();
+            },
             'dblclick #canvas': function (event) {
                 if (Meteor.spitfire.hasSessionName()) {
                     event.preventDefault();

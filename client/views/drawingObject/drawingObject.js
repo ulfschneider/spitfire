@@ -86,6 +86,14 @@ Meteor.drawingObject = {
         }
 
     },
+    setPosition: function (id, left, top, zIndex) {
+        Meteor.call('updatePosition', {
+            id: id,
+            left: left,
+            top: top,
+            zIndex: zIndex
+        });
+    },
     remove: function (id) {
         if (id) {
             Meteor.call('remove', id);
@@ -101,25 +109,89 @@ Meteor.drawingObject = {
             Meteor.call('downVote', id);
         }
     },
+    alignLeft: function () {
+        var selectedObjects = Meteor.select.getSelectedObjects();
+        if (selectedObjects) {
+
+            var minX = Meteor.canvas.drawingWidth();
+            selectedObjects.forEach(function (object) {
+                minX = Math.min(object.left, minX);
+
+            });
+
+            selectedObjects.forEach(function (object) {
+                Meteor.drawingObject.setPosition(object._id, minX, object.top);
+            });
+        }
+    },
+    alignRight: function () {
+        var selectedObjects = Meteor.select.getSelectedObjects();
+        if (selectedObjects) {
+
+            var maxX = 0;
+            selectedObjects.forEach(function (object) {
+                maxX = Math.max(object.left + object.width, maxX);
+
+            });
+
+            selectedObjects.forEach(function (object) {
+                Meteor.drawingObject.setPosition(object._id, maxX - object.width, object.top);
+            });
+        }
+    },
+    alignTop: function () {
+        var selectedObjects = Meteor.select.getSelectedObjects();
+        if (selectedObjects) {
+
+            var minY = Meteor.canvas.drawingHeight();
+            selectedObjects.forEach(function (object) {
+                minY = Math.min(object.top, minY);
+
+            });
+
+            selectedObjects.forEach(function (object) {
+                Meteor.drawingObject.setPosition(object._id, object.left, minY);
+            });
+        }
+    },
+    alignBottom: function () {
+        var selectedObjects = Meteor.select.getSelectedObjects();
+        if (selectedObjects) {
+
+            var maxY = 0;
+            selectedObjects.forEach(function (object) {
+                maxY = Math.max(object.top + object.height, maxY);
+
+            });
+
+            selectedObjects.forEach(function (object) {
+                Meteor.drawingObject.setPosition(object._id, object.left, maxY - object.height);
+            });
+        }
+    },
+
 
     init: function () {
         Template.drawingObject.events({
                 'dblclick .text': function (event) {
                     event.preventDefault();
                     event.stopPropagation();
-                    if (!event.shiftKey && !event.ctrlKey && !event.altKey) {
+                    if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
                         Meteor.text.editText(this);
                     }
                 },
                 'dragstart': function (event) {
+                    if (!Meteor.select.isSelected(this._id)) {
+                        Meteor.select.clearSelect();
+                    }
                     Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
                 },
                 'drag': function (event) {
                     var e = $('#editor');
-                    if (event.pageX + 200 > e.width()) {
+                    if (event.pageX + this.width > e.width()) {
                         e.width(e.width() + 100);
                     }
-                    if (event.pageY + 200 > e.height()) {
+                    if (event.pageY + this.height > e.height()) {
                         e.height(e.height() + 100);
                     }
 
@@ -129,11 +201,22 @@ Meteor.drawingObject = {
                 },
                 'dragstop': function (event) {
                     Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
-                }
-
-                ,
+                },
+                'click': function (event) {
+                    if (event.metaKey || event.ctrlKey) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        if (Meteor.select.isSelected(this._id)) {
+                            Meteor.select.deSelect(this._id);
+                        } else {
+                            Meteor.select.select(this._id);
+                        }
+                    }
+                },
                 'resizestart': function () {
                     sizeId = this._id;
+
+                    Meteor.select.clearSelect();
                     Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
                     Meteor.canvas.setOverlay(true, this._id);
                 },
@@ -187,11 +270,13 @@ Meteor.drawingObject = {
             },
             sizing: function () {
                 return this.sizing ? 'sizing' : '';
+            },
+            selected: function () {
+                return Meteor.select.isSelected(this._id) ? 'selected' : '';
             }
 
         });
 
     }
 
-}
-;
+};

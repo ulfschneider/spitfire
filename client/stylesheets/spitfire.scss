@@ -145,6 +145,11 @@ a {
   animation: glow 1500ms infinite;
 }
 
+.selected .text, .selected:hover .text {
+  border: 2px solid black;
+  padding:1px;
+}
+
 .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
   color: white;
   background: black;

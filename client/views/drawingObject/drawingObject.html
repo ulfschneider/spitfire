@@ -2,7 +2,7 @@
     {{#if isEditing}}
         {{> textInput}}
     {{else}}
-        <div class="drawing-object draggable {{editing}} {{sizing}} {{dragging}}" id="draggable{{_id}}"
+        <div class="drawing-object draggable {{editing}} {{sizing}} {{dragging}} {{selected}}" id="draggable{{_id}}"
              style="left:{{left}}px; top:{{top}}px;z-index:{{zIndex}};">
             <div class="controls">
                 <a class="vote" title="vote">&#x25b2;</a>
