@@ -71,16 +71,36 @@ Meteor.drawingObject = {
         }
     },
     updatePosition: function (id, zIndex, stop) {
+
         var position = $('#draggable' + id).position();
         if (position) {
 
-            Meteor.call('updatePosition', {
-                id: id,
-                left: position.left,
-                top: position.top,
-                zIndex: zIndex,
-                dragging: stop ? null : new Date()
-            });
+            if (Meteor.select.isSelected()) {
+                //update the entire selection
+                var current = DrawingObjects.findOne({_id: id});
+                var xOffset = position.left - current.left;
+                var yOffset = position.top - current.top;
+
+                var selectedObjects = Meteor.select.getSelectedObjects();
+                selectedObjects.forEach(function (object) {
+                    Meteor.call('updatePosition', {
+                        id: object._id,
+                        left: object.left + xOffset,
+                        top: object.top + yOffset,
+                        zIndex: zIndex,
+                        dragging: stop ? null : new Date()
+                    });
+                });
+            } else {
+                //update only one
+                Meteor.call('updatePosition', {
+                    id: id,
+                    left: position.left,
+                    top: position.top,
+                    zIndex: zIndex,
+                    dragging: stop ? null : new Date()
+                });
+            }
 
             dragTime = new Date().getTime();
         }
