@@ -23,7 +23,11 @@ Meteor.drawingObject = {
     },
     checkDragDelay: function () {
         var now = new Date().getTime();
-        return now - dragTime > DRAG_UPDATE_DELAY;
+        if (!Meteor.select.isSelected()) {
+            return now - dragTime > DRAG_UPDATE_DELAY;
+        } else {
+            return now - dragTime > DRAG_UPDATE_DELAY / 10;
+        }
     },
     sizeId: function () {
         return sizeId;
@@ -218,6 +222,7 @@ Meteor.drawingObject = {
                     if (Meteor.drawingObject.checkDragDelay()) {
                         Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
                     }
+
                 },
                 'dragstop': function (event) {
                     Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
