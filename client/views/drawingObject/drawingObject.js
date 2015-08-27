@@ -23,11 +23,7 @@ Meteor.drawingObject = {
     },
     checkDragDelay: function () {
         var now = new Date().getTime();
-        if (!Meteor.select.isSelected()) {
-            return now - dragTime > DRAG_UPDATE_DELAY;
-        } else {
-            return now - dragTime > DRAG_UPDATE_DELAY / 10;
-        }
+        return now - dragTime > DRAG_UPDATE_DELAY;
     },
     sizeId: function () {
         return sizeId;
