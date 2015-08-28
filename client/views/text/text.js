@@ -59,7 +59,6 @@ Meteor.text = {
 
                 if (!text) {
                     Meteor.drawingObject.remove(editId);
-                    Meteor.text.clearText();
                 } else {
                     Meteor.call('update', {
                         id: editId,
@@ -68,9 +67,9 @@ Meteor.text = {
                         height: textControl.height(),
                         zIndex: Meteor.canvas.maxZIndex() + 1
                     });
-                    Meteor.text.clearText();
                 }
             }
+            Meteor.text.clearText();
         }
     },
     initEditing: function (event) {

@@ -199,8 +199,8 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, object.left, maxY - object.height);
             });
         }
-    }
-    ,
+    },
+
 
     init: function () {
         Template.drawingObject.events({

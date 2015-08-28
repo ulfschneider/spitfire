@@ -67,11 +67,25 @@ Meteor.canvas = {
     getFilteredObjects: function () {
         if (Meteor.spitfire.getFilter()) {
             return DrawingObjects.find({
-                text: {
-                    $regex: Meteor.spitfire.escapeRegEx(Meteor.spitfire.getFilter()),
-                    $options: 'i'
+                    $or: [
+                        {
+                            text: {
+                                $regex: Meteor.spitfire.escapeRegEx(Meteor.spitfire.getFilter()),
+                                $options: 'i'
+                            }
+                        },
+                        {
+                            _id: Meteor.text.editId()
+                        },
+                        {
+                            initId: {
+                                $exists: true,
+                                $ne: null
+                            }
+                        }
+                    ]
                 }
-            }).fetch(); //fetch all, because contents will possibly be manipulated
+            ).fetch(); //fetch all, because contents will possibly be manipulated
         } else {
             return DrawingObjects.find().fetch(); //fetch all, because contents will possibly be manipulated
 
@@ -144,4 +158,5 @@ Meteor.canvas = {
         });
     }
 
-};
+}
+;
