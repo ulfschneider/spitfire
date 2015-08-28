@@ -64,12 +64,27 @@ Meteor.canvas = {
             maxZIndex = Math.max(maxZIndex, drawingObject.zIndex);
         }
     },
+    getFilteredObjects: function () {
+        if (Meteor.spitfire.getFilter()) {
+            return DrawingObjects.find({
+                text: {
+                    $regex: Meteor.spitfire.escapeRegEx(Meteor.spitfire.getFilter()),
+                    $options: 'i'
+                }
+            }).fetch(); //fetch all, because contents will possibly be manipulated
+        } else {
+            return DrawingObjects.find().fetch(); //fetch all, because contents will possibly be manipulated
+
+        }
+    },
 
     init: function () {
         Template.canvas.helpers({
 
             drawingObjects: function () {
-                var fetch = DrawingObjects.find().fetch(); //fetch all, because contents will possibly be manipulated
+
+                var filteredObjects = Meteor.canvas.getFilteredObjects();
+
                 var editId = Meteor.text.editId();
                 var initId = Meteor.text.initId();
                 var sizeId = Meteor.drawingObject.sizeId();
@@ -82,19 +97,22 @@ Meteor.canvas = {
                     Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
                 }
 
-                fetch.forEach(function (drawingObject) {
 
-                        if (!editOrInitFound) {
-                            if (initId && initId === drawingObject.initId) {
-                                editOrInitFound = true;
-                            } else if (editId === drawingObject._id) {
-                                editOrInitFound = true;
-                            }
+                filteredObjects.forEach(function (drawingObject) {
+
+                    if (!editOrInitFound) {
+                        if (initId && initId === drawingObject.initId) {
+                            editOrInitFound = true;
+                        } else if (editId === drawingObject._id) {
+                            editOrInitFound = true;
                         }
-                        Meteor.canvas.maxSizeAndZIndex(drawingObject);
-                        Meteor.canvas.cleanUp(drawingObject);
                     }
-                );
+                    Meteor.canvas.maxSizeAndZIndex(drawingObject);
+                    Meteor.canvas.cleanUp(drawingObject);
+
+
+                });
+
                 Meteor.editor.maintainBoundaryMarker();
 
                 if (editId || initId) {
@@ -107,12 +125,12 @@ Meteor.canvas = {
                     Meteor.canvas.setOverlay(false);
                 }
 
-                return fetch;
+                return filteredObjects;
             }
         });
 
         Template.canvas.events({
-            'click #canvas' : function(event) {
+            'click #canvas': function (event) {
                 Meteor.select.clearSelect();
             },
             'dblclick #canvas': function (event) {

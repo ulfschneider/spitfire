@@ -31,8 +31,7 @@
             {{> canvas}}
             <header>
                 {{#if hasSessionName}}
-                    <b>{{sessionName}}</b> • share your browser URL with participants • double click to write text
-                    (markdown is supported)
+                    <b>{{sessionName}}</b> {{>filter}}
                 {{else}}
                     Welcome to {{appTitle}} • append <b>/a-session-name</b> to your current browser URL to start a
                     session

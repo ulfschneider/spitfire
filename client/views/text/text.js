@@ -79,7 +79,7 @@ Meteor.text = {
             initId = Meteor.spitfire.uid();
             Meteor.text.setInputTimeout();
             Meteor.call('initEditing', {
-                sessionName: Meteor.spitfire.sessionName(),
+                sessionName: Meteor.spitfire.getSessionName(),
                 initId: initId,
                 left: event.pageX.valueOf(),
                 top: event.pageY.valueOf(),

@@ -78,19 +78,22 @@ Meteor.drawingObject = {
             if (Meteor.select.isSelected()) {
                 //update the entire selection
                 var current = DrawingObjects.findOne({_id: id});
-                var xOffset = position.left - current.left;
-                var yOffset = position.top - current.top;
+                if (current) {
+                    var xOffset = position.left - current.left;
+                    var yOffset = position.top - current.top;
 
-                var selectedObjects = Meteor.select.getSelectedObjects();
-                selectedObjects.forEach(function (object) {
-                    Meteor.call('updatePosition', {
-                        id: object._id,
-                        left: object.left + xOffset,
-                        top: object.top + yOffset,
-                        zIndex: zIndex,
-                        dragging: stop ? null : new Date()
+                    var selectedObjects = Meteor.select.getSelectedObjects();
+                    selectedObjects.forEach(function (object) {
+
+                        Meteor.call('updatePosition', {
+                            id: object._id,
+                            left: object.left + xOffset,
+                            top: object.top + yOffset,
+                            zIndex: zIndex,
+                            dragging: stop ? null : new Date()
+                        });
                     });
-                });
+                }
             } else {
                 //update only one
                 Meteor.call('updatePosition', {
@@ -105,7 +108,8 @@ Meteor.drawingObject = {
             dragTime = new Date().getTime();
         }
 
-    },
+    }
+    ,
     setPosition: function (id, left, top, zIndex) {
         Meteor.call('updatePosition', {
             id: id,
@@ -113,22 +117,26 @@ Meteor.drawingObject = {
             top: top,
             zIndex: zIndex
         });
-    },
+    }
+    ,
     remove: function (id) {
         if (id) {
             Meteor.call('remove', id);
         }
-    },
+    }
+    ,
     vote: function (id) {
         if (id) {
             Meteor.call('vote', id);
         }
-    },
+    }
+    ,
     downVote: function (id) {
         if (id) {
             Meteor.call('downVote', id);
         }
-    },
+    }
+    ,
     alignLeft: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -143,7 +151,8 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, minX, object.top);
             });
         }
-    },
+    }
+    ,
     alignRight: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -158,7 +167,8 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, maxX - object.width, object.top);
             });
         }
-    },
+    }
+    ,
     alignTop: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -173,7 +183,8 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, object.left, minY);
             });
         }
-    },
+    }
+    ,
     alignBottom: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -188,8 +199,8 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, object.left, maxY - object.height);
             });
         }
-    },
-
+    }
+    ,
 
     init: function () {
         Template.drawingObject.events({
@@ -214,7 +225,6 @@ Meteor.drawingObject = {
                     if (event.pageY + this.height > e.height()) {
                         e.height(e.height() + 100);
                     }
-
                     if (Meteor.drawingObject.checkDragDelay()) {
                         Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
                     }
@@ -300,4 +310,5 @@ Meteor.drawingObject = {
 
     }
 
-};
+}
+;
