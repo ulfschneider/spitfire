@@ -95,13 +95,22 @@ a {
 }
 
 .ui-icon-gripsmall-diagonal-se {
-  background: black;
+  background: transparent;
   width: 12px;
   height: 12px;
 }
 
-.dragging .ui-icon-gripsmall-diagonal-se, .sizing .ui-icon-gripsmall-diagonal-se, .editing .ui-icon-gripsmall-diagonal-se {
-  background: white;
+
+.ui-icon-gripsmall-diagonal-se {
+  background:black;
+}
+
+.sizing .ui-icon-gripsmall-diagonal-se {
+  background:white;
+}
+
+.dragging .ui-icon-gripsmall-diagonal-se, .editing .ui-icon-gripsmall-diagonal-se {
+  background: transparent;
 }
 
 .drawing-object {
@@ -159,6 +168,7 @@ a {
   color: white;
   background: black;
   border: 2px solid black;
+  padding: 1px;
 }
 
 .editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
