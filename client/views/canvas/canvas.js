@@ -41,7 +41,7 @@ Meteor.canvas = {
         if (Meteor.drawingObject.isSizeTimeout(drawingObject)) {
             cleanupData.sizing = null;
             cleanup = true;
-            if (Meteor.drawingObject.sizeId() === drawingObject._id) {
+            if (Meteor.drawingObject.getSizeId() === drawingObject._id) {
                 Meteor.drawingObject.clearSizing();
             }
         }
@@ -68,16 +68,16 @@ Meteor.canvas = {
         if (Meteor.spitfire.getFilter()) {
             return DrawingObjects.find({
                     $or: [
-                        {
+                        { //regular object
                             text: {
                                 $regex: Meteor.spitfire.escapeRegEx(Meteor.spitfire.getFilter()),
                                 $options: 'i'
                             }
                         },
-                        {
+                        { //currently edited object
                             _id: Meteor.text.editId()
                         },
-                        {
+                        { //new created object without editId
                             initId: {
                                 $exists: true,
                                 $ne: null
@@ -101,7 +101,7 @@ Meteor.canvas = {
 
                 var editId = Meteor.text.editId();
                 var initId = Meteor.text.initId();
-                var sizeId = Meteor.drawingObject.sizeId();
+                var sizeId = Meteor.drawingObject.getSizeId();
                 var editOrInitFound = false;
 
                 drawingWidth = 0;
@@ -112,17 +112,17 @@ Meteor.canvas = {
                 }
 
 
-                filteredObjects.forEach(function (drawingObject) {
+                filteredObjects.forEach(function (object) {
 
                     if (!editOrInitFound) {
-                        if (initId && initId === drawingObject.initId) {
+                        if (initId && initId === object.initId) {
                             editOrInitFound = true;
-                        } else if (editId === drawingObject._id) {
+                        } else if (editId === object._id) {
                             editOrInitFound = true;
                         }
                     }
-                    Meteor.canvas.maxSizeAndZIndex(drawingObject);
-                    Meteor.canvas.cleanUp(drawingObject);
+                    Meteor.canvas.maxSizeAndZIndex(object);
+                    Meteor.canvas.cleanUp(object);
 
 
                 });

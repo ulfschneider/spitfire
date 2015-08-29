@@ -57,6 +57,11 @@ textarea {
   resize: none;
 }
 
+input {
+  border:0;
+  border-bottom:1px solid lightgray;
+}
+
 .aboutLink {
   text-decoration: none;
   position: fixed;
@@ -129,7 +134,7 @@ a {
 
 .drawing-object:hover .text {
   border: 1px solid black;
-  padding:2px;
+  padding: 2px;
 }
 
 .drawing-object:hover .text a:hover {
@@ -147,7 +152,7 @@ a {
 
 .selected .text, .selected:hover .text {
   border: 2px solid black;
-  padding:1px;
+  padding: 1px;
 }
 
 .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
@@ -252,8 +257,8 @@ a {
   color: lightgoldenrodyellow;
 }
 
-.dragging:hover .controls,  .sizing:hover .controls {
-  display:none;
+.dragging:hover .controls, .sizing:hover .controls {
+  display: none;
 }
 
 .vote-count {

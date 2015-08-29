@@ -122,8 +122,6 @@ Meteor.text = {
 
         Template.textInput.events({
                 'focusout': function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
                     Meteor.text.submitText(event);
                 },
                 'keypress': function (event) {

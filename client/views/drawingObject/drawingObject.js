@@ -25,7 +25,7 @@ Meteor.drawingObject = {
         var now = new Date().getTime();
         return now - dragTime > DRAG_UPDATE_DELAY;
     },
-    sizeId: function () {
+    getSizeId: function () {
         return sizeId;
     },
     clearSizing: function () {
@@ -108,8 +108,7 @@ Meteor.drawingObject = {
             dragTime = new Date().getTime();
         }
 
-    }
-    ,
+    },
     setPosition: function (id, left, top, zIndex) {
         Meteor.call('updatePosition', {
             id: id,
@@ -117,26 +116,16 @@ Meteor.drawingObject = {
             top: top,
             zIndex: zIndex
         });
-    }
-    ,
+    },
     remove: function (id) {
-        if (id) {
-            Meteor.call('remove', id);
-        }
-    }
-    ,
+        Meteor.call('remove', id);
+    },
     vote: function (id) {
-        if (id) {
-            Meteor.call('vote', id);
-        }
-    }
-    ,
+        Meteor.call('vote', id);
+    },
     downVote: function (id) {
-        if (id) {
-            Meteor.call('downVote', id);
-        }
-    }
-    ,
+        Meteor.call('downVote', id);
+    },
     alignLeft: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -151,8 +140,7 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, minX, object.top);
             });
         }
-    }
-    ,
+    },
     alignRight: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -167,8 +155,7 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, maxX - object.width, object.top);
             });
         }
-    }
-    ,
+    },
     alignTop: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -183,8 +170,7 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.setPosition(object._id, object.left, minY);
             });
         }
-    }
-    ,
+    },
     alignBottom: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
@@ -246,7 +232,6 @@ Meteor.drawingObject = {
                 },
                 'resizestart': function () {
                     sizeId = this._id;
-
                     Meteor.select.clearSelect();
                     Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
                     Meteor.canvas.setOverlay(true, this._id);
@@ -278,8 +263,7 @@ Meteor.drawingObject = {
                     Meteor.drawingObject.remove(this._id);
                 }
             }
-        )
-        ;
+        );
 
         Template.drawingObject.rendered = function () {
             Meteor.drawingObject.enableDrag(Template.currentData()._id);
@@ -310,5 +294,4 @@ Meteor.drawingObject = {
 
     }
 
-}
-;
+};
