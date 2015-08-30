@@ -85,7 +85,10 @@ Meteor.drawingObject = {
 
                     var selectedObjects = Meteor.select.getSelectedObjects();
                     selectedObjects.forEach(function (object) {
-                        $('#draggable' + object._id).css({left: object.left + xOffset, top: object.top + yOffset});
+                        $('#draggable' + object._id).css({
+                            left: object.left + xOffset,
+                            top: object.top + yOffset
+                        });
                         if (persist || stop) {
                             Meteor.call('updatePosition', {
                                 id: object._id,
