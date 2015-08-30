@@ -59,6 +59,7 @@ Meteor.drawingObject = {
             if (sizeable) {
                 var width = sizeable.width();
                 var height = sizeable.height();
+
                 Meteor.call('resize', {
                     id: id,
                     width: width,
@@ -198,36 +199,30 @@ Meteor.drawingObject = {
                     }
                 },
                 'dragstart': function (event) {
-                    if (!Meteor.select.isSelected(this._id)) {
-                        Meteor.select.clearSelect();
+                    if (!event.ctrlKey && !event.metaKey) {
+                        if (!Meteor.select.isSelected(this._id)) {
+                            Meteor.select.clearSelect();
+                        }
+                        Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
                     }
-                    Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
                 },
                 'drag': function (event) {
-                    var e = $('#editor');
-                    if (event.pageX + this.width > e.width()) {
-                        e.width(e.width() + 100);
+                    if (!event.ctrlKey && !event.metaKey) {
+                        var e = $('#editor');
+                        if (event.pageX + this.width > e.width()) {
+                            e.width(e.width() + 100);
+                        }
+                        if (event.pageY + this.height > e.height()) {
+                            e.height(e.height() + 100);
+                        }
+                        if (Meteor.drawingObject.checkDragDelay()) {
+                            Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
+                        }
                     }
-                    if (event.pageY + this.height > e.height()) {
-                        e.height(e.height() + 100);
-                    }
-                    if (Meteor.drawingObject.checkDragDelay()) {
-                        Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
-                    }
-
                 },
                 'dragstop': function (event) {
-                    Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
-                },
-                'click': function (event) {
-                    if (event.metaKey || event.ctrlKey) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        if (Meteor.select.isSelected(this._id)) {
-                            Meteor.select.deSelect(this._id);
-                        } else {
-                            Meteor.select.select(this._id);
-                        }
+                    if (!event.ctrlKey && !event.metaKey) {
+                        Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
                     }
                 },
                 'resizestart': function () {
@@ -255,6 +250,17 @@ Meteor.drawingObject = {
                     event.stopPropagation();
                     Meteor.drawingObject.downVote(this._id);
                 },
+
+                'click .sizeable': function (event) {
+                    if (event.metaKey || event.ctrlKey) {
+                        if (Meteor.select.isSelected(this._id)) {
+                            Meteor.select.deSelect(this._id);
+                        } else {
+                            Meteor.select.select(this._id);
+                        }
+                    }
+                },
+
 
                 //must be last one, to not produce error: 'must be attached ...'
                 'click .delete, dblclick .delete': function (event) {

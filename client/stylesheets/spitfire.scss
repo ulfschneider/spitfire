@@ -45,7 +45,6 @@ mark {
 kbd {
   background: #eee;
   margin: 0;
-  padding: 0;
   border: 1px solid lightgray;
   text-transform: uppercase;
   padding: 2px;
@@ -65,7 +64,7 @@ textarea {
   resize: none;
 }
 
-input {
+#filter {
   border: 0;
   border-bottom: 1px solid lightgray;
 }

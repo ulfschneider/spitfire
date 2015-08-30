@@ -1,5 +1,6 @@
 <template name="canvas">
     <div id="canvas">
+        <div id="selectArea" style="border:1px solid red; position:absolute; display:none;"></div>
         {{#each drawingObjects}}
             {{> drawingObject}}
         {{/each}}

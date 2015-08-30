@@ -80,8 +80,8 @@ Meteor.text = {
             Meteor.call('initEditing', {
                 sessionName: Meteor.spitfire.getSessionName(),
                 initId: initId,
-                left: event.pageX.valueOf(),
-                top: event.pageY.valueOf(),
+                left: event.pageX,
+                top: event.pageY,
                 width: 200,
                 height: 20,
                 zIndex: Meteor.canvas.maxZIndex() + 1
