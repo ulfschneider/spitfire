@@ -132,7 +132,7 @@ Meteor.canvas = {
                 Meteor.text.clearText();
                 Meteor.canvas.setOverlay(false);
             }
-        } else if (!sizeId) {
+        } else if (!sizeId && !selectArea) {
             Meteor.canvas.setOverlay(false);
         }
 
@@ -227,6 +227,7 @@ Meteor.canvas = {
             },
             'mousedown': function (event) {
                 if (event.ctrlKey || event.metaKey) {
+                    Meteor.canvas.setOverlay(true);
                     selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
                 }
             },
@@ -248,6 +249,7 @@ Meteor.canvas = {
                     position: 'absolute',
                     display: 'none'
                 });
+                Meteor.canvas.setOverlay(false);
                 selectArea = null;
             }
         });
