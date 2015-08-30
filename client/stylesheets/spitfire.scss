@@ -69,15 +69,19 @@ textarea {
   border-bottom: 1px solid lightgray;
 }
 
+#filter:hover, #filter:focus {
+  border-bottom:1px solid black;
+}
+
 .aboutLink {
   text-decoration: none;
-  position: fixed;
+  /*position: fixed;
   top: 0;
   right: 0;
-  z-index: 2147483646;
+  z-index: 2147483646;*/
   background: black;
   color: white;
-  padding: 8px;
+  padding: 4px; /* was 8px before */
 }
 
 .about {

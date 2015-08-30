@@ -30,10 +30,10 @@
             {{> canvas}}
             <header>
                 {{#if hasSessionName}}
-                    <b>{{sessionName}}</b> {{>filter}}
+                    <b>{{sessionName}}</b> {{>filter}} <a class="aboutLink" href="/about">?</a>
                 {{else}}
                     Welcome to {{appTitle}} • append <b>/a-session-name</b> to your current browser URL to start a
-                    session
+                    session <a class="aboutLink" href="/about">?</a>
                 {{/if}}
             </header>
 
@@ -42,7 +42,6 @@
             <div id="rightMarker" class="boundary-marker" style="right:0px; top:0px; bottom:0px; width:3px;"></div>
             <div id="bottomMarker" class="boundary-marker" style="left:0px; right:0px; bottom:0px; height:3px;"></div>
 
-            <a class="aboutLink" href="/about">?</a>
 
         </div>
     {{/if}}
