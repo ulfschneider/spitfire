@@ -250,7 +250,6 @@ Meteor.drawingObject = {
                     event.stopPropagation();
                     Meteor.drawingObject.downVote(this._id);
                 },
-
                 'click .sizeable': function (event) {
                     if (event.metaKey || event.ctrlKey) {
                         if (Meteor.select.isSelected(this._id)) {

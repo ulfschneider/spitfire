@@ -225,14 +225,14 @@ Meteor.canvas = {
                     Meteor.text.initEditing(event);
                 }
             },
-            'mousedown': function (event) {
+            'mousedown #canvas': function (event) {
                 if (event.ctrlKey || event.metaKey) {
-                    Meteor.canvas.setOverlay(true);
                     selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
                 }
             },
             'mousemove': function (event) {
-                if (event.ctrlKey || event.metaKey) {
+                if (selectArea && (event.ctrlKey || event.metaKey)) {
+                    Meteor.canvas.setOverlay(true);
                     Meteor.canvas.selectByArea(event);
                 }
             },
@@ -249,6 +249,7 @@ Meteor.canvas = {
                     position: 'absolute',
                     display: 'none'
                 });
+
                 Meteor.canvas.setOverlay(false);
                 selectArea = null;
             }
