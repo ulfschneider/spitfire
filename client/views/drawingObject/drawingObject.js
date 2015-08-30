@@ -71,7 +71,7 @@ Meteor.drawingObject = {
             }
         }
     },
-    updatePosition: function (id, zIndex, stop) {
+    updatePosition: function (id, persist, zIndex, stop) {
 
         var position = $('#draggable' + id).position();
         if (position) {
@@ -85,25 +85,29 @@ Meteor.drawingObject = {
 
                     var selectedObjects = Meteor.select.getSelectedObjects();
                     selectedObjects.forEach(function (object) {
-
-                        Meteor.call('updatePosition', {
-                            id: object._id,
-                            left: object.left + xOffset,
-                            top: object.top + yOffset,
-                            zIndex: zIndex,
-                            dragging: stop ? null : new Date()
-                        });
+                        $('#draggable' + object._id).css({left: object.left + xOffset, top: object.top + yOffset});
+                        if (persist || stop) {
+                            Meteor.call('updatePosition', {
+                                id: object._id,
+                                left: object.left + xOffset,
+                                top: object.top + yOffset,
+                                zIndex: zIndex,
+                                dragging: stop ? null : new Date()
+                            });
+                        }
                     });
                 }
             } else {
                 //update only one
-                Meteor.call('updatePosition', {
-                    id: id,
-                    left: position.left,
-                    top: position.top,
-                    zIndex: zIndex,
-                    dragging: stop ? null : new Date()
-                });
+                if (persist || stop) {
+                    Meteor.call('updatePosition', {
+                        id: id,
+                        left: position.left,
+                        top: position.top,
+                        zIndex: zIndex,
+                        dragging: stop ? null : new Date()
+                    });
+                }
             }
 
             dragTime = new Date().getTime();
@@ -203,7 +207,7 @@ Meteor.drawingObject = {
                         if (!Meteor.select.isSelected(this._id)) {
                             Meteor.select.clearSelect();
                         }
-                        Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1);
+                        Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.maxZIndex() + 1);
                     }
                 },
                 'drag': function (event) {
@@ -215,14 +219,13 @@ Meteor.drawingObject = {
                         if (event.pageY + this.height > e.height()) {
                             e.height(e.height() + 100);
                         }
-                        if (Meteor.drawingObject.checkDragDelay()) {
-                            Meteor.drawingObject.updatePosition(this._id); //intentionally not changing z-index
-                        }
+                        Meteor.drawingObject.updatePosition(this._id, false); //intentionally not changing z-index
+                        //TODO maybe persist the position update after drag delay?
                     }
                 },
                 'dragstop': function (event) {
                     if (!event.ctrlKey && !event.metaKey) {
-                        Meteor.drawingObject.updatePosition(this._id, Meteor.canvas.maxZIndex() + 1, true);
+                        Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.maxZIndex() + 1, true);
                     }
                 },
                 'resizestart': function () {
