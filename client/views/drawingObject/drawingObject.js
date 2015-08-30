@@ -219,7 +219,7 @@ Meteor.drawingObject = {
                         if (event.pageY + this.height > e.height()) {
                             e.height(e.height() + 100);
                         }
-                        Meteor.drawingObject.updatePosition(this._id, false); //intentionally not changing z-index
+                        Meteor.drawingObject.updatePosition(this._id, false); //intentionally not changing z-index and not persisting
                         //TODO maybe persist the position update after drag delay? Anyway to only persist on dragstop is much more efficient for the database
                     }
                 },
