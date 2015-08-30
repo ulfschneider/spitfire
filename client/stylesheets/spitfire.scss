@@ -25,6 +25,12 @@ header {
   border: 0;
   background: white;
   z-index: 2147483646;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 h1, h2, header, header * {
@@ -78,10 +84,11 @@ textarea {
   /*position: fixed;
   top: 0;
   right: 0;
-  z-index: 2147483646;*/
+  z-index: 2147483646;
+  padding:8px;*/
   background: black;
   color: white;
-  padding: 4px; /* was 8px before */
+  padding:4px;
 }
 
 .about {
