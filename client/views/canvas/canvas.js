@@ -67,11 +67,13 @@ Meteor.canvas = {
     },
     getFilteredObjects: function () {
         if (Meteor.spitfire.getFilter()) {
+
+            console.log(Meteor.spitfire.getRegExFilter());
             return DrawingObjects.find({
                     $or: [
                         { //regular object
                             text: {
-                                $regex: Meteor.spitfire.escapeRegEx(Meteor.spitfire.getFilter()),
+                                $regex: Meteor.spitfire.getRegExFilter(),
                                 $options: 'i'
                             }
                         },
@@ -135,6 +137,9 @@ Meteor.canvas = {
         } else if (!sizeId && !selectArea) {
             Meteor.canvas.setOverlay(false);
         }
+        if (!selectArea) {
+            Meteor.canvas.cleanUpSelectArea();
+        }
 
         return filteredObjects;
     },
@@ -176,6 +181,17 @@ Meteor.canvas = {
             }
         }
         return false;
+    },
+    cleanUpSelectArea: function () {
+        selectArea = null;
+        $('#selectArea').css({
+            left: 0,
+            top: 0,
+            width: 0,
+            height: 0,
+            position: 'absolute',
+            display: 'none'
+        });
     },
     selectByArea: function (event) {
         if (selectArea) {
@@ -241,17 +257,9 @@ Meteor.canvas = {
                     Meteor.canvas.selectByArea(event);
 
                 }
-                $('#selectArea').css({
-                    left: 0,
-                    top: 0,
-                    width: 0,
-                    height: 0,
-                    position: 'absolute',
-                    display: 'none'
-                });
 
                 Meteor.canvas.setOverlay(false);
-                selectArea = null;
+                Meteor.canvas.cleanUpSelectArea();
             }
         });
     }
