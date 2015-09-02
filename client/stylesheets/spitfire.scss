@@ -17,14 +17,14 @@ body {
 header {
   margin: 0;
   padding: 8px;
-  padding-right: 40px;
+  padding-right:0;
   position: fixed;
   left: 0;
   top: 0;
-  right: 0;
   border: 0;
   background: white;
   z-index: 2147483646;
+  display:inline-block;
 
   -webkit-user-select: none;
   -moz-user-select: none;
