@@ -233,6 +233,10 @@ Meteor.canvas = {
                 if (!event.ctrlKey && !event.metaKey) {
                     Meteor.select.clearSelect();
                 }
+                if (Meteor.text.isEditing()) {
+                    Meteor.text.submitText();
+                    Meteor.text.clearText();
+                }
             },
             'dblclick #canvas': function (event) {
                 if (Meteor.spitfire.hasSessionName()) {

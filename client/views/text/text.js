@@ -50,13 +50,12 @@ Meteor.text = {
         }
 
     },
-    submitText: function (event) {
-        if (event && editId) {
-            var text = event.target.value;
+    submitText: function () {
+        if (editId) {
             var textControl = $('#textinput' + editId);
             Meteor.text.cleanupInputTimeout();
             if (textControl) {
-
+                var text = textControl.val();
                 if (!text) {
                     Meteor.drawingObject.remove(editId);
                 } else {
@@ -91,24 +90,25 @@ Meteor.text = {
         }
     },
 
-    updateEditing: function (event) {
-        if (event && editId) {
-            var text;
+    updateEditing: function () {
+        if (editId) {
             var textControl = $('#textinput' + editId);
-            text = event.target.value;
             Meteor.text.cleanupInputTimeout();
-
-            if (text != null && textControl) {
-                var width = textControl.width();
-                var height = textControl.height();
+            if (textControl) {
+                var text = textControl.val();
 
                 if (text != null) {
-                    Meteor.call('updateEditing', {
-                        id: editId,
-                        text: text,
-                        width: width,
-                        height: height
-                    });
+                    var width = textControl.width();
+                    var height = textControl.height();
+
+                    if (text != null) {
+                        Meteor.call('updateEditing', {
+                            id: editId,
+                            text: text,
+                            width: width,
+                            height: height
+                        });
+                    }
                 }
             }
         }
@@ -122,14 +122,14 @@ Meteor.text = {
 
         Template.textInput.events({
                 'focusout': function (event) {
-                    Meteor.text.submitText(event);
+                    Meteor.text.submitText();
                 },
                 'keypress': function (event) {
                     if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                         if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
                             event.preventDefault();
                             event.stopPropagation();
-                            Meteor.text.submitText(event);
+                            Meteor.text.submitText();
                         }
                     }
                 },
@@ -137,13 +137,13 @@ Meteor.text = {
                     if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                         event.preventDefault();
                         event.stopPropagation();
-                        Meteor.text.submitText(event);
+                        Meteor.text.submitText();
                     } else {
                         var text = event.target.value;
                         Meteor.text.setInputTimeout();
                         if (editText != text) {
                             editText = text;
-                            Meteor.text.updateEditing(event);
+                            Meteor.text.updateEditing();
                         }
                     }
 
