@@ -124,6 +124,9 @@ Meteor.text = {
     init: function () {
 
         Template.textInput.events({
+                'click, dblclick' : function() {
+                    event.stopPropagation();
+                },
                 'focusout': function (event) {
                     Meteor.text.submitText();
                 },
