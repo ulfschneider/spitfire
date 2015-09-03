@@ -15,6 +15,9 @@ Meteor.text = {
     initId: function () {
         return initId;
     },
+    isEditing: function () {
+        return editId != null || initId != null;
+    },
     isInputTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.editing) {
             var now = new Date();
@@ -24,7 +27,7 @@ Meteor.text = {
         }
     },
     setInputTimeout: function () {
-        Meteor.text.cleanupInputTimeout();
+        Meteor.text.cleanUpInputTimeout();
         inputTimeoutId = setTimeout(function () {
             if (Meteor.text.editId()) {
                 Meteor.text.removeEditing(Meteor.text.editId());
@@ -32,7 +35,7 @@ Meteor.text = {
             Meteor.text.clearText();
         }, INPUT_TIME_OUT);
     },
-    cleanupInputTimeout: function () {
+    cleanUpInputTimeout: function () {
         if (inputTimeoutId) {
             clearTimeout(inputTimeoutId);
         }
@@ -53,7 +56,7 @@ Meteor.text = {
     submitText: function () {
         if (editId) {
             var textControl = $('#textinput' + editId);
-            Meteor.text.cleanupInputTimeout();
+            Meteor.text.cleanUpInputTimeout();
             if (textControl) {
                 var text = textControl.val();
                 if (!text) {
@@ -93,7 +96,7 @@ Meteor.text = {
     updateEditing: function () {
         if (editId) {
             var textControl = $('#textinput' + editId);
-            Meteor.text.cleanupInputTimeout();
+            Meteor.text.cleanUpInputTimeout();
             if (textControl) {
                 var text = textControl.val();
 

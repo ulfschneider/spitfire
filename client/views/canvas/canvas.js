@@ -235,6 +235,7 @@ Meteor.canvas = {
                 }
                 if (Meteor.text.isEditing()) {
                     Meteor.text.submitText();
+                } else {
                     Meteor.text.clearText();
                 }
             },
