@@ -77,6 +77,10 @@ Meteor.canvas = {
                                 $options: 'i'
                             }
                         },
+                        {
+                            //votes
+                            vote: Meteor.spitfire.getNumberFilter()
+                        },
                         { //currently edited object
                             _id: Meteor.text.editId()
                         },
@@ -240,6 +244,11 @@ Meteor.canvas = {
                 }
             },
             'dblclick #canvas': function (event) {
+                if (Meteor.text.isEditing()) {
+                    Meteor.text.submitText();
+                } else {
+                    Meteor.text.clearText();
+                }
                 if (Meteor.spitfire.hasSessionName()) {
                     event.preventDefault();
                     event.stopPropagation();
