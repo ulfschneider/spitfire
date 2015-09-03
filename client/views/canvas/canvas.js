@@ -52,6 +52,7 @@ Meteor.canvas = {
             cleanup = true;
             if (Meteor.text.editId() === drawingObject._id) {
                 Meteor.text.clearText();
+
             }
         }
         if (cleanup) {
@@ -244,6 +245,9 @@ Meteor.canvas = {
                 }
             },
             'dblclick #canvas': function (event) {
+                if (!event.ctrlKey && !event.metaKey) {
+                    Meteor.select.clearSelect();
+                }
                 if (Meteor.text.isEditing()) {
                     Meteor.text.submitText();
                 } else {
