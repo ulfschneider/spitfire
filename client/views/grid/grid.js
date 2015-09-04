@@ -2,8 +2,8 @@ var grid = {x: null, y: null};
 
 Meteor.grid = {
     snapLeft: function (left) {
-        if (left && grid.x && grid.x > 0) {
-            var factor = Math.floor(left / grid.x);
+        if (!isNaN(left) && grid.x && grid.x > 0) {
+            var factor = Math.floor(Math.max(left, 0) / grid.x);
             var rem = left % grid.x;
             var above = grid.x - rem;
             return (rem > above ? (factor + 1) * grid.x : factor * grid.x) + 1;
@@ -11,8 +11,8 @@ Meteor.grid = {
         return left;
     },
     snapTop: function (top) {
-        if (top && grid.y && grid.y > 0) {
-            var factor = Math.floor(top / grid.y);
+        if (!isNaN(top) && grid.y && grid.y > 0) {
+            var factor = Math.floor(Math.max(top, 0) / grid.y);
             var rem = top % grid.y;
             var above = grid.y - rem;
             return (rem > above ? (factor + 1) * grid.y : factor * grid.y) + 1;
