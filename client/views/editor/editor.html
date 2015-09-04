@@ -30,7 +30,7 @@
             {{> canvas}}
             <header>
                 {{#if hasSessionName}}
-                    <b>{{sessionName}}</b> {{>filter}} <a class="aboutLink" href="/about">?</a>
+                    <b>{{sessionName}}</b> {{>filter}} {{>grid}} <a class="aboutLink" href="/about">?</a>
                 {{else}}
                     Welcome to {{appTitle}} • append <b>/a-session-name</b> to your current browser URL to start a
                     session <a class="aboutLink" href="/about">?</a>

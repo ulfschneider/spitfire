@@ -8,6 +8,7 @@ Meteor.text = {
     clearText: function () {
         editText = null;
         editId = null;
+        $('.textInput').css('display', 'none');
     },
     editId: function () {
         return editId;
@@ -82,8 +83,8 @@ Meteor.text = {
             Meteor.call('initEditing', {
                 sessionName: Meteor.spitfire.getSessionName(),
                 initId: initId,
-                left: event.pageX,
-                top: event.pageY,
+                left: Meteor.grid.snapLeft(event.pageX),
+                top: Meteor.grid.snapTop(event.pageY),
                 width: 200,
                 height: 20,
                 zIndex: Meteor.canvas.maxZIndex() + 1

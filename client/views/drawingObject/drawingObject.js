@@ -9,6 +9,7 @@ Meteor.drawingObject = {
         if (drawingObject && drawingObject.dragging) {
             var now = new Date();
             return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
+            return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
         } else {
             return false;
         }
@@ -68,6 +69,17 @@ Meteor.drawingObject = {
                     sizing: stop ? null : new Date()
                 });
 
+            }
+        }
+    },
+    snapToGrid: function (id) {
+        var draggable = $('#draggable' + id);
+        if (draggable) {
+            var position = draggable.position();
+            if (position) {
+                var l = Meteor.grid.snapLeft(position.left);
+                var t = Meteor.grid.snapTop(position.top);
+                draggable.css({left: l, top: t});
             }
         }
     },
@@ -227,6 +239,7 @@ Meteor.drawingObject = {
                 },
                 'dragstop': function (event) {
                     if (!event.ctrlKey && !event.metaKey) {
+                        Meteor.drawingObject.snapToGrid(this._id);
                         Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.maxZIndex() + 1, true);
                     }
                 },

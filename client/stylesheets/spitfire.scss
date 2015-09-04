@@ -17,14 +17,14 @@ body {
 header {
   margin: 0;
   padding: 8px;
-  padding-right:0;
+  padding-right: 0;
   position: fixed;
   left: 0;
   top: 0;
   border: 0;
   background: white;
   z-index: 2147483646;
-  display:inline-block;
+  display: inline-block;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -70,14 +70,29 @@ textarea {
   resize: none;
 }
 
-#filter {
+#filter, #xgrid, #ygrid {
   border: 0;
   border-bottom: 1px solid lightgray;
 }
 
-#filter:hover, #filter:focus {
-  border-bottom:1px solid black;
+#filter:hover, #filter:focus, #xgrid:hover, #xgrid:focus, #ygrid:hover, #ygrid:focus {
+  border-bottom: 1px solid black;
 }
+
+#filter {
+  width:10em;
+}
+
+#xgrid, #ygrid {
+  width:3em;
+}
+
+.filter, .grid {
+  display:inline-block;
+  margin-right:2em;
+}
+
+
 
 .aboutLink {
   text-decoration: none;
@@ -88,7 +103,7 @@ textarea {
   padding:8px;*/
   background: black;
   color: white;
-  padding:4px;
+  padding: 4px;
 }
 
 .about {

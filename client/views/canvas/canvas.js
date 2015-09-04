@@ -56,7 +56,11 @@ Meteor.canvas = {
             }
         }
         if (cleanup) {
-            Meteor.call('cleanUp', cleanupData);
+            if (!drawingObject.text) {
+                Meteor.call('remove', drawingObject._id);
+            } else {
+                Meteor.call('cleanUp', cleanupData);
+            }
         }
     },
     maxSizeAndZIndex: function (drawingObject) {
@@ -66,10 +70,10 @@ Meteor.canvas = {
             maxZIndex = Math.max(maxZIndex, drawingObject.zIndex);
         }
     },
+
     getFilteredObjects: function () {
         if (Meteor.spitfire.getFilter()) {
 
-            console.log(Meteor.spitfire.getRegExFilter());
             return DrawingObjects.find({
                     $or: [
                         { //regular object
