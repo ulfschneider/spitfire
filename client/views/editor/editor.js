@@ -32,8 +32,8 @@ Meteor.editor = {
 
         var e = $('#editor');
         var w = $(window);
-        e.width(Math.max(w.width(), Math.max(e.width(), Meteor.canvas.drawingWidth())));
-        e.height(Math.max(w.height(), Math.max(e.height(), Meteor.canvas.drawingHeight())));
+        e.width(Math.max(w.width(), Math.max(e.width(), Meteor.canvas.drawingWidth() + 200)));
+        e.height(Math.max(w.height(), Math.max(e.height(), Meteor.canvas.drawingHeight() + 200)));
     },
     init: function () {
         $(window).on('scroll', function () {
