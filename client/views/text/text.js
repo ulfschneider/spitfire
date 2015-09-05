@@ -8,7 +8,6 @@ Meteor.text = {
     clearText: function () {
         editText = null;
         editId = null;
-        $('.textInput').css('display', 'none');
     },
     editId: function () {
         return editId;
@@ -61,7 +60,7 @@ Meteor.text = {
             if (textControl) {
                 var text = textControl.val();
                 if (!text) {
-                    Meteor.drawingObject.remove(editId);
+                    Meteor.call('remove', editId);
                 } else {
                     Meteor.call('update', {
                         id: editId,
@@ -71,9 +70,12 @@ Meteor.text = {
                         zIndex: Meteor.canvas.maxZIndex() + 1
                     });
                 }
+                Meteor.text.clearText();
             }
+
+
         }
-        Meteor.text.clearText();
+
     },
     initEditing: function (event) {
         //initEditing - when a user creates items where an editId is not immediatly available

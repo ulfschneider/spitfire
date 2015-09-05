@@ -72,30 +72,32 @@ Meteor.canvas = {
     },
 
     getFilteredObjects: function () {
-        if (Meteor.spitfire.getFilter()) {
+        if (Meteor.filter.getFilter()) {
+
+            var query = [
+                { //regular object
+                    text: {
+                        $regex: Meteor.filter.getRegExFilter(),
+                        $options: 'i'
+                    }
+                },
+                { //currently edited object
+                    _id: Meteor.text.editId()
+                },
+                { //new created object without editId
+                    initId: {
+                        $exists: true,
+                        $ne: null
+                    }
+                }
+            ];
+            var numberFilter = Meteor.filter.getNumberFilter();
+            if (numberFilter > 0) {
+                query.push({vote: numberFilter});
+            }
 
             return DrawingObjects.find({
-                    $or: [
-                        { //regular object
-                            text: {
-                                $regex: Meteor.spitfire.getRegExFilter(),
-                                $options: 'i'
-                            }
-                        },
-                        {
-                            //votes
-                            vote: Meteor.spitfire.getNumberFilter()
-                        },
-                        { //currently edited object
-                            _id: Meteor.text.editId()
-                        },
-                        { //new created object without editId
-                            initId: {
-                                $exists: true,
-                                $ne: null
-                            }
-                        }
-                    ]
+                    $or: query
                 }
             ).fetch(); //fetch all, because contents will possibly be manipulated
         } else {
