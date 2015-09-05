@@ -106,7 +106,7 @@ Meteor.canvas = {
         }
     },
     getDrawingObjects: function () {
-
+        Meteor.grid.maintainGrid();
         var filteredObjects = Meteor.canvas.getFilteredObjects();
 
         var editId = Meteor.text.editId();
@@ -231,6 +231,7 @@ Meteor.canvas = {
     },
 
     init: function () {
+
         Template.canvas.helpers({
                 drawingObjects: function () {
                     return Meteor.canvas.getDrawingObjects();
@@ -286,6 +287,8 @@ Meteor.canvas = {
                 Meteor.canvas.cleanUpSelectArea();
             }
         });
+
+
     }
 }
 ;
