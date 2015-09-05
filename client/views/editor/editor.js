@@ -35,6 +35,12 @@ Meteor.editor = {
         e.width(Math.max(w.width(), Math.max(e.width(), Meteor.canvas.drawingWidth() + 200)));
         e.height(Math.max(w.height(), Math.max(e.height(), Meteor.canvas.drawingHeight() + 200)));
     },
+    getWidth: function () {
+        return $('#editor').width();
+    },
+    getHeight: function () {
+        return $('#editor').height();
+    },
     init: function () {
         $(window).on('scroll', function () {
             Meteor.editor.maintainBoundaryMarker();

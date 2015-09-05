@@ -1,4 +1,5 @@
 var GRID_PARAM_ID = ',grid:';
+var displayGrid = false;
 
 Meteor.grid = {
     hasGrid: function () {
@@ -102,17 +103,62 @@ Meteor.grid = {
         }
         Session.set('grid', grid);
     },
+    drawGrid: function () {
+        displayGrid = true;
+        var grid = Meteor.grid.getGrid();
+        if (grid) {
+            var eWidth = Meteor.editor.getWidth();
+            var eHeight = Meteor.editor.getHeight();
+
+            if (grid.x > 1) {
+                var col = 1;
+                while (col < eWidth) {
+                    $('#editor').append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;width:1px;"></div>');
+                    col = col + grid.x;
+                }
+            }
+            if (grid.y > 1) {
+                var row = 1;
+                while (row < eHeight) {
+                    $('#editor').append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;height:1px;"></div>');
+                    row = row + grid.y;
+                }
+            }
+        }
+
+    },
+    clearGrid: function () {
+        $('.grid-indicator').remove();
+        displayGrid = false;
+    },
 
     init: function () {
 
+        $(window).resize(function () {
+            if (displayGrid) {
+                Meteor.grid.clearGrid();
+                Meteor.grid.drawGrid();
+            }
+        });
+
         Template.grid.events({
+                'focus': function () {
+                    Meteor.grid.drawGrid();
+                },
+                'focusout': function () {
+                    Meteor.grid.clearGrid();
+                },
                 'keyup #xgrid': function (event) {
                     var x = parseInt(event.target.value);
                     Meteor.grid.setXGrid(x);
+                    Meteor.grid.clearGrid();
+                    Meteor.grid.drawGrid();
                 },
                 'keyup #ygrid': function (event) {
                     var y = parseInt(event.target.value);
                     Meteor.grid.setYGrid(y);
+                    Meteor.grid.clearGrid();
+                    Meteor.grid.drawGrid();
                 }
             }
         );
