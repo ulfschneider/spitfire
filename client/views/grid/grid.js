@@ -113,14 +113,14 @@ Meteor.grid = {
             if (grid.x > 1) {
                 var col = 1;
                 while (col < eWidth) {
-                    $('#editor').append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;width:1px;"></div>');
+                    $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;border-left:1px dashed lightgray;"></div>');
                     col = col + grid.x;
                 }
             }
             if (grid.y > 1) {
                 var row = 1;
                 while (row < eHeight) {
-                    $('#editor').append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;height:1px;"></div>');
+                    $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;border-top:1px dashed lightgray;"></div>');
                     row = row + grid.y;
                 }
             }
