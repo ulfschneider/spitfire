@@ -80,19 +80,17 @@ textarea {
 }
 
 #filter {
-  width:10em;
+  width: 10em;
 }
 
 #xgrid, #ygrid {
-  width:3em;
+  width: 3em;
 }
 
 .filter, .grid {
-  display:inline-block;
-  margin-right:2em;
+  display: inline-block;
+  margin-right: 2em;
 }
-
-
 
 .aboutLink {
   text-decoration: none;
@@ -353,5 +351,10 @@ a {
   z-index: 2147483647;
 }
 
+#selectArea {
+  border: 1px solid red;
+  position: absolute;
+  display: none;
+}
 
 
