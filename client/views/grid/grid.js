@@ -1,4 +1,13 @@
+var GRID_PARAM_ID = ',grid:';
+
 Meteor.grid = {
+    hasGrid: function () {
+        var grid = Meteor.grid.getGrid();
+        return grid && (grid.x || grid.y);
+    },
+    getGridParamId: function () {
+        return GRID_PARAM_ID;
+    },
     snapLeft: function (left) {
         var grid = Meteor.grid.getGrid();
         if (!isNaN(left) && grid.x && grid.x > 0) {
@@ -20,12 +29,57 @@ Meteor.grid = {
         }
         return top;
     },
-    getGrid: function () {
-        var grid = Session.get('grid');
-        if (!grid) {
-            grid = {x : null, y :null};
+    parseGrid: function (url) {
+
+        var grid = {x: null, y: null};
+        if (url) {
+            var start = url.toLowerCase().indexOf(GRID_PARAM_ID);
+            if (start > 0) {
+                var gridstring = url.toLowerCase().substring(start + GRID_PARAM_ID.length);
+                var end = gridstring.indexOf(',');
+                if (end > 0) {
+                    gridstring = gridstring.substring(0, end);
+                }
+                var x = gridstring.indexOf('x');
+                if (x < 0) {
+                    var xparse = parseInt(gridstring);
+                    if (!isNaN(xparse)) {
+                        grid.x = xparse;
+                    }
+                } else {
+                    var xgrid = gridstring.substring(0, x);
+                    var xparse = parseInt(xgrid);
+                    if (!isNaN(xparse)) {
+                        grid.x = xparse;
+                    }
+                    var ygrid = gridstring.substring(x + 1);
+                    var yparse = parseInt(ygrid);
+                    if (!isNaN(yparse)) {
+                        grid.y = yparse;
+                    }
+                }
+            }
+
         }
+
         return grid;
+    },
+    getGridString: function () {
+        var gridstring = '';
+        if (Meteor.grid.hasGrid()) {
+            var grid = Meteor.grid.getGrid();
+            gridstring = GRID_PARAM_ID;
+            if (grid.x) {
+                gridstring = gridstring + grid.x;
+            }
+            if (grid.y) {
+                gridstring = gridstring + 'x' + grid.y;
+            }
+        }
+        return gridstring;
+    },
+    getGrid: function () {
+        return Session.get('grid');
     },
     setGrid: function (grid) {
         Session.set('grid', grid);
