@@ -51,6 +51,7 @@ Meteor.editor = {
 
         Template.editor.rendered = function () {
             Meteor.editor.maintainBoundaryMarker();
+            Meteor.grid.maintainGrid();
         }
     }
 };

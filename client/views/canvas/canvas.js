@@ -232,6 +232,10 @@ Meteor.canvas = {
 
     init: function () {
 
+        Template.canvas.onCreated(function () {
+            Meteor.subscribe('drawingObjects', Meteor.spitfire.getSessionName());
+        });
+
         Template.canvas.helpers({
                 drawingObjects: function () {
                     return Meteor.canvas.getDrawingObjects();
