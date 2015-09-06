@@ -71,12 +71,9 @@ Meteor.text = {
                         zIndex: Meteor.canvas.getMaxZIndex() + 1
                     });
                 }
-                Meteor.text.clearText();
             }
-
-
         }
-
+        Meteor.text.clearText();
     },
     initEditing: function (event) {
         //initEditing - when a user creates items where an editId is not immediatly available
