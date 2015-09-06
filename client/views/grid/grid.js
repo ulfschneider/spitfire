@@ -1,4 +1,5 @@
 var GRID_PARAM_ID = ',grid:';
+var MIN_GRID = 10;
 
 
 Meteor.grid = {
@@ -8,6 +9,9 @@ Meteor.grid = {
     },
     getGridParamId: function () {
         return GRID_PARAM_ID;
+    },
+    getMinGrid:function() {
+        return MIN_GRID;
     },
     snapLeft: function (left) {
         var grid = Meteor.grid.getGrid();
@@ -109,14 +113,14 @@ Meteor.grid = {
             var eWidth = Meteor.editor.getWidth();
             var eHeight = Meteor.editor.getHeight();
 
-            if (grid.x > 1) {
+            if (grid.x >= MIN_GRID) {
                 var col = 1;
                 while (col < eWidth) {
                     $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;border-left:1px dashed lightgray;"></div>');
                     col = col + grid.x;
                 }
             }
-            if (grid.y > 1) {
+            if (grid.y >= MIN_GRID) {
                 var row = 1;
                 while (row < eHeight) {
                     $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;border-top:1px dashed lightgray;"></div>');
