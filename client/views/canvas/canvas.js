@@ -23,13 +23,13 @@ Meteor.canvas = {
         }
 
     },
-    drawingWidth: function () {
+    getDrawingWidth: function () {
         return drawingWidth;
     },
-    drawingHeight: function () {
+    getDrawingHeight: function () {
         return drawingHeight;
     },
-    maxZIndex: function () {
+    getMaxZIndex: function () {
         return maxZIndex;
     },
     cleanUp: function (drawingObject) {
@@ -154,17 +154,17 @@ Meteor.canvas = {
 
         return filteredObjects;
     },
-    left: function (sizeObject) {
+    getLeft: function (sizeObject) {
         return sizeObject.width < 0 ? sizeObject.left + sizeObject.width : sizeObject.left;
     },
-    top: function (sizeObject) {
+    getTop: function (sizeObject) {
         return sizeObject.height < 0 ? sizeObject.top + sizeObject.height : sizeObject.top;
     },
-    right: function (sizeObject) {
-        return Meteor.canvas.left(sizeObject) + Math.abs(sizeObject.width);
+    getRight: function (sizeObject) {
+        return Meteor.canvas.getLeft(sizeObject) + Math.abs(sizeObject.width);
     },
-    bottom: function (sizeObject) {
-        return Meteor.canvas.top(sizeObject) + Math.abs(sizeObject.height);
+    getBottom: function (sizeObject) {
+        return Meteor.canvas.getTop(sizeObject) + Math.abs(sizeObject.height);
     },
     touchedBySelectArea: function (id) {
         var screenObject = $('#draggable' + id);
@@ -176,18 +176,18 @@ Meteor.canvas = {
         };
 
 
-        if ((Meteor.canvas.left(sizeObject) >= Meteor.canvas.left(selectArea) && Meteor.canvas.left(sizeObject) <= Meteor.canvas.right(selectArea)) || (Meteor.canvas.right(sizeObject) >= Meteor.canvas.left(selectArea) && Meteor.canvas.right(sizeObject) <= Meteor.canvas.right(selectArea))) {
-            if ((Meteor.canvas.top(sizeObject) >= Meteor.canvas.top(selectArea) && Meteor.canvas.top(sizeObject) <= Meteor.canvas.bottom(selectArea)) || (Meteor.canvas.bottom(sizeObject) >= Meteor.canvas.top(selectArea) && Meteor.canvas.bottom(sizeObject) <= Meteor.canvas.bottom(selectArea))) {
+        if ((Meteor.canvas.getLeft(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getLeft(sizeObject) <= Meteor.canvas.getRight(selectArea)) || (Meteor.canvas.getRight(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getRight(sizeObject) <= Meteor.canvas.getRight(selectArea))) {
+            if ((Meteor.canvas.getTop(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getTop(sizeObject) <= Meteor.canvas.getBottom(selectArea)) || (Meteor.canvas.getBottom(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getBottom(sizeObject) <= Meteor.canvas.getBottom(selectArea))) {
                 return true;
             }
         }
-        if (Meteor.canvas.left(sizeObject) < Meteor.canvas.left(selectArea) && Meteor.canvas.right(sizeObject) > Meteor.canvas.right(selectArea)) {
-            if ((Meteor.canvas.top(sizeObject) >= Meteor.canvas.top(selectArea) && Meteor.canvas.top(sizeObject) <= Meteor.canvas.bottom(selectArea)) || (Meteor.canvas.bottom(sizeObject) >= Meteor.canvas.top(selectArea) && Meteor.canvas.bottom(sizeObject) <= Meteor.canvas.bottom(selectArea))) {
+        if (Meteor.canvas.getLeft(sizeObject) < Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getRight(sizeObject) > Meteor.canvas.getRight(selectArea)) {
+            if ((Meteor.canvas.getTop(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getTop(sizeObject) <= Meteor.canvas.getBottom(selectArea)) || (Meteor.canvas.getBottom(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getBottom(sizeObject) <= Meteor.canvas.getBottom(selectArea))) {
                 return true;
             }
         }
-        if (Meteor.canvas.top(sizeObject) < Meteor.canvas.top(selectArea) && Meteor.canvas.bottom(sizeObject) > Meteor.canvas.bottom(selectArea)) {
-            if ((Meteor.canvas.left(sizeObject) >= Meteor.canvas.left(selectArea) && Meteor.canvas.left(sizeObject) <= Meteor.canvas.right(selectArea)) || (Meteor.canvas.right(sizeObject) >= Meteor.canvas.left(selectArea) && Meteor.canvas.right(sizeObject) <= Meteor.canvas.right(selectArea))) {
+        if (Meteor.canvas.getTop(sizeObject) < Meteor.canvas.getTop(selectArea) && Meteor.canvas.getBottom(sizeObject) > Meteor.canvas.getBottom(selectArea)) {
+            if ((Meteor.canvas.getLeft(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getLeft(sizeObject) <= Meteor.canvas.getRight(selectArea)) || (Meteor.canvas.getRight(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getRight(sizeObject) <= Meteor.canvas.getRight(selectArea))) {
                 return true;
             }
         }
@@ -212,8 +212,8 @@ Meteor.canvas = {
                 selectArea.height = event.pageY - selectArea.top;
 
                 $('#selectArea').css({
-                    left: Meteor.canvas.left(selectArea),
-                    top: Meteor.canvas.top(selectArea),
+                    left: Meteor.canvas.getLeft(selectArea),
+                    top: Meteor.canvas.getTop(selectArea),
                     width: Math.abs(selectArea.width),
                     height: Math.abs(selectArea.height),
                     position: 'absolute',
@@ -231,10 +231,6 @@ Meteor.canvas = {
     },
 
     init: function () {
-
-        Template.canvas.onCreated(function () {
-            //Meteor.subscribe('drawingObjects', Meteor.spitfire.getSessionName());
-        });
 
         Template.canvas.helpers({
                 drawingObjects: function () {
@@ -284,9 +280,7 @@ Meteor.canvas = {
             'mouseup': function (event) {
                 if (event.ctrlKey || event.metaKey) {
                     Meteor.canvas.selectByArea(event);
-
                 }
-
                 Meteor.canvas.setOverlay(false);
                 Meteor.canvas.cleanUpSelectArea();
             }

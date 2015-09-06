@@ -8,6 +8,7 @@ Meteor.text = {
     clearText: function () {
         editText = null;
         editId = null;
+        initId = null;
     },
     editId: function () {
         return editId;
@@ -16,7 +17,7 @@ Meteor.text = {
         return initId;
     },
     isEditing: function () {
-        return editId != null || initId != null;
+        return editId || initId;
     },
     isInputTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.editing) {
@@ -48,7 +49,7 @@ Meteor.text = {
             Meteor.call('updateEditing', {
                 id: drawingObject._id,
                 text: editText,
-                zIndex: Meteor.canvas.maxZIndex() + 1
+                zIndex: Meteor.canvas.getMaxZIndex() + 1
             });
         }
 
@@ -67,7 +68,7 @@ Meteor.text = {
                         text: text,
                         width: textControl.width(),
                         height: textControl.height(),
-                        zIndex: Meteor.canvas.maxZIndex() + 1
+                        zIndex: Meteor.canvas.getMaxZIndex() + 1
                     });
                 }
                 Meteor.text.clearText();
@@ -79,7 +80,7 @@ Meteor.text = {
     },
     initEditing: function (event) {
         //initEditing - when a user creates items where an editId is not immediatly available
-        if (event && !editId) {
+        if (event && !editId && !initId) {
             initId = Meteor.spitfire.uid();
             Meteor.text.setInputTimeout();
             Meteor.call('initEditing', {
@@ -89,7 +90,7 @@ Meteor.text = {
                 top: Meteor.grid.snapTop(event.pageY),
                 width: 200,
                 height: 20,
-                zIndex: Meteor.canvas.maxZIndex() + 1
+                zIndex: Meteor.canvas.getMaxZIndex() + 1
             }, function (error, result) {
                 editId = result;
             });

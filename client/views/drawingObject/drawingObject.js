@@ -150,7 +150,7 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
 
-            var minX = Meteor.canvas.drawingWidth();
+            var minX = Meteor.canvas.getDrawingWidth();
             selectedObjects.forEach(function (object) {
                 minX = Math.min(object.left, minX);
 
@@ -180,7 +180,7 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
 
-            var minY = Meteor.canvas.drawingHeight();
+            var minY = Meteor.canvas.getDrawingHeight();
             selectedObjects.forEach(function (object) {
                 minY = Math.min(object.top, minY);
 
@@ -222,7 +222,7 @@ Meteor.drawingObject = {
                         if (!Meteor.select.isSelected(this._id)) {
                             Meteor.select.clearSelect();
                         }
-                        Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.maxZIndex() + 1);
+                        Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.getMaxZIndex() + 1);
                     }
                 },
                 'drag': function (event) {
@@ -240,13 +240,13 @@ Meteor.drawingObject = {
                 'dragstop': function (event) {
                     if (!event.ctrlKey && !event.metaKey) {
                         Meteor.drawingObject.snapToGrid(this._id);
-                        Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.maxZIndex() + 1, true);
+                        Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.getMaxZIndex() + 1, true);
                     }
                 },
                 'resizestart': function () {
                     sizeId = this._id;
                     Meteor.select.clearSelect();
-                    Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1);
+                    Meteor.drawingObject.resize(this._id, Meteor.canvas.getMaxZIndex() + 1);
                     Meteor.canvas.setOverlay(true, this._id);
                 },
                 'resize': function () {
@@ -255,7 +255,7 @@ Meteor.drawingObject = {
                 'resizestop': function () {
                     sizeId = null;
                     Meteor.canvas.setOverlay(false, this._id);
-                    Meteor.drawingObject.resize(this._id, Meteor.canvas.maxZIndex() + 1, true);
+                    Meteor.drawingObject.resize(this._id, Meteor.canvas.getMaxZIndex() + 1, true);
                 },
 
                 'click .vote, dblclick .vote': function (event) {
