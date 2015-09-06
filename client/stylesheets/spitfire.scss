@@ -312,6 +312,16 @@ a {
   background: white;
 }
 
+#iron-router-progress {
+  background-color:black;
+  box-shadow: none;
+  z-index: 2147483647;
+}
+
+#iron-router-progress.spinner:before {
+  border-color : black;
+}
+
 #overlay {
   position: absolute;
   z-index: 2147483646;
