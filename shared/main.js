@@ -1,6 +1,3 @@
-Meteor.spitfire.init();
-
-
 
 if (Meteor.isClient) {
     Meteor.spitfire.initClient();

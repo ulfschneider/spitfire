@@ -10,7 +10,7 @@ Meteor.grid = {
     getGridParamId: function () {
         return GRID_PARAM_ID;
     },
-    getMinGrid:function() {
+    getMinGrid: function () {
         return MIN_GRID;
     },
     snapLeft: function (left) {
@@ -136,33 +136,37 @@ Meteor.grid = {
     maintainGrid: function () {
         Meteor.grid.clearGrid();
         Meteor.grid.drawGrid();
-    },
-
-    init: function () {
-
-        $(window).on('resize', function () {
-            Meteor.grid.maintainGrid();
-        });
-
-        Template.grid.events({
-                'keyup #xgrid': function (event) {
-                    var x = parseInt(event.target.value);
-                    Meteor.grid.setXGrid(x);
-                },
-                'keyup #ygrid': function (event) {
-                    var y = parseInt(event.target.value);
-                    Meteor.grid.setYGrid(y);
-                }
-            }
-        );
-
-        Template.grid.rendered = function () {
-            var xgrid = $('#xgrid');
-            var ygrid = $('#ygrid');
-            var grid = Meteor.grid.getGrid();
-            xgrid.val(grid.x);
-            ygrid.val(grid.y);
-
-        };
     }
+
+
 };
+
+(function () {
+
+
+    $(window).on('resize', function () {
+       Meteor.grid.maintainGrid();
+    });
+
+    Template.grid.events({
+            'keyup #xgrid': function (event) {
+                var x = parseInt(event.target.value);
+                Meteor.grid.setXGrid(x);
+            },
+            'keyup #ygrid': function (event) {
+                var y = parseInt(event.target.value);
+                Meteor.grid.setYGrid(y);
+            }
+        }
+    );
+
+    Template.grid.rendered = function () {
+        var xgrid = $('#xgrid');
+        var ygrid = $('#ygrid');
+        var grid = Meteor.grid.getGrid();
+        xgrid.val(grid.x);
+        ygrid.val(grid.y);
+
+    };
+
+})();

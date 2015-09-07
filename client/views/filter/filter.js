@@ -23,20 +23,20 @@ Meteor.filter = {
         var filter = Meteor.filter.getFilter();
         var number = parseInt(filter);
         return number ? number : null;
-    },
-
-    init: function () {
-
-        Template.filter.events({
-                'keyup': function (event) {
-                    Meteor.filter.setFilter(event.target.value);
-                }
-            }
-        );
-
-        Template.filter.rendered = function () {
-            var filter = $('#filter');
-            filter.val(Meteor.filter.getFilter());
-        };
     }
 };
+
+(function () {
+
+    Template.filter.events({
+            'keyup': function (event) {
+                Meteor.filter.setFilter(event.target.value);
+            }
+        }
+    );
+
+    Template.filter.rendered = function () {
+        var filter = $('#filter');
+        filter.val(Meteor.filter.getFilter());
+    };
+})();

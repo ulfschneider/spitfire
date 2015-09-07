@@ -40,18 +40,21 @@ Meteor.editor = {
     },
     getHeight: function () {
         return $('#editor').height();
-    },
-    init: function () {
-        $(window).on('scroll', function () {
-            Meteor.editor.maintainBoundaryMarker();
-        });
-        $(window).on('resize', function () {
-            Meteor.editor.maintainBoundaryMarker();
-        });
-
-        Template.editor.rendered = function () {
-            Meteor.editor.maintainBoundaryMarker();
-            Meteor.grid.maintainGrid();
-        }
     }
 };
+
+(function () {
+
+
+    $(window).on('scroll', function () {
+        Meteor.editor.maintainBoundaryMarker();
+    });
+    $(window).on('resize', function () {
+        Meteor.editor.maintainBoundaryMarker();
+    });
+
+    Template.editor.rendered = function () {
+        Meteor.editor.maintainBoundaryMarker();
+        Meteor.grid.maintainGrid();
+    }
+})();

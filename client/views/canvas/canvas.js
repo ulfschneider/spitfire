@@ -5,6 +5,7 @@ var selectArea = null;
 
 Meteor.canvas = {
 
+
     setOverlay: function (overlay, id) {
         if (overlay) {
             $('#overlay').css('display', 'block');
@@ -52,7 +53,6 @@ Meteor.canvas = {
             cleanup = true;
             if (Meteor.text.editId() === drawingObject._id) {
                 Meteor.text.clearText();
-
             }
         }
         if (cleanup) {
@@ -228,65 +228,64 @@ Meteor.canvas = {
                 });
             }
         }
-    },
-
-    init: function () {
-
-        Template.canvas.helpers({
-                drawingObjects: function () {
-                    return Meteor.canvas.getDrawingObjects();
-                }
-            }
-        );
-
-
-        Template.canvas.events({
-            'click #canvas': function (event) {
-                if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.select.clearSelect();
-                }
-                if (Meteor.text.isEditing()) {
-                    Meteor.text.submitText();
-                } else {
-                    Meteor.text.clearText();
-                }
-            },
-            'dblclick #canvas': function (event) {
-                if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.select.clearSelect();
-                }
-                if (Meteor.text.isEditing()) {
-                    Meteor.text.submitText();
-                } else {
-                    Meteor.text.clearText();
-                }
-                if (Meteor.spitfire.hasSessionName()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    Meteor.text.initEditing(event);
-                }
-            },
-            'mousedown #canvas': function (event) {
-                if (event.ctrlKey || event.metaKey) {
-                    selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
-                }
-            },
-            'mousemove': function (event) {
-                if (selectArea && (event.ctrlKey || event.metaKey)) {
-                    Meteor.canvas.setOverlay(true);
-                    Meteor.canvas.selectByArea(event);
-                }
-            },
-            'mouseup': function (event) {
-                if (event.ctrlKey || event.metaKey) {
-                    Meteor.canvas.selectByArea(event);
-                }
-                Meteor.canvas.setOverlay(false);
-                Meteor.canvas.cleanUpSelectArea();
-            }
-        });
-
-
     }
-}
-;
+};
+
+(function () {
+
+    Template.canvas.helpers({
+            drawingObjects: function () {
+                return Meteor.canvas.getDrawingObjects();
+            }
+        }
+    );
+
+
+    Template.canvas.events({
+        'click #canvas': function (event) {
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.select.clearSelect();
+            }
+            if (Meteor.text.isEditing()) {
+                Meteor.text.submitText();
+            } else {
+                Meteor.text.clearText();
+            }
+        },
+        'dblclick #canvas': function (event) {
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.select.clearSelect();
+            }
+            if (Meteor.text.isEditing()) {
+                Meteor.text.submitText();
+            } else {
+                Meteor.text.clearText();
+            }
+            if (Meteor.spitfire.hasSessionName()) {
+                event.preventDefault();
+                event.stopPropagation();
+                Meteor.text.initEditing(event);
+            }
+        },
+        'mousedown #canvas': function (event) {
+            if (event.ctrlKey || event.metaKey) {
+                selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
+            }
+        },
+        'mousemove': function (event) {
+            if (selectArea && (event.ctrlKey || event.metaKey)) {
+                Meteor.canvas.setOverlay(true);
+                Meteor.canvas.selectByArea(event);
+            }
+        },
+        'mouseup': function (event) {
+            if (event.ctrlKey || event.metaKey) {
+                Meteor.canvas.selectByArea(event);
+            }
+            Meteor.canvas.setOverlay(false);
+            Meteor.canvas.cleanUpSelectArea();
+        }
+    });
+
+
+})();

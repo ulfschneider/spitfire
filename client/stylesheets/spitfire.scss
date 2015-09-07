@@ -152,7 +152,7 @@ a {
 
 .drawing-object .text {
   background:lightgoldenrodyellow;
-  background: rgba(250,250,210, .5);
+  background: rgba(250,250,210, .6);
   display: inline-block;
   overflow: hidden;
   border: 2px solid lightgoldenrodyellow;
@@ -166,6 +166,8 @@ a {
   overflow: hidden;
   position: relative;
 }
+
+
 
 .drawing-object:hover .text {
   border: 1px solid black;

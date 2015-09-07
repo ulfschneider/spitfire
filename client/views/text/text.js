@@ -119,75 +119,81 @@ Meteor.text = {
     },
     removeEditing: function (id) {
         Meteor.call('removeEditing', id);
-    },
+    }
 
 
-    init: function () {
+};
 
-        Template.textInput.events({
-                'click, dblclick': function (event) {
-                    event.stopPropagation();
-                },
-                'focusout, blur': function () {
-                    Meteor.text.submitText();
-                },
-                'keypress': function (event) {
-                    if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
-                        if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            Meteor.text.submitText();
-                        }
-                    }
-                },
-                'keyup': function (event) {
-                    if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+
+(function () {
+
+
+
+    Template.textInput.events({
+            'click, dblclick': function (event) {
+                event.stopPropagation();
+            },
+            'focusout, blur': function () {
+                Meteor.text.submitText();
+            },
+            'keypress': function (event) {
+                if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
+                    if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
                         event.preventDefault();
                         event.stopPropagation();
                         Meteor.text.submitText();
-                    } else {
-                        var text = event.target.value;
-                        Meteor.text.setInputTimeout();
-                        if (editText != text) {
-                            editText = text;
-                            Meteor.text.updateEditing();
-                        }
                     }
-
                 }
-            }
-        );
-
-
-        Template.textInput.rendered = function () {
-            var textControl = $('#textinput' + Template.currentData()._id);
-            textControl.val(editText);
-            textControl.autosize();
-            textControl.focus();
-        };
-
-
-        Template.text.helpers({
-            hasSize: function () {
-                return this.width && this.width > 0 && this.height && this.height > 0;
             },
-            votableText: function () {
-                if (this.vote && this.vote > 0) {
-                    return '<span class="vote-count">' + this.vote + '</span>' + this.text;
+            'keyup': function (event) {
+                if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.text.submitText();
                 } else {
-                    return this.text;
+                    var text = event.target.value;
+                    Meteor.text.setInputTimeout();
+                    if (editText != text) {
+                        editText = text;
+                        Meteor.text.updateEditing();
+                    }
                 }
-            },
-            height: function () {
-                return ''; //will set auto height that fits to content
+
             }
-
-        });
-
-
-        Template.text.rendered = function () {
-            Meteor.drawingObject.enableDrag(Template.currentData()._id);
-            Meteor.drawingObject.enableResize(Template.currentData()._id);
         }
+    );
+
+
+    Template.textInput.rendered = function () {
+        var textControl = $('#textinput' + Template.currentData()._id);
+        textControl.val(editText);
+        textControl.autosize();
+        textControl.focus();
+    };
+
+
+    Template.text.helpers({
+        hasSize: function () {
+            return this.width && this.width > 0 && this.height && this.height > 0;
+        },
+        votableText: function () {
+            if (this.vote && this.vote > 0) {
+                return '<span class="vote-count">' + this.vote + '</span>' + this.text;
+            } else {
+                return this.text;
+            }
+        },
+        height: function () {
+            return ''; //will set auto height that fits to content
+        }
+
+    });
+
+
+    Template.text.rendered = function () {
+        Meteor.drawingObject.enableDrag(Template.currentData()._id);
+        Meteor.drawingObject.enableResize(Template.currentData()._id);
     }
-};
+
+
+})();
