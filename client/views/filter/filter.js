@@ -29,6 +29,14 @@ Meteor.filter = {
 (function () {
 
     Template.filter.events({
+            'keypress': function (event) {
+                if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.currentTarget.blur();
+                }
+            },
+
             'keyup': function (event) {
                 Meteor.filter.setFilter(event.target.value);
             }

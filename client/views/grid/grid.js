@@ -145,10 +145,17 @@ Meteor.grid = {
 
 
     $(window).on('resize', function () {
-       Meteor.grid.maintainGrid();
+        Meteor.grid.maintainGrid();
     });
 
     Template.grid.events({
+            'keypress': function (event) {
+                if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.currentTarget.blur();
+                }
+            },
             'keyup #xgrid': function (event) {
                 var x = parseInt(event.target.value);
                 Meteor.grid.setXGrid(x);
