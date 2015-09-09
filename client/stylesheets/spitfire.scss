@@ -167,6 +167,10 @@ a {
   position: relative;
 }
 
+.drawing-object .text img {
+  max-width:100%;
+}
+
 
 
 .drawing-object:hover .text {

@@ -244,6 +244,7 @@ Meteor.canvas = {
 
     Template.canvas.events({
         'click #canvas': function (event) {
+            Meteor.canvas.cleanUpSelectArea();
             if (!event.ctrlKey && !event.metaKey) {
                 Meteor.select.clearSelect();
             }
@@ -254,6 +255,7 @@ Meteor.canvas = {
             }
         },
         'dblclick #canvas': function (event) {
+            Meteor.canvas.cleanUpSelectArea();
             if (!event.ctrlKey && !event.metaKey) {
                 Meteor.select.clearSelect();
             }
@@ -269,6 +271,7 @@ Meteor.canvas = {
             }
         },
         'mousedown #canvas': function (event) {
+            Meteor.canvas.cleanUpSelectArea();
             if (event.ctrlKey || event.metaKey) {
                 selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
             }
