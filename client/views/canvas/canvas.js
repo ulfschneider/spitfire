@@ -36,6 +36,7 @@ Meteor.canvas = {
     cleanUp: function (drawingObject) {
         var cleanup = false;
         var cleanupData = {id: drawingObject._id};
+
         if (Meteor.drawingObject.isDragTimeout(drawingObject)) {
             cleanupData.dragging = null;
             cleanup = true;

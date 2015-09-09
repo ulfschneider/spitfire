@@ -80,6 +80,9 @@ Meteor.drawingObject = {
     },
     updatePosition: function (id, persist, zIndex, stop) {
 
+        if (persist || stop) {
+            Meteor.drawingObject.snapToGrid(id);
+        }
         var position = $('#draggable' + id).position();
         if (position) {
 
