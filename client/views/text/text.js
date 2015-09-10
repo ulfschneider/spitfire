@@ -19,6 +19,13 @@ Meteor.text = {
     isEditing: function () {
         return editId || initId;
     },
+    endEditing:function() {
+        if (Meteor.text.isEditing()) {
+            Meteor.text.submitText();
+        } else {
+            Meteor.text.clearText();
+        }
+    },
     isInputTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.editing) {
             var now = new Date();

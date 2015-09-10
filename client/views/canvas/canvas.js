@@ -243,23 +243,24 @@ Meteor.canvas = {
 
 
     Template.canvas.events({
+        'click':function(event) {
+            Meteor.canvas.cleanUpSelectArea();
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.select.clearSelect();
+            }
+            Meteor.text.endEditing();
+        },
         'dblclick': function (event) {
             if (Meteor.spitfire.hasSessionName()) {
                 event.preventDefault();
                 event.stopPropagation();
+                Meteor.text.endEditing();
                 Meteor.text.initEditing(event);
             }
         },
         'mousedown': function (event) {
             Meteor.canvas.cleanUpSelectArea();
-            if (!event.ctrlKey && !event.metaKey) {
-                Meteor.select.clearSelect();
-            }
-            if (Meteor.text.isEditing()) {
-                Meteor.text.submitText();
-            } else {
-                Meteor.text.clearText();
-            }
+            Meteor.text.endEditing();
             if (event.ctrlKey || event.metaKey) {
                 selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
             }
