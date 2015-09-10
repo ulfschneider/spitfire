@@ -119,6 +119,12 @@ Meteor.text = {
     },
     removeEditing: function (id) {
         Meteor.call('removeEditing', id);
+    },
+    blankTargets: function (id) {
+        var childLinks = $('#sizeable' + id + ' a');
+        for (var i = 0; i < childLinks.length; i++) {
+            $(childLinks[i]).attr('target', '_blank');
+        }
     }
 
 
@@ -126,7 +132,6 @@ Meteor.text = {
 
 
 (function () {
-
 
 
     Template.textInput.events({
@@ -193,6 +198,7 @@ Meteor.text = {
     Template.text.rendered = function () {
         Meteor.drawingObject.enableDrag(Template.currentData()._id);
         Meteor.drawingObject.enableResize(Template.currentData()._id);
+        Meteor.text.blankTargets(Template.currentData()._id);
     }
 
 
