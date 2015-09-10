@@ -1,11 +1,10 @@
 <template name="canvas">
-
+    <div id="overlay"></div>
     <div id="canvas">
         <div id="selectArea"></div>
         {{#each drawingObjects}}
             {{> drawingObject}}
         {{/each}}
     </div>
-    <div id="overlay"></div>
 
 </template>
