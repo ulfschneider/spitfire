@@ -1,5 +1,7 @@
 $line-height: 20px;
 $font-size: 14px;
+$text-color: #111;
+$background-color: #fffffa;
 
 * {
   font-family: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
@@ -22,7 +24,7 @@ header {
   left: 0;
   top: 0;
   border: 0;
-  background: white;
+  background: $background-color;
   z-index: 2147483646;
   display: inline-block;
 
@@ -60,10 +62,10 @@ kbd {
 textarea {
   position: absolute;
   z-index: 2147483646;
-  border: 2px solid black;
+  border: 2px solid $text-color;
   padding: 1px;
   margin: 0;
-  color: black;
+  color: $text-color;
   min-width: $line-height;
   min-height: $line-height;
   height: $line-height;
@@ -76,7 +78,7 @@ textarea {
 }
 
 #filter:hover, #filter:focus, #xgrid:hover, #xgrid:focus, #ygrid:hover, #ygrid:focus {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $text-color;
 }
 
 #filter {
@@ -93,9 +95,9 @@ textarea {
 }
 
 .aboutLink {
-  text-decoration: none;
-  background: black;
-  color: white;
+  background-image:none;
+  background: $text-color;
+  color: $background-color;
   padding: 4px;
 }
 
@@ -110,13 +112,25 @@ textarea {
   line-height: 1.8em;
 }
 
+
 a {
-  text-decoration: underline;
-  color: black;
+  @extend %linkstyle;
+}
+
+%linkstyle {
+  color: %text-color;
+  text-decoration: none;
+  outline: none;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(87%, transparent), color-stop(92%, $text-color), color-stop(95%, #fff), color-stop(84%, transparent));
+  background-image: -webkit-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  background-image: -moz-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  background-image: -o-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  background-image: linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+
 }
 
 ::selection {
-  color: white;
+  color: $background-color;
   background: cornflowerblue;
 }
 
@@ -127,11 +141,11 @@ a {
 }
 
 .ui-icon-gripsmall-diagonal-se {
-  background: black;
+  background: $text-color;
 }
 
 .sizing .ui-icon-gripsmall-diagonal-se {
-  background: white;
+  background: $background-color;
 }
 
 .dragging .ui-icon-gripsmall-diagonal-se, .editing .ui-icon-gripsmall-diagonal-se {
@@ -174,77 +188,77 @@ a {
 
 
 .drawing-object:hover .text {
-  border: 1px solid black;
+  border: 1px solid $text-color;
   padding: 2px;
 }
 
 .drawing-object:hover .text a:hover {
-  color: white;
-  background: black;
+  color: $background-color;
+  background: $text-color;
 }
 
 .editing .text, .editing:hover .text {
-  color: white;
-  background: black;
+  color: $background-color;
+  background: $text-color;
   -webkit-animation: glow 1500ms infinite;
   -moz-animation: glow 1500ms infinite;
   animation: glow 1500ms infinite;
 }
 
 .selected .text, .selected:hover .text {
-  border: 2px solid black;
+  border: 2px solid $text-color;
   padding: 1px;
 }
 
 .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
-  color: white;
-  background: black;
-  border: 2px solid black;
+  color: $background-color;
+  background: $text-color;
+  border: 2px solid $text-color;
   padding: 1px;
 }
 
 .editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
-  color: white;
+  color: $background-color;
 }
 
 .editing:hover .text a:hover, .dragging:hover .text a:hover, .sizing:hover .text a:hover {
-  color: black;
-  background: white;
+  color: $text-color;
+  background: $background-color;
 }
 
 @-moz-keyframes glow {
   0% {
-    border: 2px solid black;
+    border: 2px solid $text-color;
   }
   50% {
-    border: 2px solid white;
+    border: 2px solid $background-color;
   }
   100% {
-    border: 2px solid black;
+    border: 2px solid $text-color;
   }
 }
 
 @-webkit-keyframes glow {
   0% {
-    border: 2px solid black;
+    border: 2px solid $text-color;
   }
   50% {
-    border: 2px solid white;
+    border: 2px solid $background-color;
   }
   100% {
-    border: 2px solid black;
+    border: 2px solid $text-color;
   }
 }
 
 @keyframes glow {
   0% {
-    border: 2px solid black;
+    border: 2px solid $text-color;
   }
   50% {
-    border: 2px solid white;
+    border: 2px solid $background-color;
   }
   100% {
-    border: 2px solid black;
+    border: 2px solid $text-color;
   }
 }
 
@@ -264,28 +278,29 @@ a {
   width: $line-height;
   text-align: center;
   text-decoration: none;
+  background-image:none;
   display: inline-block;
 }
 
 .controls a.vote {
   margin-right: 5px;
-  color: black;
+  color: $text-color;
   float: left;
 }
 
 .controls a.vote:hover {
-  color: white;
-  background: black;
+  color: $background-color;
+  background: $text-color;
 }
 
 .controls a.down-vote {
-  color: black;
+  color: $text-color;
   float: left;
 }
 
 .controls a.down-vote:hover {
-  color: white;
-  background: black;
+  color: $background-color;
+  background: $text-color;
 }
 
 .controls a.delete {
@@ -304,8 +319,8 @@ a {
 }
 
 .vote-count {
-  background: black;
-  color: white;
+  background: $text-color;
+  color: $background-color;
   display: inline-block;
   position: relative;
   min-width: $line-height;
@@ -315,18 +330,18 @@ a {
 }
 
 .editing .vote-count, .sizing .vote-count, .dragging .vote-count {
-  color: black;
-  background: white;
+  color: $text-color;
+  background: $background-color;
 }
 
 #iron-router-progress {
-  background-color:black;
+  background-color:$text-color;
   box-shadow: none;
   z-index: 2147483647;
 }
 
 #iron-router-progress.spinner:before {
-  border-color : black;
+  border-color : $text-color;
 }
 
 #overlay {
