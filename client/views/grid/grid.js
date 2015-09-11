@@ -1,5 +1,6 @@
 var GRID_PARAM_ID = ',grid:';
 var MIN_GRID = 10;
+var GRID_INDENT = 8; //same indentation as header
 
 
 Meteor.grid = {
@@ -19,7 +20,7 @@ Meteor.grid = {
             var factor = Math.floor(Math.max(left, 0) / grid.x);
             var rem = left % grid.x;
             var above = grid.x - rem;
-            return (rem > above ? (factor + 1) * grid.x : factor * grid.x) + 1;
+            return (rem > above ? (factor + 1) * grid.x : factor * grid.x) + GRID_INDENT;
         }
         return left;
     },
@@ -29,7 +30,7 @@ Meteor.grid = {
             var factor = Math.floor(Math.max(top, 0) / grid.y);
             var rem = top % grid.y;
             var above = grid.y - rem;
-            return (rem > above ? (factor + 1) * grid.y : factor * grid.y) + 1;
+            return (rem > above ? (factor + 1) * grid.y : factor * grid.y) + GRID_INDENT;
 
         }
         return top;
@@ -114,7 +115,7 @@ Meteor.grid = {
             var eHeight = Meteor.editor.getHeight();
 
             if (grid.x >= MIN_GRID) {
-                var col = 1;
+                var col = GRID_INDENT;
                 while (col < eWidth) {
                     $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;border-left:1px dashed lightgray;"></div>');
                     col = col + grid.x;
