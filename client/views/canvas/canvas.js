@@ -100,9 +100,9 @@ Meteor.canvas = {
             return DrawingObjects.find({
                     $or: query
                 }
-            ).fetch(); //fetch all, because contents will possibly be manipulated
+            );
         } else {
-            return DrawingObjects.find().fetch(); //fetch all, because contents will possibly be manipulated
+            return DrawingObjects.find();
 
         }
     },
@@ -137,6 +137,7 @@ Meteor.canvas = {
 
 
         });
+
 
         Meteor.editor.maintainBoundaryMarker();
 
