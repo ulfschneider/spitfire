@@ -1,0 +1,14 @@
+<template name="sessions">
+    <div class="sessionData">
+        <header><b class="sessionsHeading">{{appTitle}} sessions</b>{{> loginButtons}}</header>
+        <ul>
+            {{#each sessionData}}
+                <li>{{> session}}</li>
+            {{/each}}
+        </ul>
+    </div>
+</template>
+
+<template name="session">
+    <a href="/{{sessionName}}" target="_blank">{{sessionName}}</a> [{{modifiedAt}}]
+</template>

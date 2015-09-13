@@ -40,7 +40,7 @@ Meteor.grid = {
         var grid = {x: null, y: null};
         if (url) {
             var start = url.toLowerCase().indexOf(GRID_PARAM_ID);
-            if (start > 0) {
+            if (start >= 0) {
                 var gridstring = url.toLowerCase().substring(start + GRID_PARAM_ID.length);
                 var end = gridstring.indexOf(',');
                 if (end > 0) {

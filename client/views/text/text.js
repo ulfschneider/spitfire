@@ -72,6 +72,7 @@ Meteor.text = {
                 } else {
                     Meteor.call('update', {
                         id: editId,
+                        sessionName: Meteor.spitfire.getSessionName(),
                         text: text,
                         width: textControl.width(),
                         height: textControl.height(),

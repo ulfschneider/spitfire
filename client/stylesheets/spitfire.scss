@@ -2,9 +2,10 @@ $line-height: 20px;
 $font-size: 14px;
 $text-color: #111;
 $background-color: #fff;
+$font: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
 
 * {
-  font-family: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
+  font-family: $font;
   font-size: $font-size;
   outline: none;
   line-height: $line-height;
@@ -89,7 +90,7 @@ textarea {
   width: 3em;
 }
 
-.filter, .grid {
+.filter, .grid, #login-buttons, .sessionsHeading {
   display: inline-block;
   margin-right: 2em;
 }
@@ -98,7 +99,11 @@ textarea {
   background-image:none;
   background: $text-color;
   color: $background-color;
-  padding: 4px;
+  width:$line-height;
+  height: $line-height;
+  display:inline-block;
+  text-align:center;
+  vertical-align:middle;
 }
 
 .about {
@@ -388,5 +393,46 @@ a {
   position: absolute;
   display: none;
 }
+
+.sessionData {
+  padding:8px;
+}
+
+.sessionData ul {
+  list-style-type: none;
+  padding:0;
+  padding-top: 2*$line-height;
+  margin:0;
+}
+
+.sessionData li {
+  margin-bottom:8px;
+}
+
+.accounts-dialog, .accounts-dialog * {
+  font-family: $font;
+  font-size: $font-size;
+  border-radius:0;
+}
+
+
+#login-buttons a {
+  text-decoration:none;
+  background-image:none;
+}
+
+#login-buttons input[type=text], #login-buttons input[type=password], #login-buttons input[type=email] {
+  border:1px solid lightgray;
+}
+
+
+#login-buttons .login-button, #login-buttons .login-button:active, #login-buttons .login-button:hover {
+  background-color:$text-color;
+  color:$background-color;
+  font-family: $font;
+  font-size: $font-size;
+  border:none;
+}
+
 
 

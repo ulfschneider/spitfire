@@ -53,6 +53,12 @@ Meteor.editor = {
         Meteor.editor.maintainBoundaryMarker();
     });
 
+    Template.editor.helpers({
+        isAuth:function() {
+            return Meteor.auth.isAuth();
+        }
+    });
+
     Template.editor.rendered = function () {
         Meteor.editor.maintainBoundaryMarker();
         Meteor.grid.maintainGrid();
