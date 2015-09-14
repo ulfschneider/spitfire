@@ -13,9 +13,8 @@
     <dl>
         <dt>{{modifiedAt}}</dt>
         <dd>
-            <p><a href="/{{sessionName}}" target="_blank">{{sessionName}}</a></p>
-
-            {{#if user}}<p>{{user}}</p>{{/if}}
+            <a href="/{{sessionName}}" target="_blank">{{sessionName}}</a>
+            {{#if user}} by {{user}}{{/if}}
         </dd>
     </dl>
 </template>
