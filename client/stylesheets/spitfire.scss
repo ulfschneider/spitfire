@@ -396,17 +396,20 @@ a {
 
 .sessionData {
   padding:8px;
-}
-
-.sessionData ul {
-  list-style-type: none;
-  padding:0;
   padding-top: 2*$line-height;
-  margin:0;
 }
 
-.sessionData li {
+.sessionData dl {
   margin-bottom:8px;
+}
+
+.sessionData dt {
+  float:left;
+  width:13em
+}
+
+.sessionData dd {
+  margin-left:13em;
 }
 
 .accounts-dialog, .accounts-dialog * {

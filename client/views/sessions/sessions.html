@@ -1,14 +1,17 @@
 <template name="sessions">
     <div class="sessionData">
-        <header><b class="sessionsHeading">{{appTitle}} sessions</b>{{> loginButtons}}</header>
-        <ul>
-            {{#each sessionData}}
-                <li>{{> session}}</li>
-            {{/each}}
-        </ul>
+        <header><b class="sessionsHeading">{{appTitle}} sessions</b> {{> loginButtons}}</header>
+
+        {{#each sessionData}}
+            {{> session}}
+        {{/each}}
+
     </div>
 </template>
 
 <template name="session">
-    {{modifiedAt}} <a href="/{{sessionName}}" target="_blank">{{sessionName}}</a>
+    <dl>
+        <dt>{{modifiedAt}}</dt>
+        <dd><a href="/{{sessionName}}" target="_blank">{{sessionName}}</a></dd>
+    </dl>
 </template>
