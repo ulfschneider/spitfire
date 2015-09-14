@@ -11,6 +11,9 @@
         sessionName: function () {
             return this.sessionName;
         },
+        user:function() {
+            return this.user;
+        },
         modifiedAt: function () {
             return moment(this.modifiedAt).calendar();
         }
