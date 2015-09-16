@@ -60,6 +60,7 @@ Meteor.editor = {
     });
 
     Template.editor.rendered = function () {
+        document.title = Meteor.spitfire.documentTitle();
         Meteor.editor.maintainBoundaryMarker();
         Meteor.grid.maintainGrid();
     }

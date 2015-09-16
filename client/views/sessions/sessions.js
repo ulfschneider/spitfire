@@ -11,13 +11,17 @@
         sessionName: function () {
             return this.sessionName;
         },
-        user:function() {
+        user: function () {
             return this.user;
         },
         modifiedAt: function () {
             return moment(this.modifiedAt).calendar();
         }
 
-    })
+    });
+
+    Template.sessions.rendered = function () {
+        document.title = 'Sessions';
+    };
 
 })();
