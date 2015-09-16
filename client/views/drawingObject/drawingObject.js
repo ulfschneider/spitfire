@@ -49,26 +49,24 @@ Meteor.drawingObject = {
             });
         }
     },
-    resize: function (id, zIndex, stop) {
-        if (id) {
-            var sizeable = $('#sizeable' + id);
+    resize: function (drawingObject, zIndex, stop) {
+        if (drawingObject) {
+            var sizeable = $('#sizeable' + drawingObject._id);
             if (sizeable) {
                 var width = sizeable.width();
                 var height = sizeable.height();
+                drawingObject.width = width;
+                drawingObject.height = height;
+                drawingObject.zIndex = zIndex;
+                drawingObject.sizing = stop ? null : new Date();
 
-                Meteor.call('resize', {
-                    id: id,
-                    width: width,
-                    height: height,
-                    zIndex: zIndex,
-                    sizing: stop ? null : new Date()
-                });
+                Meteor.call('resize', drawingObject);
 
             }
         }
     },
-    snapToGrid: function (id) {
-        var draggable = $('#draggable' + id);
+    snapToGrid: function (drawingObject) {
+        var draggable = $('#draggable' + drawingObject._id);
         if (draggable) {
             var position = draggable.position();
             if (position) {
@@ -78,48 +76,46 @@ Meteor.drawingObject = {
             }
         }
     },
-    updatePosition: function (id, persist, zIndex, stop) {
+    updatePosition: function (drawingObject, persist, zIndex, stop) {
 
         if (persist || stop) {
-            Meteor.drawingObject.snapToGrid(id);
+            Meteor.drawingObject.snapToGrid(drawingObject);
         }
-        var position = $('#draggable' + id).position();
+        var position = $('#draggable' + drawingObject._id).position();
         if (position) {
 
             if (Meteor.select.isSelected()) {
                 //update the entire selection
-                var current = DrawingObjects.findOne({_id: id});
-                if (current) {
-                    var xOffset = position.left - current.left;
-                    var yOffset = position.top - current.top;
 
-                    var selectedObjects = Meteor.select.getSelectedObjects();
-                    selectedObjects.forEach(function (object) {
-                        $('#draggable' + object._id).css({
-                            left: object.left + xOffset,
-                            top: object.top + yOffset
-                        });
-                        if (persist || stop) {
-                            Meteor.call('updatePosition', {
-                                id: object._id,
-                                left: object.left + xOffset,
-                                top: object.top + yOffset,
-                                zIndex: zIndex,
-                                dragging: stop ? null : new Date()
-                            });
-                        }
+
+                var xOffset = position.left - drawingObject.left;
+                var yOffset = position.top - drawingObject.top;
+
+                var selectedObjects = Meteor.select.getSelectedObjects();
+                selectedObjects.forEach(function (selectedObject) {
+                    $('#draggable' + selectedObject._id).css({
+                        left: selectedObject.left + xOffset,
+                        top: selectedObject.top + yOffset
                     });
-                }
+
+                    selectedObject.left = selectedObject.left + xOffset;
+                    selectedObject.top = selectedObject.top + yOffset;
+                    selectedObject.zIndex = zIndex;
+                    selectedObject.dragging = stop ? null : new Date();
+
+                    if (persist || stop) {
+                        Meteor.call('updatePosition', selectedObject);
+                    }
+                });
+
             } else {
                 //update only one
                 if (persist || stop) {
-                    Meteor.call('updatePosition', {
-                        id: id,
-                        left: position.left,
-                        top: position.top,
-                        zIndex: zIndex,
-                        dragging: stop ? null : new Date()
-                    });
+                    drawingObject.left = position.left;
+                    drawingObject.top = position.top;
+                    drawingObject.zIndex = zIndex;
+                    drawingObject.dragging = stop ? null : new Date();
+                    Meteor.call('updatePosition', drawingObject);
                 }
             }
 
@@ -127,35 +123,33 @@ Meteor.drawingObject = {
         }
 
     },
-    setPosition: function (id, left, top, zIndex) {
-        Meteor.call('updatePosition', {
-            id: id,
-            left: left,
-            top: top,
-            zIndex: zIndex
-        });
+    setPosition: function (drawingObject, left, top, zIndex) {
+        drawingObject.left = left;
+        drawingObject.top = top;
+        drawingObject.zIndex = zIndex;
+        Meteor.call('updatePosition', drawingObject);
     },
-    remove: function (id) {
-        Meteor.call('remove', id);
+    remove: function (drawingObject) {
+        Meteor.call('remove', drawingObject);
     },
-    vote: function (id) {
-        Meteor.call('vote', id);
+    vote: function (drawingObject) {
+        Meteor.call('vote', drawingObject);
     },
-    downVote: function (id) {
-        Meteor.call('downVote', id);
+    downVote: function (drawingObject) {
+        Meteor.call('downVote', drawingObject);
     },
     alignLeft: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
         if (selectedObjects) {
 
             var minX = Meteor.canvas.getDrawingWidth();
-            selectedObjects.forEach(function (object) {
-                minX = Math.min(object.left, minX);
+            selectedObjects.forEach(function (selectedObject) {
+                minX = Math.min(selectedObject.left, minX);
 
             });
 
-            selectedObjects.forEach(function (object) {
-                Meteor.drawingObject.setPosition(object._id, minX, object.top);
+            selectedObjects.forEach(function (selectedObject) {
+                Meteor.drawingObject.setPosition(selectedObject, minX, selectedObject.top);
             });
         }
     },
@@ -164,13 +158,13 @@ Meteor.drawingObject = {
         if (selectedObjects) {
 
             var maxX = 0;
-            selectedObjects.forEach(function (object) {
-                maxX = Math.max(object.left + object.width, maxX);
+            selectedObjects.forEach(function (selectedObject) {
+                maxX = Math.max(selectedObject.left + selectedObject.width, maxX);
 
             });
 
-            selectedObjects.forEach(function (object) {
-                Meteor.drawingObject.setPosition(object._id, maxX - object.width, object.top);
+            selectedObjects.forEach(function (selectedObject) {
+                Meteor.drawingObject.setPosition(selectedObject, maxX - selectedObject.width, selectedObject.top);
             });
         }
     },
@@ -179,13 +173,13 @@ Meteor.drawingObject = {
         if (selectedObjects) {
 
             var minY = Meteor.canvas.getDrawingHeight();
-            selectedObjects.forEach(function (object) {
-                minY = Math.min(object.top, minY);
+            selectedObjects.forEach(function (selectedObject) {
+                minY = Math.min(selectedObject.top, minY);
 
             });
 
-            selectedObjects.forEach(function (object) {
-                Meteor.drawingObject.setPosition(object._id, object.left, minY);
+            selectedObjects.forEach(function (selectedObject) {
+                Meteor.drawingObject.setPosition(selectedObject, selectedObject.left, minY);
             });
         }
     },
@@ -194,15 +188,15 @@ Meteor.drawingObject = {
         if (selectedObjects) {
 
             var maxY = 0;
-            selectedObjects.forEach(function (object) {
-                var uiObject = $('#draggable' + object._id);
-                maxY = Math.max(object.top + uiObject.height(), maxY);
+            selectedObjects.forEach(function (selectedObject) {
+                var uiObject = $('#draggable' + selectedObject._id);
+                maxY = Math.max(selectedObject.top + uiObject.height(), maxY);
 
             });
 
-            selectedObjects.forEach(function (object) {
-                var uiObject = $('#draggable' + object._id);
-                Meteor.drawingObject.setPosition(object._id, object.left, maxY - uiObject.height());
+            selectedObjects.forEach(function (selectedObject) {
+                var uiObject = $('#draggable' + selectedObject._id);
+                Meteor.drawingObject.setPosition(selectedObject, selectedObject.left, maxY - uiObject.height());
             });
         }
     }
@@ -224,7 +218,7 @@ Meteor.drawingObject = {
                     if (!Meteor.select.isSelected(this._id)) {
                         Meteor.select.clearSelect();
                     }
-                    Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.getMaxZIndex() + 1);
+                    Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1);
                 }
             },
             'drag': function (event) {
@@ -236,19 +230,19 @@ Meteor.drawingObject = {
                     if (event.pageY + this.height > e.height()) {
                         e.height(e.height() + 100);
                     }
-                    Meteor.drawingObject.updatePosition(this._id, false); //intentionally not changing z-index and not persisting
+                    Meteor.drawingObject.updatePosition(this, false); //intentionally not changing z-index and not persisting
                 }
             },
             'dragstop': function (event) {
                 if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.drawingObject.snapToGrid(this._id);
-                    Meteor.drawingObject.updatePosition(this._id, true, Meteor.canvas.getMaxZIndex() + 1, true);
+                    Meteor.drawingObject.snapToGrid(this);
+                    Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1, true);
                 }
             },
             'resizestart': function () {
                 sizeId = this._id;
                 Meteor.select.clearSelect();
-                Meteor.drawingObject.resize(this._id, Meteor.canvas.getMaxZIndex() + 1);
+                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
             },
             'resize': function () {
@@ -257,18 +251,18 @@ Meteor.drawingObject = {
             'resizestop': function () {
                 sizeId = null;
                 Meteor.canvas.setOverlay(false, this._id);
-                Meteor.drawingObject.resize(this._id, Meteor.canvas.getMaxZIndex() + 1, true);
+                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
             },
 
             'click .vote, dblclick .vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
-                Meteor.drawingObject.vote(this._id);
+                Meteor.drawingObject.vote(this);
             },
             'click .down-vote, dblclick .down-vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
-                Meteor.drawingObject.downVote(this._id);
+                Meteor.drawingObject.downVote(this);
             },
             'click .sizeable': function (event) {
                 if (event.metaKey || event.ctrlKey) {
@@ -285,7 +279,7 @@ Meteor.drawingObject = {
             'click .delete, dblclick .delete': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
-                Meteor.drawingObject.remove(this._id);
+                Meteor.drawingObject.remove(this);
             }
         }
     );

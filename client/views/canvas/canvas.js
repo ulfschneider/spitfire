@@ -58,7 +58,7 @@ Meteor.canvas = {
         }
         if (cleanup) {
             if (!drawingObject.text) {
-                Meteor.call('remove', drawingObject._id);
+                Meteor.call('remove', drawingObject);
             } else {
                 Meteor.call('cleanUp', cleanupData);
             }
@@ -123,17 +123,17 @@ Meteor.canvas = {
         }
 
 
-        filteredObjects.forEach(function (object) {
+        filteredObjects.forEach(function (filteredObject) {
 
             if (!editOrInitFound) {
-                if (initId && initId === object.initId) {
+                if (initId && initId === filteredObject.initId) {
                     editOrInitFound = true;
-                } else if (editId === object._id) {
+                } else if (editId === filteredObject._id) {
                     editOrInitFound = true;
                 }
             }
-            Meteor.canvas.maxSizeAndZIndex(object);
-            Meteor.canvas.cleanUp(object);
+            Meteor.canvas.maxSizeAndZIndex(filteredObject);
+            Meteor.canvas.cleanUp(filteredObject);
 
 
         });
@@ -223,9 +223,9 @@ Meteor.canvas = {
                 });
 
 
-                Meteor.canvas.getDrawingObjects().forEach(function (object) {
-                    if (Meteor.canvas.touchedBySelectArea(object._id)) {
-                        Meteor.select.select(object._id);
+                Meteor.canvas.getDrawingObjects().forEach(function (drawingObject) {
+                    if (Meteor.canvas.touchedBySelectArea(drawingObject._id)) {
+                        Meteor.select.select(drawingObject._id);
                     }
                 });
             }

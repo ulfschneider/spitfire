@@ -122,7 +122,7 @@ Meteor.grid = {
                 }
             }
             if (grid.y >= MIN_GRID) {
-                var row = 1;
+                var row = GRID_INDENT;
                 while (row < eHeight) {
                     $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;border-top:1px dashed lightgray;"></div>');
                     row = row + grid.y;
