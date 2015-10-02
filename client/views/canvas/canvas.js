@@ -244,7 +244,7 @@ Meteor.canvas = {
 
 
     Template.canvas.events({
-        'click':function(event) {
+        'click': function (event) {
             Meteor.canvas.cleanUpSelectArea();
             if (!event.ctrlKey && !event.metaKey) {
                 Meteor.select.clearSelect();
@@ -256,7 +256,9 @@ Meteor.canvas = {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.text.endEditing();
-                Meteor.text.initEditing(event);
+                if (!event.ctrlKey && !event.metaKey) {
+                    Meteor.text.initEditing(event);
+                }
             }
         },
         'mousedown': function (event) {

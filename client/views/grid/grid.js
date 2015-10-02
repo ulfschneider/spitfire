@@ -153,17 +153,22 @@ Meteor.grid = {
             'keypress': function (event) {
                 if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                     event.preventDefault();
-                    event.stopPropagation();
                     event.currentTarget.blur();
                 }
+                event.stopPropagation();
             },
             'keyup #xgrid': function (event) {
                 var x = parseInt(event.target.value);
                 Meteor.grid.setXGrid(x);
+                event.stopPropagation();
             },
             'keyup #ygrid': function (event) {
                 var y = parseInt(event.target.value);
                 Meteor.grid.setYGrid(y);
+                event.stopPropagation();
+            },
+            'keydown':function(event) {
+                event.stopPropagation();
             }
         }
     );

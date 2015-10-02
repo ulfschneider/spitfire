@@ -44,8 +44,6 @@ Meteor.editor = {
 };
 
 (function () {
-
-
     $(window).on('scroll', function () {
         Meteor.editor.maintainBoundaryMarker();
     });
@@ -53,8 +51,21 @@ Meteor.editor = {
         Meteor.editor.maintainBoundaryMarker();
     });
 
+    $(window).on('keydown', function (event) {
+        if (event.which && event.which === 90 ||
+            event.keyCode && event.keyCode === 90) {
+            if (event.ctrlKey || event.metaKey) {
+
+                Meteor.command.undo();
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }
+
+    });
+
     Template.editor.helpers({
-        isAuth:function() {
+        isAuth: function () {
             return Meteor.auth.isAuth();
         }
     });

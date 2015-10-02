@@ -8,7 +8,6 @@ Meteor.drawingObject = {
         if (drawingObject && drawingObject.dragging) {
             var now = new Date();
             return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
-            return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
         } else {
             return false;
         }
@@ -41,11 +40,11 @@ Meteor.drawingObject = {
     enableResize: function (id) {
         if (id) {
             $('#sizeable' + id).resizable({
-                minHeight: 22, minWidth: 22, autoHide: true
+                minHeight: 22, minWidth: 22, autoHide: true, handles: "e, se"
             });
         } else {
             $('.sizeable').resizable({
-                minHeight: 22, minWidth: 22, autoHide: true
+                minHeight: 22, minWidth: 22, autoHide: true, handles: "e, se"
             });
         }
     },
@@ -130,7 +129,7 @@ Meteor.drawingObject = {
         Meteor.call('updatePosition', drawingObject);
     },
     remove: function (drawingObject) {
-        Meteor.call('remove', drawingObject);
+        Meteor.command.remove(drawingObject);
     },
     vote: function (drawingObject) {
         Meteor.call('vote', drawingObject);

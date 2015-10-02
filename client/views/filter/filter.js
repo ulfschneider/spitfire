@@ -32,13 +32,17 @@ Meteor.filter = {
             'keypress': function (event) {
                 if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                     event.preventDefault();
-                    event.stopPropagation();
                     event.currentTarget.blur();
                 }
+                event.stopPropagation();
             },
 
             'keyup': function (event) {
                 Meteor.filter.setFilter(event.target.value);
+                event.stopPropagation();
+            },
+            'keydown':function(event) {
+                event.stopPropagation();
             }
         }
     );

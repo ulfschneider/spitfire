@@ -3,12 +3,14 @@ var editId;
 var initId;
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
 var inputTimeoutId;
+var before;
 
 Meteor.text = {
     clearText: function () {
         editText = null;
         editId = null;
         initId = null;
+        before = null;
         Meteor.text.cleanUpInputTimeout();
     },
     editId: function () {
@@ -55,6 +57,7 @@ Meteor.text = {
     ,
     editText: function (drawingObject) {
         if (!editId) {
+            before = JSON.parse(JSON.stringify(drawingObject));
             editText = drawingObject.text;
             editId = drawingObject._id;
             Meteor.text.setInputTimeout();
@@ -71,9 +74,13 @@ Meteor.text = {
             if (textControl) {
                 var text = textControl.val();
                 if (!text) {
-                    Meteor.call('removeById', editId);
+                    if (before) {
+                        Meteor.command.remove(before);
+                    } else {
+                        Meteor.call('removeById', editId);
+                    }
                 } else {
-                    Meteor.call('update', {
+                    Meteor.command.submit(before, {
                         _id: editId,
                         sessionName: Meteor.spitfire.getSessionName(),
                         text: text,
@@ -146,22 +153,20 @@ Meteor.text = {
 
 (function () {
     Template.textInput.events({
-            'click, dblclick, mousedown': function () {
+            'click, dblclick, mousedown': function (event) {
                 event.stopPropagation();
             },
             'keypress': function (event) {
                 if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                     if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
-                        event.preventDefault();
-                        event.stopPropagation();
                         Meteor.text.submitText();
+                        event.preventDefault();
                     }
                 }
+                event.stopPropagation();
             },
             'keyup': function (event) {
                 if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
-                    event.preventDefault();
-                    event.stopPropagation();
                     Meteor.text.submitText();
                 } else {
                     var text = event.target.value;
@@ -171,8 +176,13 @@ Meteor.text = {
                         Meteor.text.updateEditing();
                     }
                 }
-
+                event.preventDefault();
+                event.stopPropagation();
             },
+            'keydown':function(event) {
+                event.stopPropagation();
+            },
+
             'focusout, blur': function () {
                 Meteor.text.submitText();
             }
