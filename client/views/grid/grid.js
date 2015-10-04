@@ -88,7 +88,9 @@ Meteor.grid = {
         return Session.get('grid');
     },
     setGrid: function (grid) {
-        Session.set('grid', grid);
+        if (Meteor.grid.getGrid() !== grid) {
+            Session.set('grid', grid);
+        }
     },
     setXGrid: function (x) {
         var grid = Meteor.grid.getGrid();
@@ -167,7 +169,7 @@ Meteor.grid = {
                 Meteor.grid.setYGrid(y);
                 event.stopPropagation();
             },
-            'keydown':function(event) {
+            'keydown': function (event) {
                 event.stopPropagation();
             }
         }

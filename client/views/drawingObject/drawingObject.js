@@ -132,10 +132,10 @@ Meteor.drawingObject = {
         Meteor.command.remove(drawingObject);
     },
     vote: function (drawingObject) {
-        Meteor.call('vote', drawingObject);
+        Meteor.command.vote(drawingObject);
     },
     downVote: function (drawingObject) {
-        Meteor.call('downVote', drawingObject);
+        Meteor.command.downVote(drawingObject);
     },
     alignLeft: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
@@ -252,17 +252,23 @@ Meteor.drawingObject = {
                 Meteor.canvas.setOverlay(false, this._id);
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
             },
-
-            'click .vote, dblclick .vote': function (event) {
+            'click .vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.vote(this);
             },
-            'click .down-vote, dblclick .down-vote': function (event) {
+            'dblclick .vote, dblclick .down-vote': function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            ,
+            'click .down-vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.downVote(this);
-            },
+            }
+
+            ,
             'click .sizeable': function (event) {
                 if (event.metaKey || event.ctrlKey) {
                     if (Meteor.select.isSelected(this._id)) {
@@ -271,7 +277,9 @@ Meteor.drawingObject = {
                         Meteor.select.select(this._id);
                     }
                 }
-            },
+            }
+
+            ,
 
 
             //must be last one, to not produce error: 'must be attached ...'
@@ -310,4 +318,5 @@ Meteor.drawingObject = {
 
     });
 
-})();
+})
+();

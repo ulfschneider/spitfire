@@ -8,7 +8,9 @@ Meteor.auth = {
         return false;
     },
     setAuth: function (auth) {
-        Session.set('auth', auth === true);
+        if (Meteor.auth.isAuth() !== (auth === true)) {
+            Session.set('auth', auth === true);
+        }
     },
     isAuth: function () {
         return Meteor.user() || Session.get('auth') === true;
