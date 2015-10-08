@@ -247,7 +247,7 @@ Meteor.canvas = {
         'click': function (event) {
             Meteor.canvas.cleanUpSelectArea();
             if (!event.ctrlKey && !event.metaKey) {
-                Meteor.select.clearSelect();
+                Meteor.command.unselect();
             }
             Meteor.text.endEditing();
         },

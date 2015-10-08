@@ -52,7 +52,6 @@ Meteor.editor = {
     });
 
 
-
     $(document).on('keydown', function (event) {
         if (Meteor.select.isSelected() && (event.ctrlKey || event.metaKey)) {
 
@@ -82,9 +81,12 @@ Meteor.editor = {
 
         if (event.which && event.which === 90 ||
             event.keyCode && event.keyCode === 90) {
-            if (event.ctrlKey || event.metaKey) {
-
+            if ((event.ctrlKey || event.metaKey) && !event.shiftKey) {
                 Meteor.command.undo();
+                event.preventDefault();
+                event.stopPropagation();
+            } else if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
+                Meteor.command.redo();
                 event.preventDefault();
                 event.stopPropagation();
             }

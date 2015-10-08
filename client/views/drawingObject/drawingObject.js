@@ -266,7 +266,7 @@ Meteor.drawingObject = {
             'dragstart': function (event) {
                 if (!event.ctrlKey && !event.metaKey) {
                     if (!Meteor.select.isSelected(this._id)) {
-                        Meteor.select.clearSelect();
+                        Meteor.command.unselect();
                     }
                     if (Meteor.select.isSelected()) {
                         before = Meteor.select.getSelectedObjects();
@@ -296,7 +296,7 @@ Meteor.drawingObject = {
             },
             'resizestart': function () {
                 sizeId = this._id;
-                Meteor.select.clearSelect();
+                Meteor.command.unselect();
                 before = JSON.parse(JSON.stringify(this));
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
