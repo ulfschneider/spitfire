@@ -86,6 +86,8 @@ Meteor.text = {
                         text: text,
                         width: textControl.width(),
                         height: textControl.height(),
+                        top: textControl.position().top,
+                        left:textControl.position().left,
                         zIndex: Meteor.canvas.getMaxZIndex() + 1
                     });
                 }
