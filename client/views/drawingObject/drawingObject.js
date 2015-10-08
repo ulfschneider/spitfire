@@ -1,31 +1,44 @@
 var dragTime;
 var sizeId;
 var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
+var before;
 
 
 Meteor.drawingObject = {
     isDragTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.dragging) {
             var now = new Date();
-            return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
-        } else {
+            try {
+                return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
+            }
+            catch (ex) {
+            }
+        }
+        else {
             return false;
         }
-    },
+    }
+    ,
     isSizeTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.sizing) {
             var now = new Date();
-            return now.getTime() - drawingObject.sizing.getTime() > DRAG_OR_SIZE_TIME_OUT;
+            try {
+                return now.getTime() - drawingObject.sizing.getTime() > DRAG_OR_SIZE_TIME_OUT;
+            } catch (ex) {
+            }
         } else {
             return false;
         }
-    },
+    }
+    ,
     getSizeId: function () {
         return sizeId;
-    },
+    }
+    ,
     clearSizing: function () {
         sizeId = null;
-    },
+    }
+    ,
     enableDrag: function (id) {
         if (id) {
             $('#draggable' + id).draggable({
@@ -36,7 +49,8 @@ Meteor.drawingObject = {
                 scroll: true, helper: 'original', containment: '#canvas', stack: '.draggable'
             });
         }
-    },
+    }
+    ,
     enableResize: function (id) {
         if (id) {
             $('#sizeable' + id).resizable({
@@ -47,7 +61,8 @@ Meteor.drawingObject = {
                 minHeight: 22, minWidth: 22, autoHide: true, handles: "e, se"
             });
         }
-    },
+    }
+    ,
     resize: function (drawingObject, zIndex, stop) {
         if (drawingObject) {
             var sizeable = $('#sizeable' + drawingObject._id);
@@ -59,11 +74,17 @@ Meteor.drawingObject = {
                 drawingObject.zIndex = zIndex;
                 drawingObject.sizing = stop ? null : new Date();
 
-                Meteor.call('resize', drawingObject);
+                if (stop) {
+                    var after = JSON.parse(JSON.stringify(drawingObject));
+                    Meteor.command.resize(before, after);
+                } else {
+                    Meteor.call('resize', drawingObject);
+                }
 
             }
         }
-    },
+    }
+    ,
     snapToGrid: function (drawingObject) {
         var draggable = $('#draggable' + drawingObject._id);
         if (draggable) {
@@ -74,7 +95,8 @@ Meteor.drawingObject = {
                 draggable.css({left: l, top: t});
             }
         }
-    },
+    }
+    ,
     updatePosition: function (drawingObject, persist, zIndex, stop) {
 
         if (persist || stop) {
@@ -102,10 +124,14 @@ Meteor.drawingObject = {
                     selectedObject.zIndex = zIndex;
                     selectedObject.dragging = stop ? null : new Date();
 
-                    if (persist || stop) {
-                        Meteor.call('updatePosition', selectedObject);
-                    }
                 });
+
+                if (stop) {
+                    Meteor.command.position(before, selectedObjects);
+                } else if (persist) {
+                    Meteor.call('updatePosition', selectedObjects);
+                }
+
 
             } else {
                 //update only one
@@ -114,31 +140,41 @@ Meteor.drawingObject = {
                     drawingObject.top = position.top;
                     drawingObject.zIndex = zIndex;
                     drawingObject.dragging = stop ? null : new Date();
-                    Meteor.call('updatePosition', drawingObject);
+                    if (stop) {
+                        var after = JSON.parse(JSON.stringify(drawingObject));
+                        Meteor.command.position(before, after);
+                    } else {
+                        Meteor.call('updatePosition', drawingObject);
+                    }
                 }
             }
 
             dragTime = new Date().getTime();
         }
 
-    },
-    setPosition: function (drawingObject, left, top, zIndex) {
+    }
+    ,
+    adaptPosition: function (drawingObject, left, top, zIndex) {
         drawingObject.left = left;
         drawingObject.top = top;
         drawingObject.zIndex = zIndex;
-        Meteor.call('updatePosition', drawingObject);
-    },
+    }
+    ,
     remove: function (drawingObject) {
         Meteor.command.remove(drawingObject);
-    },
+    }
+    ,
     vote: function (drawingObject) {
         Meteor.command.vote(drawingObject);
-    },
+    }
+    ,
     downVote: function (drawingObject) {
         Meteor.command.downVote(drawingObject);
-    },
+    }
+    ,
     alignLeft: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
+        var before = JSON.parse(JSON.stringify(selectedObjects));
         if (selectedObjects) {
 
             var minX = Meteor.canvas.getDrawingWidth();
@@ -148,12 +184,17 @@ Meteor.drawingObject = {
             });
 
             selectedObjects.forEach(function (selectedObject) {
-                Meteor.drawingObject.setPosition(selectedObject, minX, selectedObject.top);
+                Meteor.drawingObject.adaptPosition(selectedObject, minX, selectedObject.top);
             });
+
         }
-    },
+
+        Meteor.command.position(before, selectedObjects);
+    }
+    ,
     alignRight: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
+        var before = JSON.parse(JSON.stringify(selectedObjects));
         if (selectedObjects) {
 
             var maxX = 0;
@@ -163,12 +204,16 @@ Meteor.drawingObject = {
             });
 
             selectedObjects.forEach(function (selectedObject) {
-                Meteor.drawingObject.setPosition(selectedObject, maxX - selectedObject.width, selectedObject.top);
+                Meteor.drawingObject.adaptPosition(selectedObject, maxX - selectedObject.width, selectedObject.top);
             });
+
+            Meteor.command.position(before, selectedObjects);
         }
-    },
+    }
+    ,
     alignTop: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
+        var before = JSON.parse(JSON.stringify(selectedObjects));
         if (selectedObjects) {
 
             var minY = Meteor.canvas.getDrawingHeight();
@@ -178,12 +223,16 @@ Meteor.drawingObject = {
             });
 
             selectedObjects.forEach(function (selectedObject) {
-                Meteor.drawingObject.setPosition(selectedObject, selectedObject.left, minY);
+                Meteor.drawingObject.adaptPosition(selectedObject, selectedObject.left, minY);
             });
+
+            Meteor.command.position(before, selectedObjects);
         }
-    },
+    }
+    ,
     alignBottom: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
+        var before = JSON.parse(JSON.stringify(selectedObjects));
         if (selectedObjects) {
 
             var maxY = 0;
@@ -195,8 +244,10 @@ Meteor.drawingObject = {
 
             selectedObjects.forEach(function (selectedObject) {
                 var uiObject = $('#draggable' + selectedObject._id);
-                Meteor.drawingObject.setPosition(selectedObject, selectedObject.left, maxY - uiObject.height());
+                Meteor.drawingObject.adaptPosition(selectedObject, selectedObject.left, maxY - uiObject.height());
             });
+
+            Meteor.command.position(before, selectedObjects);
         }
     }
 
@@ -216,6 +267,11 @@ Meteor.drawingObject = {
                 if (!event.ctrlKey && !event.metaKey) {
                     if (!Meteor.select.isSelected(this._id)) {
                         Meteor.select.clearSelect();
+                    }
+                    if (Meteor.select.isSelected()) {
+                        before = Meteor.select.getSelectedObjects();
+                    } else {
+                        before = JSON.parse(JSON.stringify(this));
                     }
                     Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1);
                 }
@@ -241,6 +297,7 @@ Meteor.drawingObject = {
             'resizestart': function () {
                 sizeId = this._id;
                 Meteor.select.clearSelect();
+                before = JSON.parse(JSON.stringify(this));
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
             },
@@ -252,23 +309,17 @@ Meteor.drawingObject = {
                 Meteor.canvas.setOverlay(false, this._id);
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
             },
+
             'click .vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.vote(this);
             },
-            'dblclick .vote, dblclick .down-vote': function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            ,
             'click .down-vote': function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.downVote(this);
-            }
-
-            ,
+            },
             'click .sizeable': function (event) {
                 if (event.metaKey || event.ctrlKey) {
                     if (Meteor.select.isSelected(this._id)) {
@@ -277,9 +328,7 @@ Meteor.drawingObject = {
                         Meteor.select.select(this._id);
                     }
                 }
-            }
-
-            ,
+            },
 
 
             //must be last one, to not produce error: 'must be attached ...'
@@ -318,5 +367,4 @@ Meteor.drawingObject = {
 
     });
 
-})
-();
+})();
