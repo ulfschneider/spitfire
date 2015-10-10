@@ -41,9 +41,7 @@ Meteor.text = {
         }
     },
     setInputTimeout: function () {
-
         Meteor.text.cleanUpInputTimeout();
-
         inputTimeoutId = setTimeout(function () {
             if (Meteor.text.editId()) {
                 Meteor.text.removeEditingById(Meteor.text.editId());
@@ -52,11 +50,12 @@ Meteor.text = {
         }, INPUT_TIME_OUT);
     },
     setInputUpdate: function () {
-        Meteor.text.cleanUpInputUpdate();
-        inputUpdateId = setTimeout(function () {
-            Meteor.text.updateEditing();
-            Meteor.text.cleanUpInputUpdate();
-        }, INPUT_UPDATE);
+        if (!Meteor.text.hasInputUpdate()) {
+            inputUpdateId = setTimeout(function () {
+                Meteor.text.updateEditing();
+                Meteor.text.cleanUpInputUpdate();
+            }, INPUT_UPDATE);
+        }
     },
     hasInputUpdate: function () {
         return inputUpdateId;
@@ -195,15 +194,14 @@ Meteor.text = {
                     Meteor.text.setInputTimeout();
                     if (editText != text) {
                         editText = text;
-                        if (!Meteor.text.hasInputUpdate()) {
-                            Meteor.text.setInputUpdate();
-                        }
+                        Meteor.text.setInputUpdate();
                     }
                 }
                 event.preventDefault();
                 event.stopPropagation();
             },
             'keydown': function (event) {
+                a;
                 event.stopPropagation();
             },
 
