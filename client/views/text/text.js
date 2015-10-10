@@ -49,6 +49,13 @@ Meteor.text = {
             Meteor.text.clearText();
         }, INPUT_TIME_OUT);
     },
+    cleanUpInputTimeout: function () {
+        if (inputTimeoutId) {
+            clearTimeout(inputTimeoutId);
+            inputTimeoutId = null;
+        }
+    }
+    ,
     setInputUpdate: function () {
         if (!Meteor.text.hasInputUpdate()) {
             inputUpdateId = setTimeout(function () {
@@ -60,13 +67,6 @@ Meteor.text = {
     hasInputUpdate: function () {
         return inputUpdateId;
     },
-    cleanUpInputTimeout: function () {
-        if (inputTimeoutId) {
-            clearTimeout(inputTimeoutId);
-            inputTimeoutId = null;
-        }
-    }
-    ,
     cleanUpInputUpdate: function () {
         if (inputUpdateId) {
             clearTimeout(inputUpdateId);
