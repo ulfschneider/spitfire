@@ -2,7 +2,9 @@ var editText;
 var editId;
 var initId;
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
+var INPUT_UPDATE = 2000; //two seconds
 var inputTimeoutId;
+var inputUpdateId;
 var before;
 
 Meteor.text = {
@@ -11,6 +13,7 @@ Meteor.text = {
         editId = null;
         initId = null;
         before = null;
+        Meteor.text.cleanUpInputUpdate();
         Meteor.text.cleanUpInputTimeout();
     },
     editId: function () {
@@ -48,10 +51,27 @@ Meteor.text = {
             Meteor.text.clearText();
         }, INPUT_TIME_OUT);
     },
+    setInputUpdate: function () {
+        Meteor.text.cleanUpInputUpdate();
+        inputUpdateId = setTimeout(function () {
+            Meteor.text.updateEditing();
+            Meteor.text.cleanUpInputUpdate();
+        }, INPUT_UPDATE);
+    },
+    hasInputUpdate: function () {
+        return inputUpdateId;
+    },
     cleanUpInputTimeout: function () {
         if (inputTimeoutId) {
             clearTimeout(inputTimeoutId);
             inputTimeoutId = null;
+        }
+    }
+    ,
+    cleanUpInputUpdate: function () {
+        if (inputUpdateId) {
+            clearTimeout(inputUpdateId);
+            inputUpdateId = null;
         }
     }
     ,
@@ -87,7 +107,7 @@ Meteor.text = {
                         width: textControl.width(),
                         height: textControl.height(),
                         top: textControl.position().top,
-                        left:textControl.position().left,
+                        left: textControl.position().left,
                         zIndex: Meteor.canvas.getMaxZIndex() + 1
                     });
                 }
@@ -175,13 +195,15 @@ Meteor.text = {
                     Meteor.text.setInputTimeout();
                     if (editText != text) {
                         editText = text;
-                        Meteor.text.updateEditing();
+                        if (!Meteor.text.hasInputUpdate()) {
+                            Meteor.text.setInputUpdate();
+                        }
                     }
                 }
                 event.preventDefault();
                 event.stopPropagation();
             },
-            'keydown':function(event) {
+            'keydown': function (event) {
                 event.stopPropagation();
             },
 

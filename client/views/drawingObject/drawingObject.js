@@ -8,11 +8,7 @@ Meteor.drawingObject = {
     isDragTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.dragging) {
             var now = new Date();
-            try {
-                return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
-            }
-            catch (ex) {
-            }
+            return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
         }
         else {
             return false;
@@ -22,10 +18,7 @@ Meteor.drawingObject = {
     isSizeTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.sizing) {
             var now = new Date();
-            try {
-                return now.getTime() - drawingObject.sizing.getTime() > DRAG_OR_SIZE_TIME_OUT;
-            } catch (ex) {
-            }
+            return now.getTime() - drawingObject.sizing.getTime() > DRAG_OR_SIZE_TIME_OUT;
         } else {
             return false;
         }
@@ -266,7 +259,7 @@ Meteor.drawingObject = {
             'dragstart': function (event) {
                 if (!event.ctrlKey && !event.metaKey) {
                     if (!Meteor.select.isSelected(this._id)) {
-                        Meteor.command.unselect();
+                        Meteor.command.deSelect();
                     }
                     if (Meteor.select.isSelected()) {
                         before = Meteor.select.getSelectedObjects();
@@ -296,7 +289,7 @@ Meteor.drawingObject = {
             },
             'resizestart': function () {
                 sizeId = this._id;
-                Meteor.command.unselect();
+                Meteor.command.deSelect();
                 before = JSON.parse(JSON.stringify(this));
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
@@ -323,9 +316,9 @@ Meteor.drawingObject = {
             'click .sizeable': function (event) {
                 if (event.metaKey || event.ctrlKey) {
                     if (Meteor.select.isSelected(this._id)) {
-                        Meteor.select.deSelect(this._id);
+                        Meteor.command.deSelect(this);
                     } else {
-                        Meteor.select.select(this._id);
+                        Meteor.command.select(this);
                     }
                 }
             },

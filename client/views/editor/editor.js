@@ -52,48 +52,6 @@ Meteor.editor = {
     });
 
 
-    $(document).on('keydown', function (event) {
-        if (Meteor.select.isSelected() && (event.ctrlKey || event.metaKey)) {
-
-            if (event.which && event.which === 37 || event.keyCode && event.keyCode === 37) {
-                //cursor left
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignLeft();
-            } else if (event.which && event.which === 39 || event.keyCode && event.keyCode === 39) {
-                //cursor right
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignRight();
-            } else if (event.which && event.which === 38 || event.keyCode && event.keyCode === 38) {
-                //cursor top
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignTop();
-            } else if (event.which && event.which === 40 || event.keyCode && event.keyCode === 40) {
-                //cursor bottom
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignBottom();
-            }
-
-        }
-
-        if (event.which && event.which === 90 ||
-            event.keyCode && event.keyCode === 90) {
-            if ((event.ctrlKey || event.metaKey) && !event.shiftKey) {
-                Meteor.command.undo();
-                event.preventDefault();
-                event.stopPropagation();
-            } else if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
-                Meteor.command.redo();
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        }
-
-    });
-
     Template.editor.helpers({
         isAuth: function () {
             return Meteor.auth.isAuth();
