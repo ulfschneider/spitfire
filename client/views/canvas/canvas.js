@@ -111,49 +111,49 @@ Meteor.canvas = {
 
         var filteredObjects = Meteor.canvas.getFilteredObjects();
 
-            var editId = Meteor.text.editId();
-            var initId = Meteor.text.initId();
-            var sizeId = Meteor.drawingObject.getSizeId();
-            var editOrInitFound = false;
+        var editId = Meteor.text.editId();
+        var initId = Meteor.text.initId();
+        var sizeId = Meteor.drawingObject.getSizeId();
+        var editOrInitFound = false;
 
-            drawingWidth = 0;
-            drawingHeight = 0;
+        drawingWidth = 0;
+        drawingHeight = 0;
 
-            if (editId || sizeId) {
-                Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
+        if (editId || sizeId) {
+            Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
+        }
+
+
+        filteredObjects.forEach(function (filteredObject) {
+
+            if (!editOrInitFound) {
+                if (initId && initId === filteredObject.initId) {
+                    editOrInitFound = true;
+                } else if (editId === filteredObject._id) {
+                    editOrInitFound = true;
+                }
             }
+            Meteor.canvas.maxSizeAndZIndex(filteredObject);
+            Meteor.canvas.cleanUp(filteredObject);
 
 
-            filteredObjects.forEach(function (filteredObject) {
-
-                if (!editOrInitFound) {
-                    if (initId && initId === filteredObject.initId) {
-                        editOrInitFound = true;
-                    } else if (editId === filteredObject._id) {
-                        editOrInitFound = true;
-                    }
-                }
-                Meteor.canvas.maxSizeAndZIndex(filteredObject);
-                Meteor.canvas.cleanUp(filteredObject);
+        });
 
 
-            });
+        Meteor.editor.maintainBoundaryMarker();
 
-
-            Meteor.editor.maintainBoundaryMarker();
-
-            if (editId || initId) {
-                if (!editOrInitFound) {
-                    //someone else removed a drawing-object while this user was editing
-                    Meteor.text.clearText();
-                    Meteor.canvas.setOverlay(false);
-                }
-            } else if (!sizeId && !selectArea) {
+        if (editId || initId) {
+            if (!editOrInitFound) {
+                //someone else removed a drawing-object while this user was editing
+                Meteor.text.clearText();
                 Meteor.canvas.setOverlay(false);
             }
-            if (!selectArea) {
-                Meteor.canvas.cleanUpSelectArea();
-            }
+        } else if (!sizeId && !selectArea) {
+            Meteor.canvas.setOverlay(false);
+        }
+        if (!selectArea) {
+            Meteor.canvas.cleanUpSelectArea();
+        }
         return filteredObjects;
     },
     getLeft: function (sizeObject) {
@@ -216,7 +216,7 @@ Meteor.canvas = {
         Meteor.command.select(selectedObjects);
 
     },
-    deselectAll:function() {
+    deselectAll: function () {
         Meteor.command.deSelect();
     },
     selectByArea: function (event) {
@@ -270,7 +270,7 @@ Meteor.canvas = {
                 event.stopPropagation();
                 Meteor.drawingObject.alignTop();
             } else if (event.which && event.which === 40 || event.keyCode && event.keyCode === 40) {
-                //cursor bottom
+                //cursor down
                 event.preventDefault();
                 event.stopPropagation();
                 Meteor.drawingObject.alignBottom();
@@ -295,12 +295,39 @@ Meteor.canvas = {
                 event.preventDefault();
                 event.stopPropagation();
             }
+        } else if (event.which && event.which === 37 || event.keyCode && event.keyCode === 37) {
+            //cursor left
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.drawingObject.moveLeft();
+                event.preventDefault();
+                event.stopPropagation();
+
+            }
+        } else if (event.which && event.which === 38 || event.keyCode && event.keyCode === 38) {
+            //cursor top
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.drawingObject.moveUp();
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        } else if (event.which && event.which === 39 || event.keyCode && event.keyCode === 39) {
+            //cursor right
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.drawingObject.moveRight();
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        } else if (event.which && event.which === 40 || event.keyCode && event.keyCode === 40) {
+            //cursor down
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.drawingObject.moveDown();
+                event.preventDefault();
+                event.stopPropagation();
+            }
         }
 
 
     });
-
-    //TODO have interval to call getDrawingObjects for clean up
 
     Template.canvas.helpers({
             drawingObjects: function () {

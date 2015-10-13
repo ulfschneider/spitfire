@@ -39,9 +39,15 @@ Meteor.filter = {
 
             'keyup': function (event) {
                 Meteor.filter.setFilter(event.target.value);
+
+                if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+                    event.preventDefault();
+                    event.currentTarget.blur();
+                }
+
                 event.stopPropagation();
             },
-            'keydown':function(event) {
+            'keydown': function (event) {
                 event.stopPropagation();
             }
         }

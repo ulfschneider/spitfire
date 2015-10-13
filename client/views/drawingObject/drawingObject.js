@@ -243,6 +243,48 @@ Meteor.drawingObject = {
             Meteor.command.position(before, selectedObjects);
         }
     }
+    ,
+    moveLeft: function () {
+        Meteor.drawingObject.move(-2, 0);
+    }
+    ,
+    moveUp: function () {
+        Meteor.drawingObject.move(0, -2);
+    }
+    ,
+    moveRight: function () {
+        Meteor.drawingObject.move(2, 0);
+    }
+    ,
+    moveDown: function () {
+        Meteor.drawingObject.move(0, 2);
+    },
+    move: function (left, top) {
+        var selectedObjects = Meteor.select.getSelectedObjects();
+        var before = JSON.parse(JSON.stringify(selectedObjects));
+        var stop = false;
+        if (selectedObjects) {
+
+            if (left < 0 || top < 0) {
+                selectedObjects.forEach(function (selectedObject) {
+                    if (left < 0 && selectedObject.left + left <= 0) {
+                        stop = true;
+                    } else if (top < 0 && selectedObject.top + top <= 0) {
+                        stop = true;
+                    }
+                });
+            }
+
+            if (!stop) {
+                selectedObjects.forEach(function (selectedObject) {
+                    var uiObject = $('#draggable' + selectedObject._id);
+                    Meteor.drawingObject.adaptPosition(selectedObject, selectedObject.left + left, selectedObject.top + top);
+                });
+
+                Meteor.command.position(before, selectedObjects);
+            }
+        }
+    }
 
 };
 

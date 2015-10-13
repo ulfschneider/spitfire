@@ -15,7 +15,7 @@
             return this.user;
         },
         modifiedAt: function () {
-            return moment(this.modifiedAt).calendar();
+            return moment(this.modifiedAt).format('MMM Do YYYY, h:mm a');
         }
 
     });

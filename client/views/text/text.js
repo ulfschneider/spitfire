@@ -111,8 +111,9 @@ Meteor.text = {
                     });
                 }
             }
+            Meteor.text.clearText();
         }
-        Meteor.text.clearText();
+
     }
     ,
     initEditing: function (event) {
@@ -177,6 +178,9 @@ Meteor.text = {
             'click, dblclick, mousedown': function (event) {
                 event.stopPropagation();
             },
+            'keydown': function (event) {
+                event.stopPropagation();
+            },
             'keypress': function (event) {
                 if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                     if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
@@ -198,10 +202,6 @@ Meteor.text = {
                     }
                 }
                 event.preventDefault();
-                event.stopPropagation();
-            },
-            'keydown': function (event) {
-                a;
                 event.stopPropagation();
             },
 
