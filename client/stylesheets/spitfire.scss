@@ -36,15 +36,26 @@ header {
   user-select: none;
 }
 
-h1, h2, header, header * {
+p {
+  margin:0;
+  margin-bottom:$line-height;
+}
+
+h1, h2, h3, header, header * {
   font-family: 'Input Sans', sans-serif;
 }
 
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
   font-weight: bold;
   margin-top: 2*$line-height;
   margin-bottom: 2*$line-height;
+}
+
+h3 {
+  text-align:left;
+  margin-top: $line-height;
+  margin-bottom: 0;
 }
 
 mark {
