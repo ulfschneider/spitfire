@@ -2,7 +2,7 @@ var editText;
 var editId;
 var initId;
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
-var INPUT_UPDATE = 2000; //two seconds
+var INPUT_UPDATE = 1000; //ONE seconds
 var inputTimeoutId;
 var inputUpdateId;
 var before;
