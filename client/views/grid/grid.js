@@ -139,6 +139,9 @@ Meteor.grid = {
     maintainGrid: function () {
         Meteor.grid.clearGrid();
         Meteor.grid.drawGrid();
+    },
+    getGridIndent:function() {
+        return GRID_INDENT;
     }
 
 

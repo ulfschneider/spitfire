@@ -3,6 +3,8 @@ var editId;
 var initId;
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
 var INPUT_UPDATE = 1000; //ONE seconds
+var DEFAULT_WIDTH = 200;
+var DEFAULT_HEIGHT = 20;
 var inputTimeoutId;
 var inputUpdateId;
 var before;
@@ -126,8 +128,8 @@ Meteor.text = {
                 initId: initId,
                 left: Meteor.grid.snapLeft(event.pageX),
                 top: Meteor.grid.snapTop(event.pageY),
-                width: 200,
-                height: 20,
+                width: Meteor.text.getDefaultWidth(),
+                height: Meteor.text.getDefaultHeight(),
                 zIndex: Meteor.canvas.getMaxZIndex() + 1
             }, function (error, result) {
                 editId = result;
@@ -167,6 +169,12 @@ Meteor.text = {
         for (var i = 0; i < childLinks.length; i++) {
             $(childLinks[i]).attr('target', '_blank');
         }
+    },
+    getDefaultWidth: function () {
+        return DEFAULT_WIDTH;
+    },
+    getDefaultHeight: function () {
+        return DEFAULT_HEIGHT;
     }
 
 

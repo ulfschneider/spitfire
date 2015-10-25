@@ -246,87 +246,162 @@ Meteor.canvas = {
                 Meteor.command.select(selectedObjects);
             }
         }
+    },
+    extractFiles: function (event) {
+        if (event.originalEvent) {
+            if (event.originalEvent.dataTransfer) {
+                return event.originalEvent.dataTransfer.files;
+            }
+        }
+        return [];
+    },
+    processFiles: function (files) {
+        if (files && files.length > 0) {
+
+            for (i = 0; i < files.length; i++) {
+                var f = files[i];
+                if (f.type.match('text.*')) {
+                    Meteor.canvas.processFile(f);
+                } else {
+                    alert('The file ' + f.name + ' could not be imported into ' + Meteor.spitfire.appTitle());
+                }
+            }
+
+        }
+    },
+    processFile: function (file) {
+        var reader = new FileReader();
+        reader.onload = (function (f) {
+            return function (event) {
+                var lines = Meteor.canvas.getFileData(event.target.result);
+                var height = Meteor.canvas.getDrawingHeight() + 3 * Meteor.text.getDefaultHeight();
+                var left = Meteor.grid.getGridIndent();
+                var width = Meteor.editor.getWidth();
+                for (var i = 0; i < lines.length; i++) {
+
+                    Meteor.call('insert',
+                        {
+                            sessionName: Meteor.spitfire.getSessionName(),
+                            text: lines[i],
+                            top: height,
+                            left: left,
+                            width: Meteor.text.getDefaultWidth(),
+                            height: Meteor.text.getDefaultHeight(),
+                            zIndex: Meteor.canvas.getMaxZIndex() + 1
+                        });
+                    left = left + Meteor.text.getDefaultWidth() + Meteor.text.getDefaultHeight();
+                    if (left > width) {
+                        height = height + 3 * Meteor.text.getDefaultHeight();
+                        left = Meteor.grid.getGridIndent();
+                    }
+
+                }
+            }
+        })(file);
+        reader.readAsText(file);
+    },
+    getFileData: function (data) {
+        //create drawingObject from each line of text in data
+        var trimmedLines = [];
+        if (data) {
+            var lines = data.split('\n');
+
+            for (var i = 0; i < lines.length; i++) {
+                var l = $.trim(lines[i]);
+                if (l.length > 0) {
+                    trimmedLines.push(l);
+                }
+            }
+        }
+        return trimmedLines;
+    },
+    handleFileDrag: function (event) {
+        if (event.originalEvent) {
+            if (event.originalEvent.dataTransfer) {
+                event.originalEvent.dataTransfer.dropEffect = 'copy';
+            }
+        }
     }
 };
 
 (function () {
 
     $(document).on('keydown', function (event) {
-        if (Meteor.select.isSelected() && (event.ctrlKey || event.metaKey)) {
+        if (!Meteor.text.isEditing()) {
+            if (Meteor.select.isSelected() && (event.ctrlKey || event.metaKey)) {
 
-            if (event.which && event.which === 37 || event.keyCode && event.keyCode === 37) {
+                if (event.which && event.which === 37 || event.keyCode && event.keyCode === 37) {
+                    //cursor left
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.alignLeft();
+                } else if (event.which && event.which === 39 || event.keyCode && event.keyCode === 39) {
+                    //cursor right
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.alignRight();
+                } else if (event.which && event.which === 38 || event.keyCode && event.keyCode === 38) {
+                    //cursor top
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.alignTop();
+                } else if (event.which && event.which === 40 || event.keyCode && event.keyCode === 40) {
+                    //cursor down
+                    event.preventDefault();
+                    event.stopPropagation();
+                    Meteor.drawingObject.alignBottom();
+                }
+
+            }
+
+            if (event.which && event.which === 90 ||
+                event.keyCode && event.keyCode === 90) {
+                if ((event.ctrlKey || event.metaKey) && !event.shiftKey) {
+                    Meteor.command.undo();
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
+                    Meteor.command.redo();
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } else if (event.which && event.which === 65 || event.keyCode && event.keyCode === 65) {
+                if (event.ctrlKey || event.metaKey) {
+                    Meteor.canvas.selectAll();
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } else if (event.which && event.which === 37 || event.keyCode && event.keyCode === 37) {
                 //cursor left
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignLeft();
-            } else if (event.which && event.which === 39 || event.keyCode && event.keyCode === 39) {
-                //cursor right
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignRight();
+                if (!event.ctrlKey && !event.metaKey) {
+                    Meteor.drawingObject.moveLeft();
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                }
             } else if (event.which && event.which === 38 || event.keyCode && event.keyCode === 38) {
                 //cursor top
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignTop();
+                if (!event.ctrlKey && !event.metaKey) {
+                    Meteor.drawingObject.moveUp();
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            } else if (event.which && event.which === 39 || event.keyCode && event.keyCode === 39) {
+                //cursor right
+                if (!event.ctrlKey && !event.metaKey) {
+                    Meteor.drawingObject.moveRight();
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
             } else if (event.which && event.which === 40 || event.keyCode && event.keyCode === 40) {
                 //cursor down
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.drawingObject.alignBottom();
-            }
-
-        }
-
-        if (event.which && event.which === 90 ||
-            event.keyCode && event.keyCode === 90) {
-            if ((event.ctrlKey || event.metaKey) && !event.shiftKey) {
-                Meteor.command.undo();
-                event.preventDefault();
-                event.stopPropagation();
-            } else if ((event.ctrlKey || event.metaKey) && event.shiftKey) {
-                Meteor.command.redo();
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        } else if (event.which && event.which === 65 || event.keyCode && event.keyCode === 65) {
-            if (event.ctrlKey || event.metaKey) {
-                Meteor.canvas.selectAll();
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        } else if (event.which && event.which === 37 || event.keyCode && event.keyCode === 37) {
-            //cursor left
-            if (!event.ctrlKey && !event.metaKey) {
-                Meteor.drawingObject.moveLeft();
-                event.preventDefault();
-                event.stopPropagation();
-
-            }
-        } else if (event.which && event.which === 38 || event.keyCode && event.keyCode === 38) {
-            //cursor top
-            if (!event.ctrlKey && !event.metaKey) {
-                Meteor.drawingObject.moveUp();
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        } else if (event.which && event.which === 39 || event.keyCode && event.keyCode === 39) {
-            //cursor right
-            if (!event.ctrlKey && !event.metaKey) {
-                Meteor.drawingObject.moveRight();
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        } else if (event.which && event.which === 40 || event.keyCode && event.keyCode === 40) {
-            //cursor down
-            if (!event.ctrlKey && !event.metaKey) {
-                Meteor.drawingObject.moveDown();
-                event.preventDefault();
-                event.stopPropagation();
+                if (!event.ctrlKey && !event.metaKey) {
+                    Meteor.drawingObject.moveDown();
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
             }
         }
-
-
     });
 
     Template.canvas.helpers({
@@ -374,6 +449,16 @@ Meteor.canvas = {
             }
             Meteor.canvas.setOverlay(false);
             Meteor.canvas.cleanUpSelectArea();
+        },
+        'dropped #canvas': function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            Meteor.canvas.processFiles(Meteor.canvas.extractFiles(event));
+        },
+        'dragover #canvas': function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            Meteor.canvas.handleFileDrag(event);
         }
     });
 

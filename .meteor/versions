@@ -62,12 +62,14 @@ mobile-status-bar@1.0.6
 mongo@1.1.2
 mongo-id@1.0.1
 mrt:moment@2.8.1
+mrt:nprogress@0.2.0
 multiply:iron-router-progress@1.0.2
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
 promise@0.5.0
+raix:ui-dropped-event@0.0.7
 random@1.0.4
 rate-limit@1.0.0
 reactive-dict@1.1.2
