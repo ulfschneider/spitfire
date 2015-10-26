@@ -257,7 +257,7 @@ Meteor.canvas = {
     },
     processFiles: function (files) {
         if (files && files.length > 0) {
-
+            NProgress.start();
             for (i = 0; i < files.length; i++) {
                 var f = files[i];
                 if (f.type.match('text.*')) {
@@ -266,6 +266,7 @@ Meteor.canvas = {
                     alert('The file ' + f.name + ' could not be imported into ' + Meteor.spitfire.appTitle());
                 }
             }
+            NProgress.done();
 
         }
     },
@@ -277,25 +278,25 @@ Meteor.canvas = {
                 var height = Meteor.canvas.getDrawingHeight() + 3 * Meteor.text.getDefaultHeight();
                 var left = Meteor.grid.getGridIndent();
                 var width = Meteor.editor.getWidth();
+                var objectsToInsert = [];
                 for (var i = 0; i < lines.length; i++) {
-
-                    Meteor.call('insert',
-                        {
-                            sessionName: Meteor.spitfire.getSessionName(),
-                            text: lines[i],
-                            top: height,
-                            left: left,
-                            width: Meteor.text.getDefaultWidth(),
-                            height: Meteor.text.getDefaultHeight(),
-                            zIndex: Meteor.canvas.getMaxZIndex() + 1
-                        });
+                    objectsToInsert.push({
+                        sessionName: Meteor.spitfire.getSessionName(),
+                        text: lines[i],
+                        top: height,
+                        left: left,
+                        width: Meteor.text.getDefaultWidth(),
+                        height: Meteor.text.getDefaultHeight(),
+                        zIndex: Meteor.canvas.getMaxZIndex() + 1
+                    });
                     left = left + Meteor.text.getDefaultWidth() + Meteor.text.getDefaultHeight();
                     if (left > width) {
                         height = height + 3 * Meteor.text.getDefaultHeight();
                         left = Meteor.grid.getGridIndent();
                     }
-
                 }
+                Meteor.command.insert(objectsToInsert);
+
             }
         })(file);
         reader.readAsText(file);

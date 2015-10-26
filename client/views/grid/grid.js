@@ -6,7 +6,7 @@ var GRID_INDENT = 8; //same indentation as header
 Meteor.grid = {
     hasGrid: function () {
         var grid = Meteor.grid.getGrid();
-        return grid && (grid.x || grid.y);
+        return grid && (grid.x > 0 || grid.y > 0);
     },
     getGridParamId: function () {
         return GRID_PARAM_ID;
@@ -16,7 +16,7 @@ Meteor.grid = {
     },
     snapLeft: function (left) {
         var grid = Meteor.grid.getGrid();
-        if (!isNaN(left) && grid.x && grid.x > 0) {
+        if (!isNaN(left) && grid.x && grid.x >= MIN_GRID) {
             var factor = Math.floor(Math.max(left, 0) / grid.x);
             var rem = left % grid.x;
             var above = grid.x - rem;
@@ -26,7 +26,7 @@ Meteor.grid = {
     },
     snapTop: function (top) {
         var grid = Meteor.grid.getGrid();
-        if (!isNaN(top) && grid.y && grid.y > 0) {
+        if (!isNaN(top) && grid.y && grid.y >= MIN_GRID) {
             var factor = Math.floor(Math.max(top, 0) / grid.y);
             var rem = top % grid.y;
             var above = grid.y - rem;
@@ -82,6 +82,7 @@ Meteor.grid = {
                 gridstring = gridstring + 'x' + grid.y;
             }
         }
+
         return gridstring;
     },
     getGrid: function () {

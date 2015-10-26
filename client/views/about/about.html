@@ -20,50 +20,59 @@
         {{/if}}
 
         <h3>Writing and editing</h3>
+
         <p>After creating or opening a session, you can write text by double clicking
             anywhere in the browser window. Already existing text can be edited by double clicking on it. And hey,
             writing markdown is supported.</p>
 
         <h3>Undo and redo</h3>
-        <p>Use <kbd>⌘</kbd>-<kbd>Z</kbd> (on a Mac) or <kbd>CTRL</kbd>-<kbd>Z</kbd> (on Windows) to undo your actions and
+
+        <p>Use <kbd>⌘</kbd>-<kbd>Z</kbd> (on a Mac) or <kbd>CTRL</kbd>-<kbd>Z</kbd> (on Windows) to undo your actions
+            and
             <kbd>⌘</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> / <kbd>CTRL</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> to redo.
             You can only undo/redo what you have done during a session and not what other participants have done.</p>
 
         <h3>Drag and resize</h3>
+
         <p>Drag the text around and resize text boxes as you like.</p>
 
         <h3>Multi select</h3>
+
         <p>Select multiple items by <kbd>⌘</kbd>-<kbd>CLICK</kbd> /
             <kbd>CTRL</kbd>-<kbd>CLICK</kbd> on the items. Alternatively you can <kbd>⌘</kbd>-<kbd>DRAG</kbd> /
             <kbd>CTRL</kbd>-<kbd>DRAG</kbd> to draw a rectangle on the screen. Any item that is touched by the rectangle
             will be selected.</p>
 
         <h3>Align</h3>
+
         <p>When you have selected multiple items, you can align the items left with
             <kbd>⌘</kbd>-<kbd>←</kbd> / <kbd>CTRL</kbd>-<kbd>←</kbd>. Align top, right or bottom by using the other
             arrow keys.</p>
 
         <h3>Voting</h3>
+
         <p>Dot voting is possible by clicking on the ▲ symbol that appears top left when hovering
             over a
             text, down voting by clicking on the ▼ symbol.</p>
 
         <h3>Filtering</h3>
+
         <p> You can filter out the contents you are interested in, simply by typing a text
             pattern that has to be part of the contents you want to have on the screen (use the input area in the top
             left corner of the window). E.g. a filter of
-            <mark>Spitfire</mark>
+            <mark>{{appTitle}}</mark>
             will show you everything that does contain the
             pattern
-            <mark>Spitfire</mark>
+            <mark>{{appTitle}}</mark>
             . You can do negative filtering by putting the -- prefix in front of your
             filter. E.g.
-            <mark>--Spitfire</mark>
-            will show you everything that does not contain the pattern <i>Spitfire</i>.
+            <mark>--{{appTitle}}</mark>
+            will show you everything that does not contain the pattern <i>{{appTitle}}</i>.
             Filtering won´t affect the other participants of a shared whiteboard session and it will ignore case.
         </p>
 
         <h3>Grid</h3>
+
         <p>In the top left corner you can define a grid in pixels. If you do so, elements will be snapped
             to that grid when they are dragged around or created. You can even define your grid in the URL of your
             whiteboard session, just by adding somethig like
@@ -78,6 +87,12 @@
             affected.
         </p>
 
+        <h3>Import</h3>
+
+        <p>You can import any text file into {{appTitle}} by dragging and dropping the file on top of the {{appTitle}}
+            editor window. Each line of the text file will become a separate text object that will be added at the
+            bottom of the editor window.
+        </p>
 
         <h2>* * *</h2>
 

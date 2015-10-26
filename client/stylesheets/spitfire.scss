@@ -348,14 +348,20 @@ a {
   background: $background-color;
 }
 
-#iron-router-progress {
-  background-color:$text-color;
-  box-shadow: none;
+
+#nprogress .bar {
+  background:$text-color;
   z-index: 2147483647;
+  height:3px;
 }
 
-#iron-router-progress.spinner:before {
-  border-color : $text-color;
+#nprogress .peg {
+  box-shadow: none;
+}
+
+#nprogress .spinner-icon {
+  border-top-color:$text-color;
+  border-left-color:$text-color;
 }
 
 #overlay {
