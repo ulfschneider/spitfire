@@ -154,7 +154,15 @@ Meteor.drawingObject = {
     }
     ,
     remove: function (drawingObject) {
-        Meteor.command.remove(drawingObject);
+        if (drawingObject) {
+            Meteor.command.remove(drawingObject);
+        } else {
+            var selectedObjects = Meteor.select.getSelectedObjects();
+            var before = JSON.parse(JSON.stringify(selectedObjects));
+            if (selectedObjects) {
+                Meteor.command.remove(before);
+            }
+        }
     }
     ,
     vote: function (drawingObject) {
