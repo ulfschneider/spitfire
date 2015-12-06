@@ -137,11 +137,11 @@ a {
   color: $text-color;
   text-decoration: none;
   outline: none;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(87%, transparent), color-stop(92%, $text-color), color-stop(95%, #fff), color-stop(84%, transparent));
-  background-image: -webkit-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
-  background-image: -moz-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
-  background-image: -o-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
-  background-image: linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(87%, transparent), color-stop(92%, $text-color), color-stop(95%, #fff), color-stop(84%, transparent));*/
+  background-image: -webkit-linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
+  background-image: -moz-linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
+  background-image: -o-linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
+  background-image: linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
 
 }
 
