@@ -1,4 +1,6 @@
-var GRID_PARAM_ID = ',grid:';
+
+
+var GRID_PARAM_ID = ",grid:";
 var MIN_GRID = 10;
 var GRID_INDENT = 8; //same indentation as header
 
@@ -42,11 +44,11 @@ Meteor.grid = {
             var start = url.toLowerCase().indexOf(GRID_PARAM_ID);
             if (start >= 0) {
                 var gridstring = url.toLowerCase().substring(start + GRID_PARAM_ID.length);
-                var end = gridstring.indexOf(',');
+                var end = gridstring.indexOf(",");
                 if (end > 0) {
                     gridstring = gridstring.substring(0, end);
                 }
-                var x = gridstring.indexOf('x');
+                var x = gridstring.indexOf("x");
                 if (x < 0) {
                     var xparse = parseInt(gridstring);
                     if (!isNaN(xparse)) {
@@ -71,7 +73,7 @@ Meteor.grid = {
         return grid;
     },
     getGridString: function () {
-        var gridstring = '';
+        var gridstring = "";
         if (Meteor.grid.hasGrid()) {
             var grid = Meteor.grid.getGrid();
             gridstring = GRID_PARAM_ID;
@@ -79,18 +81,18 @@ Meteor.grid = {
                 gridstring = gridstring + grid.x;
             }
             if (grid.y) {
-                gridstring = gridstring + 'x' + grid.y;
+                gridstring = gridstring + "x" + grid.y;
             }
         }
 
         return gridstring;
     },
     getGrid: function () {
-        return Session.get('grid');
+        return Session.get("grid");
     },
     setGrid: function (grid) {
         if (Meteor.grid.getGrid() !== grid) {
-            Session.set('grid', grid);
+            Session.set("grid", grid);
         }
     },
     setXGrid: function (x) {
@@ -135,7 +137,7 @@ Meteor.grid = {
 
     },
     clearGrid: function () {
-        $('.grid-indicator').remove();
+        $(".grid-indicator").remove();
     },
     maintainGrid: function () {
         Meteor.grid.clearGrid();
@@ -151,12 +153,12 @@ Meteor.grid = {
 (function () {
 
 
-    $(window).on('resize', function () {
+    $(window).on("resize", function () {
         Meteor.grid.maintainGrid();
     });
 
     Template.grid.events({
-            'keypress': function (event) {
+            "keypress": function (event) {
                 if (event.which && event.which === 13 ||
                     event.keyCode && event.keyCode === 13) {
                     event.preventDefault();
@@ -164,7 +166,7 @@ Meteor.grid = {
                 }
                 event.stopPropagation();
             },
-            'keyup #xgrid': function (event) {
+            "keyup #xgrid": function (event) {
                 var x = parseInt(event.target.value);
                 Meteor.grid.setXGrid(x);
 
@@ -174,7 +176,7 @@ Meteor.grid = {
                 }
                 event.stopPropagation();
             },
-            'keyup #ygrid': function (event) {
+            "keyup #ygrid": function (event) {
                 var y = parseInt(event.target.value);
                 Meteor.grid.setYGrid(y);
                 if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
@@ -184,15 +186,15 @@ Meteor.grid = {
 
                 event.stopPropagation();
             },
-            'keydown': function (event) {
+            "keydown": function (event) {
                 event.stopPropagation();
             }
         }
     );
 
     Template.grid.rendered = function () {
-        var xgrid = $('#xgrid');
-        var ygrid = $('#ygrid');
+        var xgrid = $("#xgrid");
+        var ygrid = $("#ygrid");
         var grid = Meteor.grid.getGrid();
         xgrid.val(grid.x);
         ygrid.val(grid.y);

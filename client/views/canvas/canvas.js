@@ -1,3 +1,5 @@
+
+
 var drawingWidth = 0;
 var drawingHeight = 0;
 var maxZIndex = 0;
@@ -8,27 +10,27 @@ Meteor.canvas = {
 
     setOverlay: function (overlay, id) {
         if (overlay) {
-            $('#overlay')
-                .css('display', 'block');
+            $("#overlay")
+                .css("display", "block");
         } else {
-            $('#overlay')
-                .css('display', 'none');
+            $("#overlay")
+                .css("display", "none");
         }
 
         if (overlay && id) {
-            $('#draggable' + id)
-                .css('z-index', '2147483647');
-            $('#sizeable' + id)
-                .css('z-index', '2147483647');
-            $('#textinput' + id)
-                .css('z-index', '2147483647');
+            $("#draggable" + id)
+                .css("z-index", "2147483647");
+            $("#sizeable" + id)
+                .css("z-index", "2147483647");
+            $("#textinput" + id)
+                .css("z-index", "2147483647");
         } else if (!overlay && id) {
-            $('#draggable' + id)
-                .css('z-index', '');
-            $('#sizeable' + id)
-                .css('z-index', '');
-            $('#textinput' + id)
-                .css('z-index', '');
+            $("#draggable" + id)
+                .css("z-index", "");
+            $("#sizeable" + id)
+                .css("z-index", "");
+            $("#textinput" + id)
+                .css("z-index", "");
         }
 
     },
@@ -66,9 +68,9 @@ Meteor.canvas = {
         }
         if (cleanup) {
             if (!drawingObject.text) {
-                Meteor.call('remove', drawingObject);
+                Meteor.call("remove", drawingObject);
             } else {
-                Meteor.call('cleanUp', cleanupData);
+                Meteor.call("cleanUp", cleanupData);
             }
         }
     },
@@ -87,7 +89,7 @@ Meteor.canvas = {
                 { //regular object
                     text: {
                         $regex: Meteor.filter.getRegExFilter(),
-                        $options: 'i'
+                        $options: "i"
                     }
                 },
                 { //currently edited object
@@ -177,7 +179,7 @@ Meteor.canvas = {
         return Meteor.canvas.getTop(sizeObject) + Math.abs(sizeObject.height);
     },
     touchedBySelectArea: function (id) {
-        var screenObject = $('#draggable' + id);
+        var screenObject = $("#draggable" + id);
         var sizeObject = {
             left: screenObject.position().left,
             top: screenObject.position().top,
@@ -205,14 +207,14 @@ Meteor.canvas = {
     },
     cleanUpSelectArea: function () {
         selectArea = null;
-        $('#selectArea')
+        $("#selectArea")
             .css({
                 left: 0,
                 top: 0,
                 width: 0,
                 height: 0,
-                position: 'absolute',
-                display: 'none'
+                position: "absolute",
+                display: "none"
             });
     },
     selectAll: function () {
@@ -236,14 +238,14 @@ Meteor.canvas = {
                 selectArea.width = event.pageX - selectArea.left;
                 selectArea.height = event.pageY - selectArea.top;
 
-                $('#selectArea')
+                $("#selectArea")
                     .css({
                         left: Meteor.canvas.getLeft(selectArea),
                         top: Meteor.canvas.getTop(selectArea),
                         width: Math.abs(selectArea.width),
                         height: Math.abs(selectArea.height),
-                        position: 'absolute',
-                        display: 'block'
+                        position: "absolute",
+                        display: "block"
                     });
 
                 var selectedObjects = [];
@@ -270,12 +272,12 @@ Meteor.canvas = {
     processFiles: function (files) {
         if (files && files.length > 0) {
             NProgress.start();
-            for (i = 0; i < files.length; i++) {
+            for (var i = 0; i < files.length; i++) {
                 var f = files[i];
-                if (f.type.match('text.*')) {
+                if (f.type.match("text.*")) {
                     Meteor.canvas.processFile(f);
                 } else {
-                    alert('The file ' + f.name + ' could not be imported into ' + Meteor.spitfire.appTitle());
+                    alert("The file " + f.name + " could not be imported into " + Meteor.spitfire.appTitle());
                 }
             }
             NProgress.done();
@@ -284,7 +286,7 @@ Meteor.canvas = {
     },
     processFile: function (file) {
         var reader = new FileReader();
-        reader.onload = (function (f) {
+        reader.onload = (function () {
             return function (event) {
                 var lines = Meteor.canvas.getFileData(event.target.result);
                 var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
@@ -317,10 +319,10 @@ Meteor.canvas = {
         //create drawingObject from each line of text in data
         var trimmedLines = [];
         if (data) {
-            var lines = data.split('\n');
+            var lines = data.split("\n");
 
             for (var i = 0; i < lines.length; i++) {
-                var l = $.trim(Meteor.spitfire.replaceLineBreaks(lines[i], ' '));
+                var l = $.trim(Meteor.spitfire.replaceLineBreaks(lines[i], " "));
                 if (l.length > 0) {
                     trimmedLines.push(l);
                 }
@@ -331,7 +333,7 @@ Meteor.canvas = {
     handleFileDrag: function (event) {
         if (event.originalEvent) {
             if (event.originalEvent.dataTransfer) {
-                event.originalEvent.dataTransfer.dropEffect = 'copy';
+                event.originalEvent.dataTransfer.dropEffect = "copy";
             }
         }
     }
@@ -340,7 +342,7 @@ Meteor.canvas = {
 (function () {
 
     $(document)
-        .on('keydown', function (event) {
+        .on("keydown", function (event) {
             if (!Meteor.text.isEditing()) {
                 if (Meteor.select.isSelected() && (event.ctrlKey || event.metaKey)) {
 
@@ -432,14 +434,14 @@ Meteor.canvas = {
 
 
     Template.canvas.events({
-        'click #canvas': function (event) {
+        "click #canvas": function (event) {
             Meteor.canvas.cleanUpSelectArea();
             if (!event.ctrlKey && !event.metaKey) {
                 Meteor.command.deSelect();
             }
             Meteor.text.endEditing();
         },
-        'dblclick #canvas': function (event) {
+        "dblclick #canvas": function (event) {
             if (Meteor.spitfire.hasSessionName()) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -449,32 +451,32 @@ Meteor.canvas = {
                 }
             }
         },
-        'mousedown': function (event) {
+        "mousedown": function (event) {
             Meteor.canvas.cleanUpSelectArea();
             Meteor.text.endEditing();
             if (event.ctrlKey || event.metaKey) {
                 selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
             }
         },
-        'mousemove': function (event) {
+        "mousemove": function (event) {
             if (selectArea && (event.ctrlKey || event.metaKey)) {
                 Meteor.canvas.setOverlay(true);
                 Meteor.canvas.selectByArea(event);
             }
         },
-        'mouseup': function (event) {
+        "mouseup": function (event) {
             if (event.ctrlKey || event.metaKey) {
                 Meteor.canvas.selectByArea(event);
             }
             Meteor.canvas.setOverlay(false);
             Meteor.canvas.cleanUpSelectArea();
         },
-        'dropped #canvas': function (event) {
+        "dropped #canvas": function (event) {
             event.preventDefault();
             event.stopPropagation();
             Meteor.canvas.processFiles(Meteor.canvas.extractFiles(event));
         },
-        'dragover #canvas': function (event) {
+        "dragover #canvas": function (event) {
             event.preventDefault();
             event.stopPropagation();
             Meteor.canvas.handleFileDrag(event);

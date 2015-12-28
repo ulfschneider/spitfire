@@ -1,3 +1,5 @@
+
+
 var editText;
 var editId;
 var initId;
@@ -84,13 +86,13 @@ Meteor.text = {
             Meteor.text.setInputTimeout();
             drawingObject.text = editText;
             drawingObject.zIndex = Meteor.canvas.getMaxZIndex() + 1;
-            Meteor.call('updateEditing', drawingObject);
+            Meteor.call("updateEditing", drawingObject);
         }
     }
     ,
     submitText: function () {
         if (editId) {
-            var textControl = $('#textinput' + editId);
+            var textControl = $("#textinput" + editId);
             Meteor.text.cleanUpInputTimeout();
             if (textControl) {
                 var text = textControl.val();
@@ -98,7 +100,7 @@ Meteor.text = {
                     if (before) {
                         Meteor.command.remove(before);
                     } else {
-                        Meteor.call('removeById', editId);
+                        Meteor.call("removeById", editId);
                     }
                 } else {
                     Meteor.command.submit(before, {
@@ -123,7 +125,7 @@ Meteor.text = {
         if (event && !editId && !initId) {
             initId = Meteor.spitfire.uid();
             Meteor.text.setInputTimeout();
-            Meteor.call('initEditing', {
+            Meteor.call("initEditing", {
                 sessionName: Meteor.spitfire.getSessionName(),
                 initId: initId,
                 left: Meteor.grid.snapLeft(event.pageX),
@@ -139,7 +141,7 @@ Meteor.text = {
 
     updateEditing: function () {
         if (editId) {
-            var textControl = $('#textinput' + editId);
+            var textControl = $("#textinput" + editId);
             if (textControl) {
                 var text = textControl.val();
 
@@ -148,7 +150,7 @@ Meteor.text = {
                     var height = textControl.height();
 
                     if (text != null) {
-                        Meteor.call('updateEditing', {
+                        Meteor.call("updateEditing", {
                             _id: editId,
                             text: text,
                             width: width,
@@ -161,13 +163,13 @@ Meteor.text = {
     }
     ,
     removeEditingById: function (id) {
-        Meteor.call('removeEditingById', id);
+        Meteor.call("removeEditingById", id);
     }
     ,
     blankTargets: function (id) {
-        var childLinks = $('#sizeable' + id + ' a');
+        var childLinks = $("#sizeable" + id + " a");
         for (var i = 0; i < childLinks.length; i++) {
-            $(childLinks[i]).attr('target', '_blank');
+            $(childLinks[i]).attr("target", "_blank");
         }
     },
     getDefaultWidth: function () {
@@ -183,13 +185,13 @@ Meteor.text = {
 
 (function () {
     Template.textInput.events({
-            'click, dblclick, mousedown': function (event) {
+            "click, dblclick, mousedown": function (event) {
                 event.stopPropagation();
             },
-            'keydown': function (event) {
+            "keydown": function (event) {
                 event.stopPropagation();
             },
-            'keypress': function (event) {
+            "keypress": function (event) {
                 if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                     if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
                         Meteor.text.submitText();
@@ -198,7 +200,7 @@ Meteor.text = {
                 }
                 event.stopPropagation();
             },
-            'keyup': function (event) {
+            "keyup": function (event) {
                 if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                     Meteor.text.submitText();
                 } else {
@@ -213,7 +215,7 @@ Meteor.text = {
                 event.stopPropagation();
             },
 
-            'focusout, blur': function () {
+            "focusout, blur": function () {
                 Meteor.text.submitText();
             }
 
@@ -222,7 +224,7 @@ Meteor.text = {
 
 
     Template.textInput.rendered = function () {
-        var textControl = $('#textinput' + Template.currentData()._id);
+        var textControl = $("#textinput" + Template.currentData()._id);
         textControl.val(editText);
         textControl.autosize();
         textControl.focus();
@@ -241,7 +243,7 @@ Meteor.text = {
             }
         },
         height: function () {
-            return ''; //will set auto height that fits to content
+            return ""; //will set auto height that fits to content
         }
 
     });

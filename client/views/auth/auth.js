@@ -1,4 +1,6 @@
-var AUTH_PARAM_ID = ',auth';
+"use strict";
+
+var AUTH_PARAM_ID = ",auth";
 
 Meteor.auth = {
     parseAuth: function (url) {
@@ -8,23 +10,23 @@ Meteor.auth = {
         return false;
     },
     setAuth: function (auth) {
-        if (Meteor.auth.isAuth() !== (auth === true)) {
-            Session.set('auth', auth === true);
+        if (Meteor.auth.isAuth() !== (true === auth)) {
+            Session.set("auth", auth === true);
         }
     },
     isAuth: function () {
-        return Meteor.user() || Session.get('auth') === true;
+        return Meteor.user() || true === Session.get("auth");
     },
     getAuthString: function () {
         if (Meteor.auth.isAuth()) {
             return AUTH_PARAM_ID;
         }
-        return '';
+        return "";
     }
 
 };
 
 
 Accounts.ui.config({
-    passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+    passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
 });
