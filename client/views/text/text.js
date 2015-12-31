@@ -1,5 +1,3 @@
-
-
 var editText;
 var editId;
 var initId;
@@ -17,8 +15,8 @@ Meteor.text = {
         editId = null;
         initId = null;
         before = null;
-        Meteor.text.cleanUpInputUpdate();
-        Meteor.text.cleanUpInputTimeout();
+        Meteor.text._cleanUpInputUpdate();
+        Meteor.text._cleanUpInputTimeout();
     },
     editId: function () {
         return editId;
@@ -44,8 +42,8 @@ Meteor.text = {
             return false;
         }
     },
-    setInputTimeout: function () {
-        Meteor.text.cleanUpInputTimeout();
+    _startInputTimeout: function () {
+        Meteor.text._cleanUpInputTimeout();
         inputTimeoutId = setTimeout(function () {
             if (Meteor.text.editId()) {
                 Meteor.text.removeEditingById(Meteor.text.editId());
@@ -53,25 +51,25 @@ Meteor.text = {
             Meteor.text.clearText();
         }, INPUT_TIME_OUT);
     },
-    cleanUpInputTimeout: function () {
+    _cleanUpInputTimeout: function () {
         if (inputTimeoutId) {
             clearTimeout(inputTimeoutId);
             inputTimeoutId = null;
         }
     }
     ,
-    setInputUpdate: function () {
-        if (!Meteor.text.hasInputUpdate()) {
+    _setInputUpdate: function () {
+        if (!Meteor.text._hasInputUpdate()) {
             inputUpdateId = setTimeout(function () {
                 Meteor.text.updateEditing();
-                Meteor.text.cleanUpInputUpdate();
+                Meteor.text._cleanUpInputUpdate();
             }, INPUT_UPDATE);
         }
     },
-    hasInputUpdate: function () {
+    _hasInputUpdate: function () {
         return inputUpdateId;
     },
-    cleanUpInputUpdate: function () {
+    _cleanUpInputUpdate: function () {
         if (inputUpdateId) {
             clearTimeout(inputUpdateId);
             inputUpdateId = null;
@@ -80,10 +78,10 @@ Meteor.text = {
     ,
     editText: function (drawingObject) {
         if (!editId) {
-            before = JSON.parse(JSON.stringify(drawingObject));
+            before = Meteor.util.clone(drawingObject);
             editText = drawingObject.text;
             editId = drawingObject._id;
-            Meteor.text.setInputTimeout();
+            Meteor.text._startInputTimeout();
             drawingObject.text = editText;
             drawingObject.zIndex = Meteor.canvas.getMaxZIndex() + 1;
             Meteor.call("updateEditing", drawingObject);
@@ -93,7 +91,7 @@ Meteor.text = {
     submitText: function () {
         if (editId) {
             var textControl = $("#textinput" + editId);
-            Meteor.text.cleanUpInputTimeout();
+            Meteor.text._cleanUpInputTimeout();
             if (textControl) {
                 var text = textControl.val();
                 if (!text) {
@@ -124,7 +122,7 @@ Meteor.text = {
         //initEditing - when a user creates items where an editId is not immediatly available
         if (event && !editId && !initId) {
             initId = Meteor.spitfire.uid();
-            Meteor.text.setInputTimeout();
+            Meteor.text._startInputTimeout();
             Meteor.call("initEditing", {
                 sessionName: Meteor.spitfire.getSessionName(),
                 initId: initId,
@@ -166,7 +164,7 @@ Meteor.text = {
         Meteor.call("removeEditingById", id);
     }
     ,
-    blankTargets: function (id) {
+    _blankTargets: function (id) {
         var childLinks = $("#sizeable" + id + " a");
         for (var i = 0; i < childLinks.length; i++) {
             $(childLinks[i]).attr("target", "_blank");
@@ -205,10 +203,10 @@ Meteor.text = {
                     Meteor.text.submitText();
                 } else {
                     var text = event.target.value;
-                    Meteor.text.setInputTimeout();
+                    Meteor.text._startInputTimeout();
                     if (editText != text) {
                         editText = text;
-                        Meteor.text.setInputUpdate();
+                        Meteor.text._setInputUpdate();
                     }
                 }
                 event.preventDefault();
@@ -251,7 +249,7 @@ Meteor.text = {
     Template.text.rendered = function () {
         Meteor.drawingObject.enableDrag(Template.currentData()._id);
         Meteor.drawingObject.enableResize(Template.currentData()._id);
-        Meteor.text.blankTargets(Template.currentData()._id);
+        Meteor.text._blankTargets(Template.currentData()._id);
     }
 
 

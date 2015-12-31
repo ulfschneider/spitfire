@@ -2,15 +2,15 @@
 
 Meteor.editor = {
 
-    isTopMarker: function () {
+    _isTopMarker: function () {
         return $(window)
                 .scrollTop() > 0;
     },
-    isLeftMarker: function () {
+    _isLeftMarker: function () {
         return $(window)
                 .scrollLeft() > 0;
     },
-    isRightMarker: function () {
+    _isRightMarker: function () {
         var w = $(window);
         var e = $("#editor");
         var ww = w.width();
@@ -20,7 +20,7 @@ Meteor.editor = {
 
         return sl + ww < ew;
     },
-    isBottomMarker: function () {
+    _isBottomMarker: function () {
         var w = $(window);
         var e = $("#editor");
         var wh = w.height();
@@ -32,13 +32,13 @@ Meteor.editor = {
     },
     maintainBoundaryMarker: function () {
         $("#topMarker")
-            .css("display", Meteor.editor.isTopMarker() ? "block" : "none");
+            .css("display", Meteor.editor._isTopMarker() ? "block" : "none");
         $("#leftMarker")
-            .css("display", Meteor.editor.isLeftMarker() ? "block" : "none");
+            .css("display", Meteor.editor._isLeftMarker() ? "block" : "none");
         $("#rightMarker")
-            .css("display", Meteor.editor.isRightMarker() ? "block" : "none");
+            .css("display", Meteor.editor._isRightMarker() ? "block" : "none");
         $("#bottomMarker")
-            .css("display", Meteor.editor.isBottomMarker() ? "block" : "none");
+            .css("display", Meteor.editor._isBottomMarker() ? "block" : "none");
 
         var e = $("#editor");
         var w = $(window);

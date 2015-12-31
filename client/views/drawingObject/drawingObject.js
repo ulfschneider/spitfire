@@ -1,5 +1,3 @@
-
-
 var dragTime;
 var sizeId;
 var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
@@ -74,7 +72,7 @@ Meteor.drawingObject = {
                 drawingObject.sizing = stop ? null : new Date();
 
                 if (stop) {
-                    var after = JSON.parse(JSON.stringify(drawingObject));
+                    var after = Meteor.util.clone(drawingObjecdt);
                     Meteor.command.resize(before, after);
                 } else {
                     Meteor.call("resize", drawingObject);
@@ -84,7 +82,7 @@ Meteor.drawingObject = {
         }
     }
     ,
-    snapToGrid: function (drawingObject) {
+    _snapToGrid: function (drawingObject) {
         var draggable = $("#draggable" + drawingObject._id);
         if (draggable) {
             var position = draggable.position();
@@ -99,7 +97,7 @@ Meteor.drawingObject = {
     updatePosition: function (drawingObject, persist, zIndex, stop) {
 
         if (persist || stop) {
-            Meteor.drawingObject.snapToGrid(drawingObject);
+            Meteor.drawingObject._snapToGrid(drawingObject);
         }
         var position = $("#draggable" + drawingObject._id)
             .position();
@@ -113,19 +111,18 @@ Meteor.drawingObject = {
                 var yOffset = position.top - drawingObject.top;
 
                 var selectedObjects = Meteor.select.getSelectedObjects();
-                selectedObjects.forEach(function (selectedObject) {
-                    $("#draggable" + selectedObject._id)
+                for (var i = 0; i < selectedObjects.length; i++) {
+                    $("#draggable" + selectedObjects[i]._id)
                         .css({
-                            left: selectedObject.left + xOffset,
-                            top: selectedObject.top + yOffset
+                            left: selectedObjects[i].left + xOffset,
+                            top: selectedObjects[i].top + yOffset
                         });
 
-                    selectedObject.left = selectedObject.left + xOffset;
-                    selectedObject.top = selectedObject.top + yOffset;
-                    selectedObject.zIndex = zIndex;
-                    selectedObject.dragging = stop ? null : new Date();
-
-                });
+                    selectedObjects[i].left = selectedObjects[i].left + xOffset;
+                    selectedObjects[i].top = selectedObjects[i].top + yOffset;
+                    selectedObjects[i].zIndex = zIndex;
+                    selectedObjects[i].dragging = stop ? null : new Date();
+                }
 
                 if (stop) {
                     Meteor.command.position(before, selectedObjects);
@@ -142,7 +139,7 @@ Meteor.drawingObject = {
                     drawingObject.zIndex = zIndex;
                     drawingObject.dragging = stop ? null : new Date();
                     if (stop) {
-                        var after = JSON.parse(JSON.stringify(drawingObject));
+                        var after = Meteor.util.clone(drawingObject);
                         Meteor.command.position(before, after);
                     } else {
                         Meteor.call("updatePosition", drawingObject);
@@ -155,7 +152,7 @@ Meteor.drawingObject = {
 
     }
     ,
-    adaptPosition: function (drawingObject, left, top, zIndex) {
+    _adaptPosition: function (drawingObject, left, top, zIndex) {
         drawingObject.left = left;
         drawingObject.top = top;
         drawingObject.zIndex = zIndex;
@@ -166,7 +163,7 @@ Meteor.drawingObject = {
             Meteor.command.remove(drawingObject);
         } else {
             var selectedObjects = Meteor.select.getSelectedObjects();
-            var before = JSON.parse(JSON.stringify(selectedObjects));
+            var before = Meteor.util.clone(selectedObjects);
             if (selectedObjects) {
                 Meteor.command.remove(before);
             }
@@ -183,19 +180,15 @@ Meteor.drawingObject = {
     ,
     alignLeft: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
-        var before = JSON.parse(JSON.stringify(selectedObjects));
-        if (selectedObjects) {
+        var before = Meteor.util.clone(selectedObjects);
+        var minX = Meteor.canvas.getDrawingWidth();
+        var i;
 
-            var minX = Meteor.canvas.getDrawingWidth();
-            selectedObjects.forEach(function (selectedObject) {
-                minX = Math.min(selectedObject.left, minX);
-
-            });
-
-            selectedObjects.forEach(function (selectedObject) {
-                Meteor.drawingObject.adaptPosition(selectedObject, minX, selectedObject.top);
-            });
-
+        for (i = 0; i < selectedObjects.length; i++) {
+            minX = Math.min(selectedObjects[i].left, minX);
+        }
+        for (i = 0; i < selectedObjects.length; i++) {
+            Meteor.drawingObject._adaptPosition(selectedObjects[i], minX, selectedObjects[i].top);
         }
 
         Meteor.command.position(before, selectedObjects);
@@ -203,61 +196,55 @@ Meteor.drawingObject = {
     ,
     alignRight: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
-        var before = JSON.parse(JSON.stringify(selectedObjects));
-        if (selectedObjects) {
+        var before = Meteor.util.clone(selectedObjects);
+        var maxX = 0;
+        var i;
 
-            var maxX = 0;
-            selectedObjects.forEach(function (selectedObject) {
-                maxX = Math.max(selectedObject.left + selectedObject.width, maxX);
-
-            });
-
-            selectedObjects.forEach(function (selectedObject) {
-                Meteor.drawingObject.adaptPosition(selectedObject, maxX - selectedObject.width, selectedObject.top);
-            });
-
-            Meteor.command.position(before, selectedObjects);
+        for (i = 0; i < selectedObjects.length; i++) {
+            maxX = Math.max(selectedObjects[i].left + selectedObjects[i].width, maxX);
         }
+        for (i = 0; i < selectedObjects.length; i++) {
+            Meteor.drawingObject._adaptPosition(selectedObjects[i], maxX - selectedObjects[i].width, selectedObjects[i].top);
+        }
+
+        Meteor.command.position(before, selectedObjects);
+
     }
     ,
     alignTop: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
-        var before = JSON.parse(JSON.stringify(selectedObjects));
-        if (selectedObjects) {
+        var before = Meteor.util.clone(selectedObjects);
+        var minY = Meteor.canvas.getDrawingHeight();
+        var i;
 
-            var minY = Meteor.canvas.getDrawingHeight();
-            selectedObjects.forEach(function (selectedObject) {
-                minY = Math.min(selectedObject.top, minY);
-
-            });
-
-            selectedObjects.forEach(function (selectedObject) {
-                Meteor.drawingObject.adaptPosition(selectedObject, selectedObject.left, minY);
-            });
-
-            Meteor.command.position(before, selectedObjects);
+        for (i = 0; i < selectedObjects.length; i++) {
+            minY = Math.min(selectedObjects[i].top, minY);
         }
+        for (i = 0; i < selectedObjects.length; i++) {
+            Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, minY);
+        }
+
+        Meteor.command.position(before, selectedObjects);
+
     }
     ,
     alignBottom: function () {
         var selectedObjects = Meteor.select.getSelectedObjects();
-        var before = JSON.parse(JSON.stringify(selectedObjects));
-        if (selectedObjects) {
+        var before = Meteor.util.clone(selectedObjects);
+        var maxY = 0;
+        var i, uiObject;
 
-            var maxY = 0;
-            selectedObjects.forEach(function (selectedObject) {
-                var uiObject = $("#draggable" + selectedObject._id);
-                maxY = Math.max(selectedObject.top + uiObject.height(), maxY);
-
-            });
-
-            selectedObjects.forEach(function (selectedObject) {
-                var uiObject = $("#draggable" + selectedObject._id);
-                Meteor.drawingObject.adaptPosition(selectedObject, selectedObject.left, maxY - uiObject.height());
-            });
-
-            Meteor.command.position(before, selectedObjects);
+        for (i = 0; i < selectedObjects.length; i++) {
+             uiObject = $("#draggable" + selectedObjects[i]._id);
+            maxY = Math.max(selectedObjects[i].top + uiObject.height(), maxY);
         }
+        for (i = 0; i < selectedObjects.length; i++) {
+             uiObject = $("#draggable" + selectedObjects[i]._id);
+            Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, maxY - uiObject.height());
+        }
+
+        Meteor.command.position(before, selectedObjects);
+
     }
     ,
     moveLeft: function () {
@@ -277,27 +264,25 @@ Meteor.drawingObject = {
     },
     move: function (left, top) {
         var selectedObjects = Meteor.select.getSelectedObjects();
-        var before = JSON.parse(JSON.stringify(selectedObjects));
+        var before = Meteor.util.clone(selectedObjects);
         var stop = false;
-        if (selectedObjects) {
+        var i;
 
-            if (left < 0 || top < 0) {
-                selectedObjects.forEach(function (selectedObject) {
-                    if (left < 0 && selectedObject.left + left <= 0) {
-                        stop = true;
-                    } else if (top < 0 && selectedObject.top + top <= 0) {
-                        stop = true;
-                    }
-                });
+        if (left < 0 || top < 0) {
+            for (i = 0; i < selectedObjects.length; i++) {
+                if (left < 0 && selectedObjects[i].left + left <= 0) {
+                    stop = true;
+                } else if (top < 0 && selectedObjects[i].top + top <= 0) {
+                    stop = true;
+                }
+            }
+        }
+        if (!stop) {
+            for (i = 0; i < selectedObjects.length; i++) {
+                Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left + left, selectedObjects[i].top + top);
             }
 
-            if (!stop) {
-                selectedObjects.forEach(function (selectedObject) {
-                    Meteor.drawingObject.adaptPosition(selectedObject, selectedObject.left + left, selectedObject.top + top);
-                });
-
-                Meteor.command.position(before, selectedObjects);
-            }
+            Meteor.command.position(before, selectedObjects);
         }
     }
 
@@ -316,12 +301,12 @@ Meteor.drawingObject = {
             "dragstart": function (event) {
                 if (!event.ctrlKey && !event.metaKey) {
                     if (!Meteor.select.isSelected(this._id)) {
-                        Meteor.command.deSelect();
+                        Meteor.command.unSelect();
                     }
                     if (Meteor.select.isSelected()) {
                         before = Meteor.select.getSelectedObjects();
                     } else {
-                        before = JSON.parse(JSON.stringify(this));
+                        before = Meteor.util.clone(this);
                     }
                     Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1);
                 }
@@ -340,14 +325,14 @@ Meteor.drawingObject = {
             },
             "dragstop": function (event) {
                 if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.drawingObject.snapToGrid(this);
+                    Meteor.drawingObject._snapToGrid(this);
                     Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1, true);
                 }
             },
             "resizestart": function () {
                 sizeId = this._id;
-                Meteor.command.deSelect();
-                before = JSON.parse(JSON.stringify(this));
+                Meteor.command.unSelect();
+                before = Meteor.util.clone(this);
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
                 Meteor.canvas.setOverlay(true, this._id);
             },
@@ -373,7 +358,7 @@ Meteor.drawingObject = {
             "click .sizeable": function (event) {
                 if (event.metaKey || event.ctrlKey) {
                     if (Meteor.select.isSelected(this._id)) {
-                        Meteor.command.deSelect(this);
+                        Meteor.command.unSelect(this);
                     } else {
                         Meteor.command.select(this);
                     }

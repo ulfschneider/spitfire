@@ -1,5 +1,3 @@
-
-
 var GRID_PARAM_ID = ",grid:";
 var MIN_GRID = 10;
 var GRID_INDENT = 8; //same indentation as header
@@ -10,17 +8,14 @@ Meteor.grid = {
         var grid = Meteor.grid.getGrid();
         return grid && (grid.x > 0 || grid.y > 0);
     },
-    getGridParamId: function () {
-        return GRID_PARAM_ID;
-    },
     getMinGrid: function () {
         return MIN_GRID;
     },
     snapLeft: function (left) {
         var grid = Meteor.grid.getGrid();
         if (!isNaN(left) && grid.x && grid.x >= MIN_GRID) {
-            var factor = Math.floor(Math.max(left, 0) / grid.x);
-            var rem = left % grid.x;
+            var factor = Math.floor(Math.max(left - GRID_INDENT, 0) / grid.x);
+            var rem = (left - GRID_INDENT) % grid.x;
             var above = grid.x - rem;
             return (rem > above ? (factor + 1) * grid.x : factor * grid.x) + GRID_INDENT;
         }
@@ -29,8 +24,8 @@ Meteor.grid = {
     snapTop: function (top) {
         var grid = Meteor.grid.getGrid();
         if (!isNaN(top) && grid.y && grid.y >= MIN_GRID) {
-            var factor = Math.floor(Math.max(top, 0) / grid.y);
-            var rem = top % grid.y;
+            var factor = Math.floor(Math.max(top - GRID_INDENT, 0) / grid.y);
+            var rem = (top - GRID_INDENT ) % grid.y;
             var above = grid.y - rem;
             return (rem > above ? (factor + 1) * grid.y : factor * grid.y) + GRID_INDENT;
 
@@ -41,27 +36,31 @@ Meteor.grid = {
 
         var grid = {x: null, y: null};
         if (url) {
-            var start = url.toLowerCase().indexOf(GRID_PARAM_ID);
+            var xparse, xgrid, yparse, ygrid;
+
+            var start = url.toLowerCase()
+                .indexOf(GRID_PARAM_ID);
             if (start >= 0) {
-                var gridstring = url.toLowerCase().substring(start + GRID_PARAM_ID.length);
+                var gridstring = url.toLowerCase()
+                    .substring(start + GRID_PARAM_ID.length);
                 var end = gridstring.indexOf(",");
                 if (end > 0) {
                     gridstring = gridstring.substring(0, end);
                 }
                 var x = gridstring.indexOf("x");
                 if (x < 0) {
-                    var xparse = parseInt(gridstring);
+                    xparse = parseInt(gridstring);
                     if (!isNaN(xparse)) {
                         grid.x = xparse;
                     }
                 } else {
-                    var xgrid = gridstring.substring(0, x);
-                    var xparse = parseInt(xgrid);
+                    xgrid = gridstring.substring(0, x);
+                    xparse = parseInt(xgrid);
                     if (!isNaN(xparse)) {
                         grid.x = xparse;
                     }
-                    var ygrid = gridstring.substring(x + 1);
-                    var yparse = parseInt(ygrid);
+                    ygrid = gridstring.substring(x + 1);
+                    yparse = parseInt(ygrid);
                     if (!isNaN(yparse)) {
                         grid.y = yparse;
                     }
@@ -113,7 +112,7 @@ Meteor.grid = {
         }
         Meteor.grid.setGrid(grid);
     },
-    drawGrid: function () {
+    _drawGrid: function () {
         var grid = Meteor.grid.getGrid();
         if (grid) {
             var eWidth = Meteor.editor.getWidth();
@@ -122,40 +121,42 @@ Meteor.grid = {
             if (grid.x >= MIN_GRID) {
                 var col = GRID_INDENT;
                 while (col < eWidth) {
-                    $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;border-left:1px dashed lightgray;"></div>');
+                    $('#canvas')
+                        .append('<div class="grid-indicator" style="position:absolute;left:' + col + 'px;top:0;height:' + eHeight + 'px;border-left:1px dashed lightgray;"></div>');
                     col = col + grid.x;
                 }
             }
             if (grid.y >= MIN_GRID) {
                 var row = GRID_INDENT;
                 while (row < eHeight) {
-                    $('#canvas').append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;border-top:1px dashed lightgray;"></div>');
+                    $('#canvas')
+                        .append('<div class="grid-indicator" style="position:absolute;left:0;top:' + row + 'px;width:' + eWidth + 'px;border-top:1px dashed lightgray;"></div>');
                     row = row + grid.y;
                 }
             }
         }
 
     },
-    clearGrid: function () {
-        $(".grid-indicator").remove();
+    _clearGrid: function () {
+        $(".grid-indicator")
+            .remove();
     },
     maintainGrid: function () {
-        Meteor.grid.clearGrid();
-        Meteor.grid.drawGrid();
+        Meteor.grid._clearGrid();
+        Meteor.grid._drawGrid();
     },
-    getGridIndent:function() {
+    getGridIndent: function () {
         return GRID_INDENT;
     }
-
-
 };
 
 (function () {
 
 
-    $(window).on("resize", function () {
-        Meteor.grid.maintainGrid();
-    });
+    $(window)
+        .on("resize", function () {
+            Meteor.grid.maintainGrid();
+        });
 
     Template.grid.events({
             "keypress": function (event) {

@@ -1,12 +1,9 @@
-
-
 var drawingWidth = 0;
 var drawingHeight = 0;
 var maxZIndex = 0;
 var selectArea = null;
 
 Meteor.canvas = {
-
 
     setOverlay: function (overlay, id) {
         if (overlay) {
@@ -43,7 +40,7 @@ Meteor.canvas = {
     getMaxZIndex: function () {
         return maxZIndex;
     },
-    cleanUp: function (drawingObject) {
+    _cleanUp: function (drawingObject) {
         var cleanup = false;
         var cleanupData = {_id: drawingObject._id};
 
@@ -74,7 +71,7 @@ Meteor.canvas = {
             }
         }
     },
-    maxSizeAndZIndex: function (drawingObject) {
+    _maxSizeAndZIndex: function (drawingObject) {
         drawingWidth = Math.max(drawingWidth, drawingObject.left + drawingObject.width);
         drawingHeight = Math.max(drawingHeight, drawingObject.top + drawingObject.height);
         if (drawingObject.zIndex) {
@@ -82,7 +79,7 @@ Meteor.canvas = {
         }
     },
 
-    getFilteredObjects: function () {
+    _getFilteredObjects: function () {
         if (Meteor.filter.getFilter()) {
 
             var query = [
@@ -119,7 +116,7 @@ Meteor.canvas = {
     getDrawingObjects: function () {
         Meteor.grid.maintainGrid();
 
-        var filteredObjects = Meteor.canvas.getFilteredObjects();
+        var filteredObjects = Meteor.canvas._getFilteredObjects();
 
         var editId = Meteor.text.editId();
         var initId = Meteor.text.initId();
@@ -133,7 +130,6 @@ Meteor.canvas = {
             Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
         }
 
-
         filteredObjects.forEach(function (filteredObject) {
 
             if (!editOrInitFound) {
@@ -143,8 +139,8 @@ Meteor.canvas = {
                     editOrInitFound = true;
                 }
             }
-            Meteor.canvas.maxSizeAndZIndex(filteredObject);
-            Meteor.canvas.cleanUp(filteredObject);
+            Meteor.canvas._maxSizeAndZIndex(filteredObject);
+            Meteor.canvas._cleanUp(filteredObject);
 
 
         });
@@ -162,23 +158,23 @@ Meteor.canvas = {
             Meteor.canvas.setOverlay(false);
         }
         if (!selectArea) {
-            Meteor.canvas.cleanUpSelectArea();
+            Meteor.canvas._cleanUpSelectArea();
         }
         return filteredObjects;
     },
-    getLeft: function (sizeObject) {
+    _getLeft: function (sizeObject) {
         return sizeObject.width < 0 ? sizeObject.left + sizeObject.width : sizeObject.left;
     },
-    getTop: function (sizeObject) {
+    _getTop: function (sizeObject) {
         return sizeObject.height < 0 ? sizeObject.top + sizeObject.height : sizeObject.top;
     },
-    getRight: function (sizeObject) {
-        return Meteor.canvas.getLeft(sizeObject) + Math.abs(sizeObject.width);
+    _getRight: function (sizeObject) {
+        return Meteor.canvas._getLeft(sizeObject) + Math.abs(sizeObject.width);
     },
-    getBottom: function (sizeObject) {
-        return Meteor.canvas.getTop(sizeObject) + Math.abs(sizeObject.height);
+    _getBottom: function (sizeObject) {
+        return Meteor.canvas._getTop(sizeObject) + Math.abs(sizeObject.height);
     },
-    touchedBySelectArea: function (id) {
+    _touchedBySelectArea: function (id) {
         var screenObject = $("#draggable" + id);
         var sizeObject = {
             left: screenObject.position().left,
@@ -188,24 +184,24 @@ Meteor.canvas = {
         };
 
 
-        if ((Meteor.canvas.getLeft(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getLeft(sizeObject) <= Meteor.canvas.getRight(selectArea)) || (Meteor.canvas.getRight(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getRight(sizeObject) <= Meteor.canvas.getRight(selectArea))) {
-            if ((Meteor.canvas.getTop(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getTop(sizeObject) <= Meteor.canvas.getBottom(selectArea)) || (Meteor.canvas.getBottom(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getBottom(sizeObject) <= Meteor.canvas.getBottom(selectArea))) {
+        if ((Meteor.canvas._getLeft(sizeObject) >= Meteor.canvas._getLeft(selectArea) && Meteor.canvas._getLeft(sizeObject) <= Meteor.canvas._getRight(selectArea)) || (Meteor.canvas._getRight(sizeObject) >= Meteor.canvas._getLeft(selectArea) && Meteor.canvas._getRight(sizeObject) <= Meteor.canvas._getRight(selectArea))) {
+            if ((Meteor.canvas._getTop(sizeObject) >= Meteor.canvas._getTop(selectArea) && Meteor.canvas._getTop(sizeObject) <= Meteor.canvas._getBottom(selectArea)) || (Meteor.canvas._getBottom(sizeObject) >= Meteor.canvas._getTop(selectArea) && Meteor.canvas._getBottom(sizeObject) <= Meteor.canvas._getBottom(selectArea))) {
                 return true;
             }
         }
-        if (Meteor.canvas.getLeft(sizeObject) < Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getRight(sizeObject) > Meteor.canvas.getRight(selectArea)) {
-            if ((Meteor.canvas.getTop(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getTop(sizeObject) <= Meteor.canvas.getBottom(selectArea)) || (Meteor.canvas.getBottom(sizeObject) >= Meteor.canvas.getTop(selectArea) && Meteor.canvas.getBottom(sizeObject) <= Meteor.canvas.getBottom(selectArea))) {
+        if (Meteor.canvas._getLeft(sizeObject) < Meteor.canvas._getLeft(selectArea) && Meteor.canvas._getRight(sizeObject) > Meteor.canvas._getRight(selectArea)) {
+            if ((Meteor.canvas._getTop(sizeObject) >= Meteor.canvas._getTop(selectArea) && Meteor.canvas._getTop(sizeObject) <= Meteor.canvas._getBottom(selectArea)) || (Meteor.canvas._getBottom(sizeObject) >= Meteor.canvas._getTop(selectArea) && Meteor.canvas._getBottom(sizeObject) <= Meteor.canvas._getBottom(selectArea))) {
                 return true;
             }
         }
-        if (Meteor.canvas.getTop(sizeObject) < Meteor.canvas.getTop(selectArea) && Meteor.canvas.getBottom(sizeObject) > Meteor.canvas.getBottom(selectArea)) {
-            if ((Meteor.canvas.getLeft(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getLeft(sizeObject) <= Meteor.canvas.getRight(selectArea)) || (Meteor.canvas.getRight(sizeObject) >= Meteor.canvas.getLeft(selectArea) && Meteor.canvas.getRight(sizeObject) <= Meteor.canvas.getRight(selectArea))) {
+        if (Meteor.canvas._getTop(sizeObject) < Meteor.canvas._getTop(selectArea) && Meteor.canvas._getBottom(sizeObject) > Meteor.canvas._getBottom(selectArea)) {
+            if ((Meteor.canvas._getLeft(sizeObject) >= Meteor.canvas._getLeft(selectArea) && Meteor.canvas._getLeft(sizeObject) <= Meteor.canvas._getRight(selectArea)) || (Meteor.canvas._getRight(sizeObject) >= Meteor.canvas._getLeft(selectArea) && Meteor.canvas._getRight(sizeObject) <= Meteor.canvas._getRight(selectArea))) {
                 return true;
             }
         }
         return false;
     },
-    cleanUpSelectArea: function () {
+    _cleanUpSelectArea: function () {
         selectArea = null;
         $("#selectArea")
             .css({
@@ -217,7 +213,7 @@ Meteor.canvas = {
                 display: "none"
             });
     },
-    selectAll: function () {
+    _selectAll: function () {
         var selectedObjects = [];
 
         Meteor.canvas.getDrawingObjects()
@@ -228,10 +224,7 @@ Meteor.canvas = {
         Meteor.command.select(selectedObjects);
 
     },
-    deselectAll: function () {
-        Meteor.command.deSelect();
-    },
-    selectByArea: function (event) {
+    _selectByArea: function (event) {
         if (selectArea) {
             if (event.pageX != selectArea.left || event.pageY != selectArea.top) {
 
@@ -240,8 +233,8 @@ Meteor.canvas = {
 
                 $("#selectArea")
                     .css({
-                        left: Meteor.canvas.getLeft(selectArea),
-                        top: Meteor.canvas.getTop(selectArea),
+                        left: Meteor.canvas._getLeft(selectArea),
+                        top: Meteor.canvas._getTop(selectArea),
                         width: Math.abs(selectArea.width),
                         height: Math.abs(selectArea.height),
                         position: "absolute",
@@ -252,7 +245,7 @@ Meteor.canvas = {
 
                 Meteor.canvas.getDrawingObjects()
                     .forEach(function (drawingObject) {
-                        if (Meteor.canvas.touchedBySelectArea(drawingObject._id)) {
+                        if (Meteor.canvas._touchedBySelectArea(drawingObject._id)) {
                             selectedObjects.push(drawingObject);
                         }
                     });
@@ -261,7 +254,7 @@ Meteor.canvas = {
             }
         }
     },
-    extractFiles: function (event) {
+    _extractFiles: function (event) {
         if (event.originalEvent) {
             if (event.originalEvent.dataTransfer) {
                 return event.originalEvent.dataTransfer.files;
@@ -269,13 +262,13 @@ Meteor.canvas = {
         }
         return [];
     },
-    processFiles: function (files) {
+    _processFiles: function (files) {
         if (files && files.length > 0) {
             NProgress.start();
             for (var i = 0; i < files.length; i++) {
                 var f = files[i];
                 if (f.type.match("text.*")) {
-                    Meteor.canvas.processFile(f);
+                    Meteor.canvas._processFile(f);
                 } else {
                     alert("The file " + f.name + " could not be imported into " + Meteor.spitfire.appTitle());
                 }
@@ -284,11 +277,11 @@ Meteor.canvas = {
 
         }
     },
-    processFile: function (file) {
+    _processFile: function (file) {
         var reader = new FileReader();
         reader.onload = (function () {
             return function (event) {
-                var lines = Meteor.canvas.getFileData(event.target.result);
+                var lines = Meteor.canvas._getFileData(event.target.result);
                 var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
                 var left = Meteor.grid.getGridIndent();
                 var width = Meteor.editor.getWidth();
@@ -315,7 +308,7 @@ Meteor.canvas = {
         })(file);
         reader.readAsText(file);
     },
-    getFileData: function (data) {
+    _getFileData: function (data) {
         //create drawingObject from each line of text in data
         var trimmedLines = [];
         if (data) {
@@ -330,7 +323,7 @@ Meteor.canvas = {
         }
         return trimmedLines;
     },
-    handleFileDrag: function (event) {
+    _handleFileDrag: function (event) {
         if (event.originalEvent) {
             if (event.originalEvent.dataTransfer) {
                 event.originalEvent.dataTransfer.dropEffect = "copy";
@@ -382,7 +375,7 @@ Meteor.canvas = {
                     }
                 } else if (event.which && event.which === 65 || event.keyCode && event.keyCode === 65) {
                     if (event.ctrlKey || event.metaKey) {
-                        Meteor.canvas.selectAll();
+                        Meteor.canvas._selectAll();
                         event.preventDefault();
                         event.stopPropagation();
                     }
@@ -435,9 +428,9 @@ Meteor.canvas = {
 
     Template.canvas.events({
         "click #canvas": function (event) {
-            Meteor.canvas.cleanUpSelectArea();
+            Meteor.canvas._cleanUpSelectArea();
             if (!event.ctrlKey && !event.metaKey) {
-                Meteor.command.deSelect();
+                Meteor.command.unSelect();
             }
             Meteor.text.endEditing();
         },
@@ -452,7 +445,7 @@ Meteor.canvas = {
             }
         },
         "mousedown": function (event) {
-            Meteor.canvas.cleanUpSelectArea();
+            Meteor.canvas._cleanUpSelectArea();
             Meteor.text.endEditing();
             if (event.ctrlKey || event.metaKey) {
                 selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
@@ -461,25 +454,25 @@ Meteor.canvas = {
         "mousemove": function (event) {
             if (selectArea && (event.ctrlKey || event.metaKey)) {
                 Meteor.canvas.setOverlay(true);
-                Meteor.canvas.selectByArea(event);
+                Meteor.canvas._selectByArea(event);
             }
         },
         "mouseup": function (event) {
             if (event.ctrlKey || event.metaKey) {
-                Meteor.canvas.selectByArea(event);
+                Meteor.canvas._selectByArea(event);
             }
             Meteor.canvas.setOverlay(false);
-            Meteor.canvas.cleanUpSelectArea();
+            Meteor.canvas._cleanUpSelectArea();
         },
         "dropped #canvas": function (event) {
             event.preventDefault();
             event.stopPropagation();
-            Meteor.canvas.processFiles(Meteor.canvas.extractFiles(event));
+            Meteor.canvas._processFiles(Meteor.canvas._extractFiles(event));
         },
         "dragover #canvas": function (event) {
             event.preventDefault();
             event.stopPropagation();
-            Meteor.canvas.handleFileDrag(event);
+            Meteor.canvas._handleFileDrag(event);
         }
     });
 
