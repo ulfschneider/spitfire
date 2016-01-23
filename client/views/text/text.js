@@ -1,10 +1,12 @@
 var editText;
 var editId;
 var initId;
+
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
-var INPUT_UPDATE = 1000; //ONE seconds
+var INPUT_UPDATE = 1000; //ONE second
 var DEFAULT_WIDTH = 200;
 var DEFAULT_HEIGHT = 20;
+
 var inputTimeoutId;
 var inputUpdateId;
 var before;
@@ -192,8 +194,8 @@ Meteor.text = {
             "keypress": function (event) {
                 if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
                     if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
-                        Meteor.text.submitText();
                         event.preventDefault();
+                        Meteor.text.submitText();
                     }
                 }
                 event.stopPropagation();
@@ -222,10 +224,12 @@ Meteor.text = {
 
 
     Template.textInput.rendered = function () {
-        var textControl = $("#textinput" + Template.currentData()._id);
-        textControl.val(editText);
-        textControl.autosize();
-        textControl.focus();
+        if (Template.currentData()._id) {
+            var textControl = $("#textinput" + Template.currentData()._id);
+            textControl.val(editText);
+            textControl.autosize();
+            textControl.focus();
+        }
     };
 
 
