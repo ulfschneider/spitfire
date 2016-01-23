@@ -72,7 +72,7 @@ Meteor.drawingObject = {
                 drawingObject.sizing = stop ? null : new Date();
 
                 if (stop) {
-                    var after = Meteor.util.clone(drawingObjecdt);
+                    var after = Meteor.util.clone(drawingObject);
                     Meteor.command.resize(before, after);
                 } else {
                     Meteor.call("resize", drawingObject);
@@ -235,11 +235,11 @@ Meteor.drawingObject = {
         var i, uiObject;
 
         for (i = 0; i < selectedObjects.length; i++) {
-             uiObject = $("#draggable" + selectedObjects[i]._id);
+            uiObject = $("#draggable" + selectedObjects[i]._id);
             maxY = Math.max(selectedObjects[i].top + uiObject.height(), maxY);
         }
         for (i = 0; i < selectedObjects.length; i++) {
-             uiObject = $("#draggable" + selectedObjects[i]._id);
+            uiObject = $("#draggable" + selectedObjects[i]._id);
             Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, maxY - uiObject.height());
         }
 
@@ -313,12 +313,12 @@ Meteor.drawingObject = {
             },
             "drag": function (event) {
                 if (!event.ctrlKey && !event.metaKey) {
-                    var e = $("#editor");
-                    if (event.pageX + this.width > e.width()) {
-                        e.width(e.width() + 100);
+                    var editor = $("#editor");
+                    if (event.pageX + this.width > editor.width()) {
+                        editor.width(editor.width() + 100);
                     }
-                    if (event.pageY + this.height > e.height()) {
-                        e.height(e.height() + 100);
+                    if (event.pageY + this.height > editor.height()) {
+                        editor.height(editor.height() + 100);
                     }
                     Meteor.drawingObject.updatePosition(this, false); //intentionally not changing z-index and not persisting
                 }
@@ -348,11 +348,13 @@ Meteor.drawingObject = {
             "click .vote": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
+
                 Meteor.drawingObject.vote(this);
             },
             "click .down-vote": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
+
                 Meteor.drawingObject.downVote(this);
             },
             "click .sizeable": function (event) {
@@ -370,6 +372,7 @@ Meteor.drawingObject = {
             "click .delete, dblclick .delete": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
+
                 Meteor.drawingObject.remove(this);
             }
         }
