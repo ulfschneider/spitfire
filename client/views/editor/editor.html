@@ -32,8 +32,8 @@
                 {{#if hasSessionName}}
                     <b>{{sessionName}}</b> {{>filter}} {{>grid}} {{#if isAuth}}{{> loginButtons}}{{/if}} <a class="aboutLink" href="/about">?</a>
                 {{else}}
-                    Welcome to {{appTitle}} • append <b>/a-session-name</b> to your current browser URL to start a
-                    session {{#if isAuth}} • {{> loginButtons}}{{/if}} <a class="aboutLink" href="/about">?</a>
+                    Welcome to {{appTitle}} • append <b>/a-session-name</b> to your current browser URL and start a
+                    whiteboard session {{#if isAuth}} • {{> loginButtons}}{{/if}} <a class="aboutLink" href="/about">?</a>
                 {{/if}}
             </header>
 

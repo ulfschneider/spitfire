@@ -12,7 +12,6 @@ fourseven:scss
 accounts-ui
 accounts-password
 mrt:moment
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -29,3 +28,5 @@ check
 mrt:nprogress
 raix:ui-dropped-event
 linto:jquery-ui
+standard-minifier-css
+standard-minifier-js
