@@ -36,6 +36,7 @@ Meteor.grid = {
 
         var grid = {x: null, y: null};
         if (url) {
+
             var xparse, xgrid, yparse, ygrid;
 
             var start = url.toLowerCase()
