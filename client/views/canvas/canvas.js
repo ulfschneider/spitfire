@@ -427,18 +427,15 @@ Meteor.canvas = {
 
 
     Template.canvas.events({
-        "click #canvas": function (event) {
+        "click #canvas, dblclick #canvas": function (event) {
             Meteor.canvas._cleanUpSelectArea();
-            if (!event.ctrlKey && !event.metaKey) {
+            if (!event.ctrlKey && !event.metaKey && Meteor.select.isSelected()) {
                 Meteor.command.unSelect();
-            }
-            Meteor.text.endEditing();
-        },
-        "dblclick #canvas": function (event) {
-            if (Meteor.spitfire.hasSessionName()) {
+            }  if (Meteor.text.isEditing()) {
+                Meteor.text.endEditing();
+            } else if (Meteor.spitfire.hasSessionName()) {
                 event.preventDefault();
                 event.stopPropagation();
-                Meteor.text.endEditing();
                 if (!event.ctrlKey && !event.metaKey) {
                     Meteor.text.initEditing(event);
                 }

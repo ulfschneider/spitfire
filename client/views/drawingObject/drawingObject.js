@@ -291,7 +291,7 @@ Meteor.drawingObject = {
 (function () {
 
     Template.drawingObject.events({
-            "dblclick .text": function (event) {
+            "click .text, dblclick .text": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
@@ -345,13 +345,13 @@ Meteor.drawingObject = {
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
             },
 
-            "click .vote": function (event) {
+            "click .vote, dblclick .vote": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
 
                 Meteor.drawingObject.vote(this);
             },
-            "click .down-vote": function (event) {
+            "click .down-vote, dblclick .down-vote": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
 
