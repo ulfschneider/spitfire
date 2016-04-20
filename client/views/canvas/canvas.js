@@ -126,10 +126,6 @@ Meteor.canvas = {
         drawingWidth = 0;
         drawingHeight = 0;
 
-        if (editId || sizeId) {
-            Meteor.canvas.setOverlay(true, editId ? editId : sizeId);
-        }
-
         filteredObjects.forEach(function (filteredObject) {
 
             if (!editOrInitFound) {
@@ -152,10 +148,7 @@ Meteor.canvas = {
             if (!editOrInitFound) {
                 //someone else removed a drawing-object while this user was editing
                 Meteor.text.clearText();
-                Meteor.canvas.setOverlay(false);
             }
-        } else if (!sizeId && !selectArea) {
-            Meteor.canvas.setOverlay(false);
         }
         if (!selectArea) {
             Meteor.canvas._cleanUpSelectArea();
@@ -450,7 +443,6 @@ Meteor.canvas = {
         },
         "mousemove": function (event) {
             if (selectArea && (event.ctrlKey || event.metaKey)) {
-                Meteor.canvas.setOverlay(true);
                 Meteor.canvas._selectByArea(event);
             }
         },
@@ -458,7 +450,6 @@ Meteor.canvas = {
             if (event.ctrlKey || event.metaKey) {
                 Meteor.canvas._selectByArea(event);
             }
-            Meteor.canvas.setOverlay(false);
             Meteor.canvas._cleanUpSelectArea();
         },
         "dropped #canvas": function (event) {

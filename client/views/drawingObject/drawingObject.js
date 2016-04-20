@@ -299,6 +299,7 @@ Meteor.drawingObject = {
                 }
             },
             "dragstart": function (event) {
+
                 if (!event.ctrlKey && !event.metaKey) {
                     if (!Meteor.select.isSelected(this._id)) {
                         Meteor.command.unSelect();
@@ -334,14 +335,9 @@ Meteor.drawingObject = {
                 Meteor.command.unSelect();
                 before = Meteor.util.clone(this);
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
-                Meteor.canvas.setOverlay(true, this._id);
-            },
-            "resize": function () {
-                Meteor.canvas.setOverlay(true, this._id);
             },
             "resizestop": function () {
                 sizeId = null;
-                Meteor.canvas.setOverlay(false, this._id);
                 Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
             },
 

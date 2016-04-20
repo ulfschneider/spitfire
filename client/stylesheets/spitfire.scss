@@ -2,6 +2,7 @@ $line-height: 20px;
 $font-size: 14px;
 $text-color: #111;
 $background-color: #fff;
+
 $font: 'Input Sans Condensed', 'Input Sans Cond', sans-serif;
 
 * {
@@ -371,7 +372,7 @@ a {
   top: 0;
   right: 0;
   bottom: 0;
-  background: transparent;
+  background-color: transparent;
   display: none;
 }
 
