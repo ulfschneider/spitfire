@@ -326,9 +326,13 @@ Meteor.canvas = {
 };
 
 (function () {
-
     $(document)
-        .on("keydown", function (event) {
+        .on("keyup", function(event) {
+            if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+                Meteor.command.unSelect();
+            }
+        });
+    $(document).on("keydown", function (event) {
             if (!Meteor.text.isEditing()) {
                 if (Meteor.select.isSelected() && (event.ctrlKey || event.metaKey)) {
 
