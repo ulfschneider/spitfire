@@ -291,6 +291,9 @@ Meteor.drawingObject = {
 (function () {
 
     Template.drawingObject.events({
+            "click a": function(event) {
+                event.stopPropagation();
+            },
             "click .text, dblclick .text": function (event) {
                 event.preventDefault();
                 event.stopPropagation();
