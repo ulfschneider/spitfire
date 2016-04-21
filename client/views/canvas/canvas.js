@@ -126,6 +126,10 @@ Meteor.canvas = {
         drawingWidth = 0;
         drawingHeight = 0;
 
+       // if (editId ) {
+       //     Meteor.canvas.setOverlay(true, editId);
+       // }
+
         filteredObjects.forEach(function (filteredObject) {
 
             if (!editOrInitFound) {
@@ -148,7 +152,10 @@ Meteor.canvas = {
             if (!editOrInitFound) {
                 //someone else removed a drawing-object while this user was editing
                 Meteor.text.clearText();
+           //     Meteor.canvas.setOverlay(false);
             }
+       // } else {
+       //     Meteor.canvas.setOverlay(false);
         }
         if (!selectArea) {
             Meteor.canvas._cleanUpSelectArea();
