@@ -291,7 +291,7 @@ Meteor.drawingObject = {
 (function () {
 
     Template.drawingObject.events({
-            "click a": function(event) {
+            "click .text a": function(event) {
                 if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
                     event.preventDefault();
                     if (event.ctrlKey || event.metaKey) {
