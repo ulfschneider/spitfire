@@ -433,15 +433,17 @@ Meteor.canvas = {
     Template.canvas.events({
         "click #canvas, dblclick #canvas": function (event) {
             Meteor.canvas._cleanUpSelectArea();
-            if (!event.ctrlKey && !event.metaKey && Meteor.select.isSelected()) {
-                Meteor.command.unSelect();
-            }  if (Meteor.text.isEditing()) {
+            if (Meteor.text.isEditing()) {
                 Meteor.text.endEditing();
-            } else if (Meteor.spitfire.hasSessionName()) {
-                event.preventDefault();
-                event.stopPropagation();
-                if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.text.initEditing(event);
+            } else {
+                if (!event.ctrlKey && !event.metaKey && Meteor.select.isSelected()) {
+                    Meteor.command.unSelect();
+                } else if (Meteor.spitfire.hasSessionName()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (!event.ctrlKey && !event.metaKey) {
+                        Meteor.text.initEditing(event);
+                    }
                 }
             }
         },
