@@ -292,6 +292,16 @@ Meteor.drawingObject = {
 
     Template.drawingObject.events({
             "click a": function(event) {
+                if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
+                    event.preventDefault();
+                    if (event.ctrlKey || event.metaKey) {
+                        if (Meteor.select.isSelected(this._id)) {
+                            Meteor.command.unSelect(this);
+                        } else {
+                            Meteor.command.select(this);
+                        }
+                    }
+                }
                 event.stopPropagation();
             },
             "click .text, dblclick .text": function (event) {
