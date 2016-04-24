@@ -1,4 +1,5 @@
 <template name="canvas">
+    <script type="text/javascript" src="/jquery.connect.js"></script>
     <div id="overlay"></div>
     <div id="canvas">
         <div id="selectArea"></div>
@@ -6,4 +7,5 @@
             {{> drawingObject}}
         {{/each}}
     </div>
+    <div>Connections: {{connections}}</div>
 </template>

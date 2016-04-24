@@ -104,7 +104,7 @@ Meteor.drawingObject = {
         if (position) {
 
             //recalculate connection
-            
+
 
             if (Meteor.select.isSelected()) {
                 //update the entire selection
