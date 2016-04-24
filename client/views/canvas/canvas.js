@@ -130,7 +130,17 @@ Meteor.canvas = {
        //     Meteor.canvas.setOverlay(true, editId);
        // }
 
+        var prevObject; //TODO remove later
+
         filteredObjects.forEach(function (filteredObject) {
+
+            //TODO remove later
+            console.log(filteredObject._id);
+            if (prevObject) {
+                filteredObject.next =  prevObject;
+            }
+            prevObject = filteredObject._id;
+            //TODO end remove
 
             if (!editOrInitFound) {
                 if (initId && initId === filteredObject.initId) {

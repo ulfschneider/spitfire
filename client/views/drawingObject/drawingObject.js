@@ -99,13 +99,15 @@ Meteor.drawingObject = {
         if (persist || stop) {
             Meteor.drawingObject._snapToGrid(drawingObject);
         }
-        var position = $("#draggable" + drawingObject._id)
-            .position();
+
+        var position = $("#draggable" + drawingObject._id).position();
         if (position) {
+
+            //recalculate connection
+            
 
             if (Meteor.select.isSelected()) {
                 //update the entire selection
-
 
                 var xOffset = position.left - drawingObject.left;
                 var yOffset = position.top - drawingObject.top;
