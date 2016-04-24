@@ -2,6 +2,7 @@ var dragTime;
 var sizeId;
 var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
 var before;
+var predecessor;
 
 
 Meteor.drawingObject = {
@@ -160,6 +161,16 @@ Meteor.drawingObject = {
         drawingObject.zIndex = zIndex;
     }
     ,
+    clearConnect: function() {
+        predecessor = null;
+    },
+    connect: function (drawingObject) {
+        if (predecessor) {
+            Meteor.call("connect", predecessor, drawingObject);
+        }
+        predecessor = drawingObject._id;
+    }
+    ,
     remove: function (drawingObject) {
         if (drawingObject) {
             Meteor.command.remove(drawingObject);
@@ -293,10 +304,12 @@ Meteor.drawingObject = {
 (function () {
 
     Template.drawingObject.events({
-            "click .text a": function(event) {
+            "click .text a": function (event) {
                 if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
                     event.preventDefault();
-                    if (event.ctrlKey || event.metaKey) {
+                    if (event.altKey) {
+                        Meteor.drawingObject.connect(this);
+                    } else if (event.ctrlKey || event.metaKey) {
                         if (Meteor.select.isSelected(this._id)) {
                             Meteor.command.unSelect(this);
                         } else {
@@ -311,6 +324,8 @@ Meteor.drawingObject = {
                 event.stopPropagation();
                 if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
                     Meteor.text.editText(this);
+                } else if (event.altKey) {
+                    Meteor.drawingObject.connect(this);
                 }
             },
             "dragstart": function (event) {

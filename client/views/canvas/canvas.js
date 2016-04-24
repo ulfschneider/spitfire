@@ -336,6 +336,9 @@ Meteor.canvas = {
             if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                 Meteor.command.unSelect();
             }
+            if (!event.altKey) {
+                Meteor.drawingObject.clearConnect(); //TODO undo command
+            }
         });
     $(document).on("keydown", function (event) {
         if (!Meteor.text.isEditing()) {
