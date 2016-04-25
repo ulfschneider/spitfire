@@ -226,6 +226,11 @@ a {
   padding: 1px;
 }
 
+.connect .text, .connect:hover .text {
+  border: 2px dashed $text-color;
+  padding:1px;
+}
+
 .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
   color: $background-color;
   background: $text-color;

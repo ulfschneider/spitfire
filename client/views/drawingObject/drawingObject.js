@@ -2,7 +2,6 @@ var dragTime;
 var sizeId;
 var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
 var before;
-var predecessor;
 
 
 Meteor.drawingObject = {
@@ -162,13 +161,20 @@ Meteor.drawingObject = {
     }
     ,
     clearConnect: function() {
-        predecessor = null;
+        Session.set("connect", null);
+    },
+    getConnect: function() {
+        return Session.get("connect");
+    },
+    setConnect: function(connect) {
+        Session.set("connect", connect);
     },
     connect: function (drawingObject) {
-        if (predecessor) {
-            Meteor.call("connect", predecessor, drawingObject);
+        var connect = Meteor.drawingObject.getConnect();
+        if (connect) {
+            Meteor.call("connect", connect, drawingObject);
         }
-        predecessor = drawingObject._id;
+        Meteor.drawingObject.setConnect(drawingObject._id);
     }
     ,
     remove: function (drawingObject) {
@@ -427,8 +433,13 @@ Meteor.drawingObject = {
         },
         selected: function () {
             return Meteor.select.isSelected(this._id) ? "selected" : "";
+        },
+        isConnect: function() {
+            return Meteor.drawingObject.getConnect() == this._id;
+        },
+        connect: function() {
+            return Meteor.drawingObject.getConnect() == this._id ? "connect" : "";
         }
-
     });
 
 })();
