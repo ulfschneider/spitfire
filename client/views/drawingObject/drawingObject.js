@@ -192,29 +192,35 @@ Meteor.drawingObject = {
             Meteor.drawingObject.removeConnect(connections[i]);
             if (connections[i].father) {
                 var father = $("#draggable" + connections[i].father);
+                if (father.length == 0) {
+                    father = $("#textinput" + connections[i].father);
+                }
                 var son = $("#draggable" + connections[i]._id);
+                if (son.length == 0) {
+                    son = $("#textinput" + connections[i]._id);
+                }
                 if (father.length !== 0 && son.length !== 0) {
                     var svg = $("#canvasdrawing");
                     if (svg) {
                         var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         line.setAttribute("id", 'connect' + connections[i]._id);
-                        if (father.position().left + father.width() < son.position().left) {
-                            line.setAttribute("x1", father.position().left + father.width());
+                        if (father.position().left + father.outerWidth() < son.position().left) {
+                            line.setAttribute("x1", father.position().left + father.outerWidth());
                         } else {
                             line.setAttribute("x1", father.position().left);
                         }
-                        if (father.position().top + father.height() < son.position().top) {
-                            line.setAttribute("y1", father.position().top + father.height());
+                        if (father.position().top + father.outerHeight() < son.position().top) {
+                            line.setAttribute("y1", father.position().top + father.outerHeight());
                         } else {
                             line.setAttribute("y1", father.position().top);
                         }
-                        if (son.position().left + son.width() < father.position().left) {
-                            line.setAttribute("x2", son.position().left + son.width());
+                        if (son.position().left + son.outerWidth() < father.position().left) {
+                            line.setAttribute("x2", son.position().left + son.outerWidth());
                         } else {
                             line.setAttribute("x2", son.position().left);
                         }
-                        if (son.position().top + son.height()  < father.position().top) {
-                          line.setAttribute("y2", son.position().top + son.height())
+                        if (son.position().top + son.outerHeight()  < father.position().top) {
+                          line.setAttribute("y2", son.position().top + son.outerHeight())
                         } else {
                             line.setAttribute("y2", son.position().top);
                         }
