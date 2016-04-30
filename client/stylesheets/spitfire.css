@@ -215,15 +215,12 @@ a {
   100% {
     border: 2px solid #111; } }
 .drawing-object .controls {
-  margin-top: 0;
+  display: none;
   border: none;
-  height: 20px;
-  -webkit-transition: all .5s ease-in-out;
-  -moz-transition: all .5s ease-in-out;
-  -o-transition: all .5s ease-in-out;
-  -ms-transition: all .5s ease-in-out; }
+  height: 20px; }
 
 .drawing-object:hover .controls {
+  display: block;
   margin-top: -20px; }
 
 .drawing-object .controls a {

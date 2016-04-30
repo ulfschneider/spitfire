@@ -337,7 +337,7 @@ Meteor.canvas = {
                 Meteor.command.unSelect();
             }
             if (!event.altKey) {
-                Meteor.drawingObject.clearConnect(); //TODO undo command
+                Meteor.drawingObject.clearFatherId(); //TODO undo command
             }
         });
     $(document).on("keydown", function (event) {
@@ -426,6 +426,12 @@ Meteor.canvas = {
     Template.canvas.helpers({
             drawingObjects: function () {
                 return Meteor.canvas.getDrawingObjects();
+            },
+            drawingWidth: function () {
+                return Meteor.canvas.getDrawingWidth();
+            },
+            drawingHeight: function () {
+                return Meteor.canvas.getDrawingHeight();
             }
         }
     );

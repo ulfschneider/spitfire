@@ -60,7 +60,7 @@ Meteor.drawingObject = {
         }
     }
     ,
-    resize: function (drawingObject, zIndex, stop) {
+    resize: function (drawingObject, zIndex, persist, stop) {
         if (drawingObject) {
             var sizeable = $("#sizeable" + drawingObject._id);
             if (sizeable) {
@@ -68,13 +68,14 @@ Meteor.drawingObject = {
                 var height = sizeable.height();
                 drawingObject.width = width;
                 drawingObject.height = height;
+                Meteor.drawingObject.drawConnect(drawingObject);
                 drawingObject.zIndex = zIndex;
                 drawingObject.sizing = stop ? null : new Date();
 
                 if (stop) {
                     var after = Meteor.util.clone(drawingObject);
                     Meteor.command.resize(before, after);
-                } else {
+                } else if (persist) {
                     Meteor.call("resize", drawingObject);
                 }
 
@@ -103,8 +104,6 @@ Meteor.drawingObject = {
         var position = $("#draggable" + drawingObject._id).position();
         if (position) {
 
-            //recalculate connection
-
 
             if (Meteor.select.isSelected()) {
                 //update the entire selection
@@ -122,8 +121,10 @@ Meteor.drawingObject = {
 
                     selectedObjects[i].left = selectedObjects[i].left + xOffset;
                     selectedObjects[i].top = selectedObjects[i].top + yOffset;
+                    Meteor.drawingObject.drawConnect(selectedObjects[i]);
                     selectedObjects[i].zIndex = zIndex;
                     selectedObjects[i].dragging = stop ? null : new Date();
+
                 }
 
                 if (stop) {
@@ -135,9 +136,10 @@ Meteor.drawingObject = {
 
             } else {
                 //update only one
+                drawingObject.left = position.left;
+                drawingObject.top = position.top;
+                Meteor.drawingObject.drawConnect(drawingObject);
                 if (persist || stop) {
-                    drawingObject.left = position.left;
-                    drawingObject.top = position.top;
                     drawingObject.zIndex = zIndex;
                     drawingObject.dragging = stop ? null : new Date();
                     if (stop) {
@@ -151,7 +153,6 @@ Meteor.drawingObject = {
 
             dragTime = new Date().getTime();
         }
-
     }
     ,
     _adaptPosition: function (drawingObject, left, top, zIndex) {
@@ -160,21 +161,81 @@ Meteor.drawingObject = {
         drawingObject.zIndex = zIndex;
     }
     ,
-    clearConnect: function() {
-        Session.set("connect", null);
+    clearFatherId: function () {
+        Session.set("fatherId", null);
     },
-    getConnect: function() {
-        return Session.get("connect");
+    getFatherId: function () {
+        return Session.get("fatherId");
     },
-    setConnect: function(connect) {
-        Session.set("connect", connect);
+    setFatherId: function (connect) {
+        Session.set("fatherId", connect);
     },
-    connect: function (drawingObject) {
-        var connect = Meteor.drawingObject.getConnect();
-        if (connect) {
-            Meteor.call("connect", connect, drawingObject);
+    removeConnect: function (son) {
+        var connect = $("#connect" + son._id);
+        if (connect.length !== 0) {
+            connect.remove();
         }
-        Meteor.drawingObject.setConnect(drawingObject._id);
+    },
+    drawConnect: function (drawingObject) {
+        //detect connections
+        var connections=[];
+        var drawingObjects = Meteor.canvas.getDrawingObjects();
+        drawingObjects.forEach(function(object) {
+            if (object.father == drawingObject._id) {
+                connections.push(object);
+            } else if (object._id == drawingObject._id && object.father) {
+                connections.push(object);
+            }
+        });
+
+        for(i = 0; i < connections.length; i++) {
+            Meteor.drawingObject.removeConnect(connections[i]);
+            if (connections[i].father) {
+                var father = $("#draggable" + connections[i].father);
+                var son = $("#draggable" + connections[i]._id);
+                if (father.length !== 0 && son.length !== 0) {
+                    var svg = $("#canvasdrawing");
+                    if (svg) {
+                        var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        line.setAttribute("id", 'connect' + connections[i]._id);
+                        if (father.position().left + father.width() < son.position().left) {
+                            line.setAttribute("x1", father.position().left + father.width());
+                        } else {
+                            line.setAttribute("x1", father.position().left);
+                        }
+                        if (father.position().top + father.height() < son.position().top) {
+                            line.setAttribute("y1", father.position().top + father.height());
+                        } else {
+                            line.setAttribute("y1", father.position().top);
+                        }
+                        if (son.position().left + son.width() < father.position().left) {
+                            line.setAttribute("x2", son.position().left + son.width());
+                        } else {
+                            line.setAttribute("x2", son.position().left);
+                        }
+                        if (son.position().top + son.height()  < father.position().top) {
+                          line.setAttribute("y2", son.position().top + son.height())
+                        } else {
+                            line.setAttribute("y2", son.position().top);
+                        }
+                        line.setAttribute("stroke", "#111");
+                        line.setAttribute("style", "marker-end: url(#markerArrow)");
+                        svg.append(line);
+                    }
+                }
+            }
+        }
+    },
+    connect: function (son) {
+        var fatherId = Meteor.drawingObject.getFatherId();
+        if (fatherId) {
+            Meteor.drawingObject.removeConnect(son);
+            son.father = fatherId;
+            Meteor.call("connect", son);
+            Meteor.drawingObject.drawConnect(son);
+        }
+
+        Meteor.drawingObject.setFatherId(son._id);
     }
     ,
     remove: function (drawingObject) {
@@ -370,11 +431,14 @@ Meteor.drawingObject = {
                 sizeId = this._id;
                 Meteor.command.unSelect();
                 before = Meteor.util.clone(this);
-                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1);
+                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
+            },
+            "resize": function () {
+                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex());
             },
             "resizestop": function () {
                 sizeId = null;
-                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
+                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true, true);
             },
 
             "click .vote, dblclick .vote": function (event) {
@@ -412,6 +476,7 @@ Meteor.drawingObject = {
 
     Template.drawingObject.rendered = function () {
         Meteor.drawingObject.enableDrag(Template.currentData()._id);
+        Meteor.drawingObject.drawConnect(Template.currentData());
     };
 
 
@@ -434,11 +499,13 @@ Meteor.drawingObject = {
         selected: function () {
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
-        isConnect: function() {
-            return Meteor.drawingObject.getConnect() == this._id;
+        isConnect: function () {
+            return Meteor.drawingObject.getFatherId() == this._id;
+
         },
-        connect: function() {
-            return Meteor.drawingObject.getConnect() == this._id ? "connect" : "";
+        connect: function () {
+            Meteor.drawingObject.drawConnect((this));
+            return Meteor.drawingObject.getFatherId() == this._id ? "connect" : "";
         }
     });
 
