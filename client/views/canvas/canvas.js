@@ -337,7 +337,7 @@ Meteor.canvas = {
                 Meteor.command.unSelect();
             }
             if (!event.altKey) {
-                Meteor.drawingObject.clearFatherId(); //TODO undo command
+                Meteor.drawingObject.clearFatherId(); 
             }
         });
     $(document).on("keydown", function (event) {
