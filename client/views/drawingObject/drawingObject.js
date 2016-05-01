@@ -68,7 +68,7 @@ Meteor.drawingObject = {
                 var height = sizeable.height();
                 drawingObject.width = width;
                 drawingObject.height = height;
-                Meteor.drawingObject.drawConnect(drawingObject);
+                Meteor.drawingObject._drawConnect(drawingObject);
                 drawingObject.zIndex = zIndex;
                 drawingObject.sizing = stop ? null : new Date();
 
@@ -121,7 +121,7 @@ Meteor.drawingObject = {
 
                     selectedObjects[i].left = selectedObjects[i].left + xOffset;
                     selectedObjects[i].top = selectedObjects[i].top + yOffset;
-                    Meteor.drawingObject.drawConnect(selectedObjects[i]);
+                    Meteor.drawingObject._drawConnect(selectedObjects[i]);
                     selectedObjects[i].zIndex = zIndex;
                     selectedObjects[i].dragging = stop ? null : new Date();
 
@@ -138,7 +138,7 @@ Meteor.drawingObject = {
                 //update only one
                 drawingObject.left = position.left;
                 drawingObject.top = position.top;
-                Meteor.drawingObject.drawConnect(drawingObject);
+                Meteor.drawingObject._drawConnect(drawingObject);
                 if (persist || stop) {
                     drawingObject.zIndex = zIndex;
                     drawingObject.dragging = stop ? null : new Date();
@@ -164,19 +164,19 @@ Meteor.drawingObject = {
     clearFatherId: function () {
         Session.set("fatherId", null);
     },
-    getFatherId: function () {
+    _getFatherId: function () {
         return Session.get("fatherId");
     },
-    setFatherId: function (connect) {
+    _setFatherId: function (connect) {
         Session.set("fatherId", connect);
     },
-    removeConnect: function (son) {
+    _removeConnect: function (son) {
         var connect = $("#connect" + son._id);
         if (connect.length !== 0) {
             connect.remove();
         }
     },
-    drawConnect: function (drawingObject) {
+    _drawConnect: function (drawingObject) {
         //detect connections
         var connections=[];
         var drawingObjects = Meteor.canvas.getDrawingObjects();
@@ -189,7 +189,7 @@ Meteor.drawingObject = {
         });
 
         for(i = 0; i < connections.length; i++) {
-            Meteor.drawingObject.removeConnect(connections[i]);
+            Meteor.drawingObject._removeConnect(connections[i]);
             if (connections[i].father) {
                 var father = $("#draggable" + connections[i].father);
                 if (father.length == 0) {
@@ -233,15 +233,15 @@ Meteor.drawingObject = {
         }
     },
     connect: function (son) {
-        var fatherId = Meteor.drawingObject.getFatherId();
+        var fatherId = Meteor.drawingObject._getFatherId();
         if (fatherId) {
-            Meteor.drawingObject.removeConnect(son);
+            Meteor.drawingObject._removeConnect(son);
             son.father = fatherId;
             Meteor.call("connect", son);
-            Meteor.drawingObject.drawConnect(son);
+            Meteor.drawingObject._drawConnect(son);
         }
 
-        Meteor.drawingObject.setFatherId(son._id);
+        Meteor.drawingObject._setFatherId(son._id);
     }
     ,
     remove: function (drawingObject) {
@@ -482,7 +482,7 @@ Meteor.drawingObject = {
 
     Template.drawingObject.rendered = function () {
         Meteor.drawingObject.enableDrag(Template.currentData()._id);
-        Meteor.drawingObject.drawConnect(Template.currentData());
+        Meteor.drawingObject._drawConnect(Template.currentData());
     };
 
 
@@ -506,12 +506,12 @@ Meteor.drawingObject = {
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
         isConnect: function () {
-            return Meteor.drawingObject.getFatherId() == this._id;
+            return Meteor.drawingObject._getFatherId() == this._id;
 
         },
         connect: function () {
-            Meteor.drawingObject.drawConnect((this));
-            return Meteor.drawingObject.getFatherId() == this._id ? "connect" : "";
+            Meteor.drawingObject._drawConnect((this));
+            return Meteor.drawingObject._getFatherId() == this._id ? "connect" : "";
         }
     });
 
