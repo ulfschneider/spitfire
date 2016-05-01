@@ -221,7 +221,7 @@ Meteor.drawingObject = {
                             line.setAttribute("y2", son.position().top);
                         }
                         line.setAttribute("stroke", "#111");
-                        line.setAttribute("style", "marker-end: url(#markerArrow)");
+                        line.setAttribute("style", "marker-start: url(#markerCircle); marker-end: url(#markerArrow)");
                         svg.appendChild(line);
                     }
                 }
