@@ -41,11 +41,11 @@ Meteor.editor = {
             .css("display", Meteor.editor._isBottomMarker() ? "block" : "none");
 
         var e = $("#editor");
-        var d = $("#canvasdrawing");
         var w = $(window);
 
         e.width(Math.max(w.width(), Math.max(e.width(), Meteor.canvas.getDrawingWidth() + 200)));
         e.height(Math.max(w.height(), Math.max(e.height(), Meteor.canvas.getDrawingHeight() + 200)));
+
     },
     getWidth: function () {
         return $("#editor")

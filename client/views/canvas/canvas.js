@@ -32,10 +32,10 @@ Meteor.canvas = {
 
     },
     getDrawingWidth: function () {
-        return drawingWidth;
+        return drawingWidth ? drawingWidth : 0;
     },
     getDrawingHeight: function () {
-        return drawingHeight;
+        return drawingHeight ? drawingHeight : 0;
     },
     getMaxZIndex: function () {
         return maxZIndex;
@@ -71,9 +71,31 @@ Meteor.canvas = {
             }
         }
     },
+    setDrawingHeight: function (height) {
+        if (height !== drawingHeight) {
+            drawingHeight = height;
+            var canvas = Meteor.canvas.getSvgCanvas();
+            if (canvas) {
+                canvas.setAttribute("height", Math.max(drawingHeight, Meteor.editor.getHeight()));
+            }
+        }
+    },
+    setDrawingWidth: function (width) {
+        if (width !== drawingWidth) {
+            drawingWidth = width;
+            var canvas = Meteor.canvas.getSvgCanvas();
+            if (canvas) {
+                canvas.setAttribute("width", Math.max(drawingWidth, Meteor.editor.getWidth()));
+            }
+
+        }
+    },
+    getSvgCanvas:function() {
+      return $("#svgcanvas")[0];
+    },
     _maxSizeAndZIndex: function (drawingObject) {
-        drawingWidth = Math.max(drawingWidth, drawingObject.left + drawingObject.width);
-        drawingHeight = Math.max(drawingHeight, drawingObject.top + drawingObject.height);
+        Meteor.canvas.setDrawingWidth(Math.max(Meteor.canvas.getDrawingWidth(), drawingObject.left + drawingObject.width));
+        Meteor.canvas.setDrawingHeight(Math.max(Meteor.canvas.getDrawingHeight(), drawingObject.top + drawingObject.height));
         if (drawingObject.zIndex) {
             maxZIndex = Math.max(maxZIndex, drawingObject.zIndex);
         }
@@ -122,8 +144,8 @@ Meteor.canvas = {
         var initId = Meteor.text.initId();
         var editOrInitFound = false;
 
-        drawingWidth = 0;
-        drawingHeight = 0;
+        Meteor.canvas.setDrawingWidth(0);
+        Meteor.canvas.setDrawingHeight(0);
 
         // if (editId ) {
         //     Meteor.canvas.setOverlay(true, editId);
@@ -337,7 +359,7 @@ Meteor.canvas = {
                 Meteor.command.unSelect();
             }
             if (!event.altKey) {
-                Meteor.drawingObject.clearFatherId(); 
+                Meteor.drawingObject.clearFatherId();
             }
         });
     $(document).on("keydown", function (event) {

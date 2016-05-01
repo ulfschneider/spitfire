@@ -193,7 +193,7 @@ Meteor.drawingObject = {
                     son = $("#textinput" + connections[i]._id);
                 }
                 if (father.length !== 0 && son.length !== 0) {
-                    var svg = $("#canvasdrawing");
+                    var svg = Meteor.canvas.getSvgCanvas();
                     if (svg) {
                         var line = $("#connect" + connections[i]._id)[0];
                         if (!line) {
@@ -222,7 +222,7 @@ Meteor.drawingObject = {
                         }
                         line.setAttribute("stroke", "#111");
                         line.setAttribute("style", "marker-end: url(#markerArrow)");
-                        svg.append(line);
+                        svg.appendChild(line);
                     }
                 }
             }
@@ -255,7 +255,7 @@ Meteor.drawingObject = {
     ,
     remove: function (drawingObject) {
         if (drawingObject) {
-            Meteor.command.remove(drawingObject);
+            Meteor.command.remove(Meteor.util.clone(drawingObject));
         } else {
             var selectedObjects = Meteor.select.getSelectedObjects();
             var before = Meteor.util.clone(selectedObjects);
@@ -434,6 +434,7 @@ Meteor.drawingObject = {
                         editor.height(editor.height() + 100);
                     }
                     Meteor.drawingObject.updatePosition(this, false); //intentionally not changing z-index and not persisting
+                    
                 }
             },
             "dragstop": function (event) {
@@ -527,5 +528,5 @@ Meteor.drawingObject = {
 })();
 
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
-//TODO canvas sizing
 //TODO no circular connections
+//TODO update connections when removing objects
