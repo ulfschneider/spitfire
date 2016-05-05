@@ -6,7 +6,7 @@
             {{> drawingObject}}
         {{/each}}
     </div>
-    <svg id="svgcanvas">
+    <svg id="svgcanvas" width="{{drawingWidth}}" height="{{drawingHeight}}">
         <defs>
             <marker id="markerCircle" markerWidth="8" markerHeight="8" refX="2" refY="5" orient="auto">
                 <circle cx="5" cy="5" r="3" style="stroke: none; fill:#111;"/>
@@ -16,6 +16,6 @@
                 <path d="M0,0 L0,8 L8,4 L0,0" style="stroke:none; fill:#111;" />
             </marker>
         </defs>
-
     </svg>
+
 </template>

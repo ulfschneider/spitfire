@@ -74,24 +74,23 @@ Meteor.canvas = {
     setDrawingHeight: function (height) {
         if (height !== drawingHeight) {
             drawingHeight = height;
-            var canvas = Meteor.canvas.getSvgCanvas();
-            if (canvas) {
-                canvas.setAttribute("height", Math.max(drawingHeight, Meteor.editor.getHeight()));
+            var svg = Meteor.canvas.getSvg();
+            if (svg) {
+                svg.setAttribute("height", Math.max(drawingHeight, Meteor.editor.getHeight()));
             }
         }
     },
     setDrawingWidth: function (width) {
         if (width !== drawingWidth) {
             drawingWidth = width;
-            var canvas = Meteor.canvas.getSvgCanvas();
-            if (canvas) {
-                canvas.setAttribute("width", Math.max(drawingWidth, Meteor.editor.getWidth()));
+            var svg = Meteor.canvas.getSvg();
+            if (svg) {
+                svg.setAttribute("width", Math.max(drawingWidth, Meteor.editor.getWidth()));
             }
-
         }
     },
-    getSvgCanvas:function() {
-      return $("#svgcanvas")[0];
+    getSvg: function () {
+        return $("#svgcanvas")[0];
     },
     _maxSizeAndZIndex: function (drawingObject) {
         Meteor.canvas.setDrawingWidth(Math.max(Meteor.canvas.getDrawingWidth(), drawingObject.left + drawingObject.width));
@@ -167,6 +166,7 @@ Meteor.canvas = {
 
 
         Meteor.editor.maintainBoundaryMarker();
+        Meteor.drawingObject.cleanupConnections();
 
         if (editId || initId) {
             if (!editOrInitFound) {
