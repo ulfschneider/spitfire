@@ -245,7 +245,7 @@ Meteor.drawingObject = {
         var father = $("#draggable" + fatherId);
         var son = $("#draggable" + sonId);
 
-        if (father.length && son.length) {
+        if (father.length && son.length && fatherId !== sonId) {
             if (father.position().left + father.outerWidth() < son.position().left) {
                 line.setAttribute("x1", father.position().left + father.outerWidth());
             } else {
@@ -279,6 +279,7 @@ Meteor.drawingObject = {
             _fatherId = Meteor.drawingObject.getFatherId();
         }
         if (_fatherId) {
+            Meteor.drawingObject.unConnect(sonId);
             Meteor.drawingObject._drawLine(_fatherId, sonId);
             Meteor.call("connectById", sonId, fatherId);
         }
@@ -558,10 +559,10 @@ Meteor.drawingObject = {
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
         isConnect: function () {
+            Meteor.drawingObject._drawConnections(this._id);
             return Meteor.drawingObject.getFatherId() === this._id;
         },
         father: function () {
-            Meteor.drawingObject._drawConnections(this._id);
             return this.fatherId;
         },
         connect: function () {
