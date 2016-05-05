@@ -92,7 +92,7 @@ Meteor.text = {
     ,
     submitText: function () {
         if (editId) {
-            var textControl = $("#textinput" + editId);
+            var textControl = $("#" + editId);
             Meteor.text._cleanUpInputTimeout();
             if (textControl) {
                 var text = textControl.val();
@@ -141,7 +141,7 @@ Meteor.text = {
 
     updateEditing: function () {
         if (editId) {
-            var textControl = $("#textinput" + editId);
+            var textControl = $("#" + editId);
             if (textControl) {
                 var text = textControl.val();
 
@@ -222,10 +222,15 @@ Meteor.text = {
         }
     );
 
+    Template.textInput.helpers({
+       father: function() {
+           return this.fatherId;
+       }
+    });
 
     Template.textInput.rendered = function () {
         if (Template.currentData()._id) {
-            var textControl = $("#textinput" + Template.currentData()._id);
+            var textControl = $("#" + Template.currentData()._id);
             textControl.val(editText);
             textControl.autosize();
             textControl.focus();

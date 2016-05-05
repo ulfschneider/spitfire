@@ -15,27 +15,23 @@ Meteor.canvas = {
         }
 
         if (overlay && id) {
-            $("#draggable" + id)
+            $("#" + id)
                 .css("z-index", "2147483647");
             $("#sizeable" + id)
-                .css("z-index", "2147483647");
-            $("#textinput" + id)
                 .css("z-index", "2147483647");
         } else if (!overlay && id) {
-            $("#draggable" + id)
+            $("#" + id)
                 .css("z-index", "");
             $("#sizeable" + id)
-                .css("z-index", "");
-            $("#textinput" + id)
                 .css("z-index", "");
         }
 
     },
     getDrawingWidth: function () {
-        return drawingWidth;
+        return drawingWidth ? drawingWidth : 0;
     },
     getDrawingHeight: function () {
-        return drawingHeight;
+        return drawingHeight ? drawingHeight : 0;
     },
     getMaxZIndex: function () {
         return maxZIndex;
@@ -71,9 +67,30 @@ Meteor.canvas = {
             }
         }
     },
+    setDrawingHeight: function (height) {
+        if (height !== drawingHeight) {
+            drawingHeight = height;
+            var svg = Meteor.canvas.getSvg();
+            if (svg) {
+                svg.setAttribute("height", Math.max(drawingHeight, Meteor.editor.getHeight()));
+            }
+        }
+    },
+    setDrawingWidth: function (width) {
+        if (width !== drawingWidth) {
+            drawingWidth = width;
+            var svg = Meteor.canvas.getSvg();
+            if (svg) {
+                svg.setAttribute("width", Math.max(drawingWidth, Meteor.editor.getWidth()));
+            }
+        }
+    },
+    getSvg: function () {
+        return $("#svgcanvas")[0];
+    },
     _maxSizeAndZIndex: function (drawingObject) {
-        drawingWidth = Math.max(drawingWidth, drawingObject.left + drawingObject.width);
-        drawingHeight = Math.max(drawingHeight, drawingObject.top + drawingObject.height);
+        Meteor.canvas.setDrawingWidth(Math.max(Meteor.canvas.getDrawingWidth(), drawingObject.left + drawingObject.width));
+        Meteor.canvas.setDrawingHeight(Math.max(Meteor.canvas.getDrawingHeight(), drawingObject.top + drawingObject.height));
         if (drawingObject.zIndex) {
             maxZIndex = Math.max(maxZIndex, drawingObject.zIndex);
         }
@@ -122,8 +139,8 @@ Meteor.canvas = {
         var initId = Meteor.text.initId();
         var editOrInitFound = false;
 
-        drawingWidth = 0;
-        drawingHeight = 0;
+        Meteor.canvas.setDrawingWidth(0);
+        Meteor.canvas.setDrawingHeight(0);
 
         // if (editId ) {
         //     Meteor.canvas.setOverlay(true, editId);
@@ -145,6 +162,7 @@ Meteor.canvas = {
 
 
         Meteor.editor.maintainBoundaryMarker();
+        Meteor.drawingObject.cleanupConnections();
 
         if (editId || initId) {
             if (!editOrInitFound) {
@@ -173,7 +191,7 @@ Meteor.canvas = {
         return Meteor.canvas._getTop(sizeObject) + Math.abs(sizeObject.height);
     },
     _touchedBySelectArea: function (id) {
-        var screenObject = $("#draggable" + id);
+        var screenObject = $("#" + id);
         var sizeObject = {
             left: screenObject.position().left,
             top: screenObject.position().top,
@@ -337,7 +355,7 @@ Meteor.canvas = {
                 Meteor.command.unSelect();
             }
             if (!event.altKey) {
-                Meteor.drawingObject.clearFatherId(); //TODO undo command
+                Meteor.drawingObject.clearFatherId();
             }
         });
     $(document).on("keydown", function (event) {

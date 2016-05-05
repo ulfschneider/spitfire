@@ -34,7 +34,7 @@ Meteor.drawingObject = {
     ,
     enableDrag: function (id) {
         if (id) {
-            $("#draggable" + id)
+            $("#" + id)
                 .draggable({
                     scroll: true, helper: "original", containment: "#canvas", stack: ".draggable"
                 });
@@ -68,9 +68,9 @@ Meteor.drawingObject = {
                 var height = sizeable.height();
                 drawingObject.width = width;
                 drawingObject.height = height;
-                Meteor.drawingObject.drawConnect(drawingObject);
                 drawingObject.zIndex = zIndex;
                 drawingObject.sizing = stop ? null : new Date();
+                Meteor.drawingObject._drawConnections(drawingObject._id);
 
                 if (stop) {
                     var after = Meteor.util.clone(drawingObject);
@@ -84,7 +84,7 @@ Meteor.drawingObject = {
     }
     ,
     _snapToGrid: function (drawingObject) {
-        var draggable = $("#draggable" + drawingObject._id);
+        var draggable = $("#" + drawingObject._id);
         if (draggable) {
             var position = draggable.position();
             if (position) {
@@ -101,7 +101,7 @@ Meteor.drawingObject = {
             Meteor.drawingObject._snapToGrid(drawingObject);
         }
 
-        var position = $("#draggable" + drawingObject._id).position();
+        var position = $("#" + drawingObject._id).position();
         if (position) {
 
 
@@ -113,7 +113,7 @@ Meteor.drawingObject = {
 
                 var selectedObjects = Meteor.select.getSelectedObjects();
                 for (var i = 0; i < selectedObjects.length; i++) {
-                    $("#draggable" + selectedObjects[i]._id)
+                    $("#" + selectedObjects[i]._id)
                         .css({
                             left: selectedObjects[i].left + xOffset,
                             top: selectedObjects[i].top + yOffset
@@ -121,10 +121,9 @@ Meteor.drawingObject = {
 
                     selectedObjects[i].left = selectedObjects[i].left + xOffset;
                     selectedObjects[i].top = selectedObjects[i].top + yOffset;
-                    Meteor.drawingObject.drawConnect(selectedObjects[i]);
                     selectedObjects[i].zIndex = zIndex;
                     selectedObjects[i].dragging = stop ? null : new Date();
-
+                    Meteor.drawingObject._drawConnections(selectedObjects[i]._id);
                 }
 
                 if (stop) {
@@ -138,10 +137,10 @@ Meteor.drawingObject = {
                 //update only one
                 drawingObject.left = position.left;
                 drawingObject.top = position.top;
-                Meteor.drawingObject.drawConnect(drawingObject);
+                drawingObject.zIndex = zIndex;
+                drawingObject.dragging = stop ? null : new Date();
+                Meteor.drawingObject._drawConnections(drawingObject._id);
                 if (persist || stop) {
-                    drawingObject.zIndex = zIndex;
-                    drawingObject.dragging = stop ? null : new Date();
                     if (stop) {
                         var after = Meteor.util.clone(drawingObject);
                         Meteor.command.position(before, after);
@@ -167,86 +166,138 @@ Meteor.drawingObject = {
     getFatherId: function () {
         return Session.get("fatherId");
     },
-    setFatherId: function (connect) {
-        Session.set("fatherId", connect);
+    setFatherId: function (fatherId) {
+        Session.set("fatherId", fatherId);
     },
-    removeConnect: function (son) {
-        var connect = $("#connect" + son._id);
-        if (connect.length !== 0) {
-            connect.remove();
+    _getSonObjectIds: function (id) {
+        var sonIds = [];
+        var sons = $("[father=" + id + "]");
+        for (i = 0; i < sons.length; i++) {
+            sonIds.push(sons[i].id);
         }
+        return sonIds;
     },
-    drawConnect: function (drawingObject) {
-        //detect connections
-        var connections=[];
-        var drawingObjects = Meteor.canvas.getDrawingObjects();
-        drawingObjects.forEach(function(object) {
-            if (object.father == drawingObject._id) {
-                connections.push(object);
-            } else if (object._id == drawingObject._id && object.father) {
-                connections.push(object);
-            }
-        });
-
-        for(i = 0; i < connections.length; i++) {
-            Meteor.drawingObject.removeConnect(connections[i]);
-            if (connections[i].father) {
-                var father = $("#draggable" + connections[i].father);
-                if (father.length == 0) {
-                    father = $("#textinput" + connections[i].father);
-                }
-                var son = $("#draggable" + connections[i]._id);
-                if (son.length == 0) {
-                    son = $("#textinput" + connections[i]._id);
-                }
-                if (father.length !== 0 && son.length !== 0) {
-                    var svg = $("#canvasdrawing");
-                    if (svg) {
-                        var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                        line.setAttribute("id", 'connect' + connections[i]._id);
-                        if (father.position().left + father.outerWidth() < son.position().left) {
-                            line.setAttribute("x1", father.position().left + father.outerWidth());
-                        } else {
-                            line.setAttribute("x1", father.position().left);
-                        }
-                        if (father.position().top + father.outerHeight() < son.position().top) {
-                            line.setAttribute("y1", father.position().top + father.outerHeight());
-                        } else {
-                            line.setAttribute("y1", father.position().top);
-                        }
-                        if (son.position().left + son.outerWidth() < father.position().left) {
-                            line.setAttribute("x2", son.position().left + son.outerWidth());
-                        } else {
-                            line.setAttribute("x2", son.position().left);
-                        }
-                        if (son.position().top + son.outerHeight()  < father.position().top) {
-                          line.setAttribute("y2", son.position().top + son.outerHeight())
-                        } else {
-                            line.setAttribute("y2", son.position().top);
-                        }
-                        line.setAttribute("stroke", "#111");
-                        line.setAttribute("style", "marker-end: url(#markerArrow)");
-                        svg.append(line);
-                    }
-                }
-            }
-        }
-    },
-    connect: function (son) {
-        var fatherId = Meteor.drawingObject.getFatherId();
+    _getFatherObjectId: function (id) {
+        var me = $("#" + id);
+        var fatherId = me.attr("father");
         if (fatherId) {
-            Meteor.drawingObject.removeConnect(son);
-            son.father = fatherId;
-            Meteor.call("connect", son);
-            Meteor.drawingObject.drawConnect(son);
+            return fatherId;
+        }
+        return "";
+    },
+    _getConnectionIds: function (id) {
+        var connectionIds = [];
+        var sons = $("[id^=father" + id + "]");
+        for (i = 0; i < sons.length; i++) {
+            connectionIds.push(sons[i].id);
+        }
+        var father = $("[id$=-son" + id + "]")[0];
+
+        if (father) {
+            connectionIds.push(father.id);
+        }
+        return connectionIds;
+    },
+    _getAllConnections: function () {
+        return $("[id^=father]");
+    },
+    cleanupConnections: function () {
+        var connections = Meteor.drawingObject._getAllConnections();
+        for (i = 0; i < connections.length; i++) {
+            var connection = connections[i];
+
+            var fatherIdx = connection.id.indexOf("father");
+            var sonIdx = connection.id.indexOf("-son");
+            var fatherId = connection.id.substring(fatherIdx + "father".length, sonIdx);
+            var sonId = connection.id.substring(sonIdx + "-son".length);
+
+            var father = $("#" + fatherId);
+            if (father.length === 0) {
+                connection.remove();
+            } else {
+                var son = $("#" + sonId);
+                if (son.length === 0) {
+                    console.log("removed");
+                    connection.remove();
+                }
+            }
+        }
+    },
+    _drawConnections: function (id) {
+        var sonIds = Meteor.drawingObject._getSonObjectIds(id);
+        for (i = 0; i < sonIds.length; i++) {
+            Meteor.drawingObject._drawLine(id, sonIds[i]);
         }
 
-        Meteor.drawingObject.setFatherId(son._id);
-    }
-    ,
+        var fatherId = Meteor.drawingObject._getFatherObjectId(id);
+        if (fatherId) {
+            Meteor.drawingObject._drawLine(fatherId, id);
+        }
+    },
+    _drawLine: function (fatherId, sonId) {
+        var svg = Meteor.canvas.getSvg();
+        var line = $("#father" + fatherId + "-son" + sonId)[0];
+        if (!line) {
+            line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        }
+        line.setAttribute("id", "father" + fatherId + "-son" + sonId);
+
+        var father = $("#" + fatherId);
+        var son = $("#" + sonId);
+
+        if (father.length && son.length && fatherId !== sonId) {
+            if (father.position().left + father.outerWidth() < son.position().left) {
+                line.setAttribute("x1", father.position().left + father.outerWidth());
+            } else {
+                line.setAttribute("x1", father.position().left);
+            }
+            if (father.position().top + father.outerHeight() < son.position().top) {
+                line.setAttribute("y1", father.position().top + father.outerHeight());
+            } else {
+                line.setAttribute("y1", father.position().top);
+            }
+            if (son.position().left + son.outerWidth() < father.position().left) {
+                line.setAttribute("x2", son.position().left + son.outerWidth());
+            } else {
+                line.setAttribute("x2", son.position().left);
+            }
+            if (son.position().top + son.outerHeight() < father.position().top) {
+                line.setAttribute("y2", son.position().top + son.outerHeight())
+            } else {
+                line.setAttribute("y2", son.position().top);
+            }
+            line.setAttribute("stroke", "#111");
+            line.setAttribute("style", "marker-end: url(#markerArrow)");
+            svg.appendChild(line);
+        } else {
+            line.remove();
+        }
+    },
+    connect: function (sonId, fatherId) {
+        var _fatherId = fatherId;
+        if (!_fatherId) {
+            _fatherId = Meteor.drawingObject.getFatherId();
+        }
+        if (_fatherId) {
+            Meteor.drawingObject.unConnect(sonId);
+            Meteor.drawingObject._drawLine(_fatherId, sonId);
+            Meteor.call("connectById", sonId, fatherId);
+        }
+        Meteor.drawingObject.setFatherId(sonId);
+    },
+    unConnect: function (sonId, persist) {
+        var connect = $("[id$=-son" + sonId + "]");
+
+        for (i = 0; i < connect.length; i++) {
+            connect[i].remove();
+        }
+        if (persist) {
+            Meteor.call("unConnectById", sonId);
+        }
+    },
     remove: function (drawingObject) {
         if (drawingObject) {
-            Meteor.command.remove(drawingObject);
+            Meteor.command.remove(Meteor.util.clone(drawingObject));
         } else {
             var selectedObjects = Meteor.select.getSelectedObjects();
             var before = Meteor.util.clone(selectedObjects);
@@ -321,11 +372,11 @@ Meteor.drawingObject = {
         var i, uiObject;
 
         for (i = 0; i < selectedObjects.length; i++) {
-            uiObject = $("#draggable" + selectedObjects[i]._id);
+            uiObject = $("#" + selectedObjects[i]._id);
             maxY = Math.max(selectedObjects[i].top + uiObject.height(), maxY);
         }
         for (i = 0; i < selectedObjects.length; i++) {
-            uiObject = $("#draggable" + selectedObjects[i]._id);
+            uiObject = $("#" + selectedObjects[i]._id);
             Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, maxY - uiObject.height());
         }
 
@@ -381,7 +432,7 @@ Meteor.drawingObject = {
                 if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
                     event.preventDefault();
                     if (event.altKey) {
-                        Meteor.drawingObject.connect(this);
+                        Meteor.command.connect({_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
                     } else if (event.ctrlKey || event.metaKey) {
                         if (Meteor.select.isSelected(this._id)) {
                             Meteor.command.unSelect(this);
@@ -398,7 +449,7 @@ Meteor.drawingObject = {
                 if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
                     Meteor.text.editText(this);
                 } else if (event.altKey) {
-                    Meteor.drawingObject.connect(this);
+                    Meteor.command.connect({_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
                 }
             },
             "dragstart": function (event) {
@@ -425,6 +476,7 @@ Meteor.drawingObject = {
                         editor.height(editor.height() + 100);
                     }
                     Meteor.drawingObject.updatePosition(this, false); //intentionally not changing z-index and not persisting
+
                 }
             },
             "dragstop": function (event) {
@@ -482,7 +534,7 @@ Meteor.drawingObject = {
 
     Template.drawingObject.rendered = function () {
         Meteor.drawingObject.enableDrag(Template.currentData()._id);
-        Meteor.drawingObject.drawConnect(Template.currentData());
+        Meteor.drawingObject._drawConnections(Template.currentData()._id);
     };
 
 
@@ -506,13 +558,22 @@ Meteor.drawingObject = {
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
         isConnect: function () {
-            return Meteor.drawingObject.getFatherId() == this._id;
-
+            Meteor.drawingObject._drawConnections(this._id);
+            return Meteor.drawingObject.getFatherId() === this._id;
+        },
+        father: function () {
+            return this.fatherId;
         },
         connect: function () {
-            Meteor.drawingObject.drawConnect((this));
-            return Meteor.drawingObject.getFatherId() == this._id ? "connect" : "";
+            return Meteor.drawingObject.getFatherId() === this._id ? "connect" : "";
         }
     });
 
 })();
+
+
+//TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
+//TODO no circular connections ??
+//TODO calling sequence for commands is not clear, undo/redo not stable
+//TODO filtering not working properly
+
