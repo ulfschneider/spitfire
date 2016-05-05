@@ -15,18 +15,14 @@ Meteor.canvas = {
         }
 
         if (overlay && id) {
-            $("#draggable" + id)
+            $("#" + id)
                 .css("z-index", "2147483647");
             $("#sizeable" + id)
-                .css("z-index", "2147483647");
-            $("#textinput" + id)
                 .css("z-index", "2147483647");
         } else if (!overlay && id) {
-            $("#draggable" + id)
+            $("#" + id)
                 .css("z-index", "");
             $("#sizeable" + id)
-                .css("z-index", "");
-            $("#textinput" + id)
                 .css("z-index", "");
         }
 
@@ -195,7 +191,7 @@ Meteor.canvas = {
         return Meteor.canvas._getTop(sizeObject) + Math.abs(sizeObject.height);
     },
     _touchedBySelectArea: function (id) {
-        var screenObject = $("#draggable" + id);
+        var screenObject = $("#" + id);
         var sizeObject = {
             left: screenObject.position().left,
             top: screenObject.position().top,

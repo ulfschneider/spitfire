@@ -34,7 +34,7 @@ Meteor.drawingObject = {
     ,
     enableDrag: function (id) {
         if (id) {
-            $("#draggable" + id)
+            $("#" + id)
                 .draggable({
                     scroll: true, helper: "original", containment: "#canvas", stack: ".draggable"
                 });
@@ -84,7 +84,7 @@ Meteor.drawingObject = {
     }
     ,
     _snapToGrid: function (drawingObject) {
-        var draggable = $("#draggable" + drawingObject._id);
+        var draggable = $("#" + drawingObject._id);
         if (draggable) {
             var position = draggable.position();
             if (position) {
@@ -101,7 +101,7 @@ Meteor.drawingObject = {
             Meteor.drawingObject._snapToGrid(drawingObject);
         }
 
-        var position = $("#draggable" + drawingObject._id).position();
+        var position = $("#" + drawingObject._id).position();
         if (position) {
 
 
@@ -113,7 +113,7 @@ Meteor.drawingObject = {
 
                 var selectedObjects = Meteor.select.getSelectedObjects();
                 for (var i = 0; i < selectedObjects.length; i++) {
-                    $("#draggable" + selectedObjects[i]._id)
+                    $("#" + selectedObjects[i]._id)
                         .css({
                             left: selectedObjects[i].left + xOffset,
                             top: selectedObjects[i].top + yOffset
@@ -173,12 +173,12 @@ Meteor.drawingObject = {
         var sonIds = [];
         var sons = $("[father=" + id + "]");
         for (i = 0; i < sons.length; i++) {
-            sonIds.push(sons[i].id.substring("draggable".length));
+            sonIds.push(sons[i].id);
         }
         return sonIds;
     },
     _getFatherObjectId: function (id) {
-        var me = $("#draggable" + id);
+        var me = $("#" + id);
         var fatherId = me.attr("father");
         if (fatherId) {
             return fatherId;
@@ -211,11 +211,11 @@ Meteor.drawingObject = {
             var fatherId = connection.id.substring(fatherIdx + "father".length, sonIdx);
             var sonId = connection.id.substring(sonIdx + "-son".length);
 
-            var father = $("#draggable" + fatherId);
+            var father = $("#" + fatherId);
             if (father.length === 0) {
                 connection.remove();
             } else {
-                var son = $("#draggable" + sonId);
+                var son = $("#" + sonId);
                 if (son.length === 0) {
                     console.log("removed");
                     connection.remove();
@@ -242,8 +242,8 @@ Meteor.drawingObject = {
         }
         line.setAttribute("id", "father" + fatherId + "-son" + sonId);
 
-        var father = $("#draggable" + fatherId);
-        var son = $("#draggable" + sonId);
+        var father = $("#" + fatherId);
+        var son = $("#" + sonId);
 
         if (father.length && son.length && fatherId !== sonId) {
             if (father.position().left + father.outerWidth() < son.position().left) {
@@ -294,7 +294,6 @@ Meteor.drawingObject = {
         if (persist) {
             Meteor.call("unConnectById", sonId);
         }
-
     },
     remove: function (drawingObject) {
         if (drawingObject) {
@@ -373,11 +372,11 @@ Meteor.drawingObject = {
         var i, uiObject;
 
         for (i = 0; i < selectedObjects.length; i++) {
-            uiObject = $("#draggable" + selectedObjects[i]._id);
+            uiObject = $("#" + selectedObjects[i]._id);
             maxY = Math.max(selectedObjects[i].top + uiObject.height(), maxY);
         }
         for (i = 0; i < selectedObjects.length; i++) {
-            uiObject = $("#draggable" + selectedObjects[i]._id);
+            uiObject = $("#" + selectedObjects[i]._id);
             Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, maxY - uiObject.height());
         }
 
@@ -576,4 +575,5 @@ Meteor.drawingObject = {
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
 //TODO no circular connections ??
 //TODO calling sequence for commands is not clear, undo/redo not stable
+//TODO filtering not working properly
 
