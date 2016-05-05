@@ -201,24 +201,40 @@ Meteor.drawingObject = {
     _getAllConnections: function () {
         return $("[id^=father]");
     },
-    cleanupConnections: function () {
+    _hasObject: function (drawingObjects, id) {
+        var hasObject = false;
+        drawingObjects.forEach(function (object) {
+            if (object._id === id) {
+                hasObject = true;
+                return true;
+            }
+        });
+        return hasObject;
+    },
+    cleanupConnections: function (drawingObjects) {
         var connections = Meteor.drawingObject._getAllConnections();
         for (i = 0; i < connections.length; i++) {
             var connection = connections[i];
+            console.log(connection);
 
             var fatherIdx = connection.id.indexOf("father");
             var sonIdx = connection.id.indexOf("-son");
             var fatherId = connection.id.substring(fatherIdx + "father".length, sonIdx);
             var sonId = connection.id.substring(sonIdx + "-son".length);
 
-            var father = $("#" + fatherId);
-            if (father.length === 0) {
-                connection.remove();
-            } else {
-                var son = $("#" + sonId);
-                if (son.length === 0) {
-                    console.log("removed");
+            if (drawingObjects) {
+                if (!Meteor.drawingObject._hasObject(drawingObjects, sonId) || !Meteor.drawingObject._hasObject(drawingObjects, fatherId)) {
                     connection.remove();
+                }
+            } else {
+                var father = $("#" + fatherId);
+                if (father.length === 0) {
+                    connection.remove();
+                } else {
+                    var son = $("#" + sonId);
+                    if (son.length === 0) {
+                        connection.remove();
+                    }
                 }
             }
         }
@@ -558,10 +574,10 @@ Meteor.drawingObject = {
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
         isConnect: function () {
-            Meteor.drawingObject._drawConnections(this._id);
             return Meteor.drawingObject.getFatherId() === this._id;
         },
         father: function () {
+            Meteor.drawingObject._drawConnections(this._id);
             return this.fatherId;
         },
         connect: function () {
@@ -576,4 +592,5 @@ Meteor.drawingObject = {
 //TODO no circular connections ??
 //TODO calling sequence for commands is not clear, undo/redo not stable
 //TODO filtering not working properly
+//TODO Align not working properly
 

@@ -162,7 +162,7 @@ Meteor.canvas = {
 
 
         Meteor.editor.maintainBoundaryMarker();
-        Meteor.drawingObject.cleanupConnections();
+        Meteor.drawingObject.cleanupConnections(filteredObjects);
 
         if (editId || initId) {
             if (!editOrInitFound) {
