@@ -96,7 +96,7 @@ Meteor.canvas = {
         }
     },
 
-    _getFilteredObjects: function () {
+    getFilteredObjects: function () {
         if (Meteor.filter.getFilter()) {
 
             var query = [
@@ -124,16 +124,16 @@ Meteor.canvas = {
             return DrawingObjects.find({
                     $or: query
                 }
-            ).fetch();
+            );
         } else {
-            return DrawingObjects.find().fetch();
+            return DrawingObjects.find();
 
         }
     },
-    getDrawingObjects: function () {
+    _getDrawingObjects: function () {
         Meteor.grid.maintainGrid();
 
-        var filteredObjects = Meteor.canvas._getFilteredObjects();
+        var filteredObjects = Meteor.canvas.getFilteredObjects();
 
         var editId = Meteor.text.editId();
         var initId = Meteor.text.initId();
@@ -141,11 +141,6 @@ Meteor.canvas = {
 
         Meteor.canvas.setDrawingWidth(0);
         Meteor.canvas.setDrawingHeight(0);
-
-        // if (editId ) {
-        //     Meteor.canvas.setOverlay(true, editId);
-        // }
-
 
         filteredObjects.forEach(function (filteredObject) {
 
@@ -162,16 +157,13 @@ Meteor.canvas = {
 
 
         Meteor.editor.maintainBoundaryMarker();
-        Meteor.drawingObject.cleanupConnections(filteredObjects);
+        Meteor.drawingObject.cleanupConnections();
 
         if (editId || initId) {
             if (!editOrInitFound) {
                 //someone else removed a drawing-object while this user was editing
                 Meteor.text.clearText();
-                //     Meteor.canvas.setOverlay(false);
             }
-            // } else {
-            //     Meteor.canvas.setOverlay(false);
         }
         if (!selectArea) {
             Meteor.canvas._cleanUpSelectArea();
@@ -232,7 +224,7 @@ Meteor.canvas = {
     _selectAll: function () {
         var selectedObjects = [];
 
-        Meteor.canvas.getDrawingObjects()
+        Meteor.canvas.getFilteredObjects()
             .forEach(function (drawingObject) {
                 selectedObjects.push(drawingObject);
             });
@@ -259,7 +251,7 @@ Meteor.canvas = {
 
                 var selectedObjects = [];
 
-                Meteor.canvas.getDrawingObjects()
+                Meteor.canvas.getFilteredObjects()
                     .forEach(function (drawingObject) {
                         if (Meteor.canvas._touchedBySelectArea(drawingObject._id)) {
                             selectedObjects.push(drawingObject);
@@ -443,7 +435,7 @@ Meteor.canvas = {
 
     Template.canvas.helpers({
             drawingObjects: function () {
-                return Meteor.canvas.getDrawingObjects();
+                return Meteor.canvas._getDrawingObjects();
             },
             drawingWidth: function () {
                 return Meteor.canvas.getDrawingWidth();

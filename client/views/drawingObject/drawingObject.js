@@ -212,34 +212,11 @@ Meteor.drawingObject = {
         });
         return hasObject;
     },
-    cleanupConnections: function (drawingObjects) {
-        console.log("cleanup collections");
+    cleanupConnections: function () {
         var connections = Meteor.drawingObject._getAllConnections();
 
         for (i = 0; i < connections.length; i++) {
-            var connection = connections[i];
-
-            var fatherIdx = connection.id.indexOf("father");
-            var sonIdx = connection.id.indexOf("-son");
-            var fatherId = connection.id.substring(fatherIdx + "father".length, sonIdx);
-            var sonId = connection.id.substring(sonIdx + "-son".length);
-
-            if (drawingObjects) {
-                if (!Meteor.drawingObject._hasObject(drawingObjects, sonId) || !Meteor.drawingObject._hasObject(drawingObjects, fatherId)) {
-                    console.log("remove " + connection.id);
-                    connection.remove();
-                }
-            } else {
-                var father = $("#" + fatherId);
-                if (father.length === 0) {
-                    connection.remove();
-                } else {
-                    var son = $("#" + sonId);
-                    if (son.length === 0) {
-                        connection.remove();
-                    }
-                }
-            }
+            connections[i].remove();
         }
     },
     _drawConnections: function (id) {
@@ -252,7 +229,8 @@ Meteor.drawingObject = {
         if (fatherId) {
             Meteor.drawingObject._drawLine(fatherId, id);
         }
-    },
+    }
+    ,
     _drawLine: function (fatherId, sonId) {
         var svg = Meteor.canvas.getSvg();
         var line = $("#father" + fatherId + "-son" + sonId)[0];
@@ -291,7 +269,8 @@ Meteor.drawingObject = {
         } else {
             line.remove();
         }
-    },
+    }
+    ,
     connect: function (sonId, fatherId) {
         var _fatherId = fatherId;
         if (!_fatherId) {
@@ -303,7 +282,8 @@ Meteor.drawingObject = {
             Meteor.call("connectById", sonId, fatherId);
         }
         Meteor.drawingObject.setFatherId(sonId);
-    },
+    }
+    ,
     unConnect: function (sonId, persist) {
         var connect = $("[id$=-son" + sonId + "]");
 
@@ -313,7 +293,8 @@ Meteor.drawingObject = {
         if (persist) {
             Meteor.call("unConnectById", sonId);
         }
-    },
+    }
+    ,
     remove: function (drawingObject) {
         if (drawingObject) {
             Meteor.command.remove(Meteor.util.clone(drawingObject));
@@ -417,7 +398,8 @@ Meteor.drawingObject = {
     ,
     moveDown: function () {
         Meteor.drawingObject.move(0, 2);
-    },
+    }
+    ,
     move: function (left, top) {
         var selectedObjects = Meteor.select.getSelectedObjects();
         var before = Meteor.util.clone(selectedObjects);
@@ -442,7 +424,8 @@ Meteor.drawingObject = {
         }
     }
 
-};
+}
+;
 
 (function () {
 
@@ -574,7 +557,6 @@ Meteor.drawingObject = {
             return this.sizing ? "sizing" : "";
         },
         selected: function () {
-            console.log("select " + this._id);
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
         isConnect: function () {
@@ -595,5 +577,5 @@ Meteor.drawingObject = {
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
 //TODO no circular connections ??
 //TODO calling sequence for commands is not clear, undo/redo not stable
-//TODO select with area or select all not working properly
+
 
