@@ -101,7 +101,8 @@ Meteor.drawingObject = {
             Meteor.drawingObject._snapToGrid(drawingObject);
         }
 
-        var position = $("#" + drawingObject._id).position();
+        var position = $("#" + drawingObject._id)
+            .position();
         if (position) {
 
 
@@ -203,19 +204,20 @@ Meteor.drawingObject = {
     },
     _hasObject: function (drawingObjects, id) {
         var hasObject = false;
-        drawingObjects.forEach(function (object) {
+        $.each(drawingObjects, function (object) {
             if (object._id === id) {
                 hasObject = true;
-                return true;
             }
+            return hasObject;
         });
         return hasObject;
     },
     cleanupConnections: function (drawingObjects) {
+        console.log("cleanup collections");
         var connections = Meteor.drawingObject._getAllConnections();
+
         for (i = 0; i < connections.length; i++) {
             var connection = connections[i];
-            console.log(connection);
 
             var fatherIdx = connection.id.indexOf("father");
             var sonIdx = connection.id.indexOf("-son");
@@ -224,6 +226,7 @@ Meteor.drawingObject = {
 
             if (drawingObjects) {
                 if (!Meteor.drawingObject._hasObject(drawingObjects, sonId) || !Meteor.drawingObject._hasObject(drawingObjects, fatherId)) {
+                    console.log("remove " + connection.id);
                     connection.remove();
                 }
             } else {
@@ -571,6 +574,7 @@ Meteor.drawingObject = {
             return this.sizing ? "sizing" : "";
         },
         selected: function () {
+            console.log("select " + this._id);
             return Meteor.select.isSelected(this._id) ? "selected" : "";
         },
         isConnect: function () {
@@ -591,6 +595,5 @@ Meteor.drawingObject = {
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
 //TODO no circular connections ??
 //TODO calling sequence for commands is not clear, undo/redo not stable
-//TODO filtering not working properly
-//TODO Align not working properly
+//TODO select with area or select all not working properly
 

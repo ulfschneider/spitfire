@@ -124,9 +124,9 @@ Meteor.canvas = {
             return DrawingObjects.find({
                     $or: query
                 }
-            );
+            ).fetch();
         } else {
-            return DrawingObjects.find();
+            return DrawingObjects.find().fetch();
 
         }
     },
