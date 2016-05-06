@@ -1,6 +1,7 @@
 var dragTime;
 var sizeId;
-var DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
+var CLEANUP_DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
+var MOVE_TIME_OUT = 100; //millisecnds
 var before;
 
 
@@ -8,7 +9,7 @@ Meteor.drawingObject = {
     isDragTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.dragging) {
             var now = new Date();
-            return now.getTime() - drawingObject.dragging.getTime() > DRAG_OR_SIZE_TIME_OUT;
+            return now.getTime() - drawingObject.dragging.getTime() > CLEANUP_DRAG_OR_SIZE_TIME_OUT;
         }
         else {
             return false;
@@ -18,7 +19,7 @@ Meteor.drawingObject = {
     isSizeTimeout: function (drawingObject) {
         if (drawingObject && drawingObject.sizing) {
             var now = new Date();
-            return now.getTime() - drawingObject.sizing.getTime() > DRAG_OR_SIZE_TIME_OUT;
+            return now.getTime() - drawingObject.sizing.getTime() > CLEANUP_DRAG_OR_SIZE_TIME_OUT;
         } else {
             return false;
         }
@@ -70,7 +71,7 @@ Meteor.drawingObject = {
                 drawingObject.height = height;
                 drawingObject.zIndex = zIndex;
                 drawingObject.sizing = stop ? null : new Date();
-                Meteor.drawingObject._drawConnections(drawingObject._id);
+                Meteor.drawingObject._drawConnections(drawingObject._id, true);
 
                 if (stop) {
                     var after = Meteor.util.clone(drawingObject);
@@ -105,7 +106,6 @@ Meteor.drawingObject = {
             .position();
         if (position) {
 
-
             if (Meteor.select.isSelected()) {
                 //update the entire selection
 
@@ -124,7 +124,7 @@ Meteor.drawingObject = {
                     selectedObjects[i].top = selectedObjects[i].top + yOffset;
                     selectedObjects[i].zIndex = zIndex;
                     selectedObjects[i].dragging = stop ? null : new Date();
-                    Meteor.drawingObject._drawConnections(selectedObjects[i]._id);
+                    Meteor.drawingObject._drawConnections(selectedObjects[i]._id, true);
                 }
 
                 if (stop) {
@@ -140,7 +140,7 @@ Meteor.drawingObject = {
                 drawingObject.top = position.top;
                 drawingObject.zIndex = zIndex;
                 drawingObject.dragging = stop ? null : new Date();
-                Meteor.drawingObject._drawConnections(drawingObject._id);
+                Meteor.drawingObject._drawConnections(drawingObject._id, true);
                 if (persist || stop) {
                     if (stop) {
                         var after = Meteor.util.clone(drawingObject);
@@ -219,7 +219,7 @@ Meteor.drawingObject = {
             connections[i].remove();
         }
     },
-    _drawConnections: function (id) {
+    _drawConnections: function (id, useTimer) {
         var sonIds = Meteor.drawingObject._getSonObjectIds(id);
         for (i = 0; i < sonIds.length; i++) {
             Meteor.drawingObject._drawLine(id, sonIds[i]);
@@ -228,6 +228,11 @@ Meteor.drawingObject = {
         var fatherId = Meteor.drawingObject._getFatherObjectId(id);
         if (fatherId) {
             Meteor.drawingObject._drawLine(fatherId, id);
+        }
+        if (useTimer) {
+            setTimeout(function () {
+                Meteor.drawingObject._drawConnections(id);
+            }, MOVE_TIME_OUT);
         }
     }
     ,
@@ -477,7 +482,7 @@ Meteor.drawingObject = {
                     if (event.pageY + this.height > editor.height()) {
                         editor.height(editor.height() + 100);
                     }
-                    Meteor.drawingObject.updatePosition(this, false); //intentionally not changing z-index and not persisting
+                    Meteor.drawingObject.updatePosition(this); //intentionally not changing z-index and not persisting
 
                 }
             },
@@ -577,5 +582,5 @@ Meteor.drawingObject = {
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
 //TODO no circular connections ??
 //TODO calling sequence for commands is not clear, undo/redo not stable
-
+//TODO performance
 
