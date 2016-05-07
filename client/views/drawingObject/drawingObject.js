@@ -132,8 +132,6 @@ Meteor.drawingObject = {
                 } else if (persist) {
                     Meteor.call("updatePosition", selectedObjects);
                 }
-
-
             } else {
                 //update only one
                 drawingObject.left = position.left;
@@ -173,7 +171,7 @@ Meteor.drawingObject = {
     _getSonObjectIds: function (id) {
         var sonIds = [];
         var sons = $("[father=" + id + "]");
-        for (i = 0; i < sons.length; i++) {
+        for (var i = 0; i < sons.length; i++) {
             sonIds.push(sons[i].id);
         }
         return sonIds;
@@ -189,7 +187,7 @@ Meteor.drawingObject = {
     _getConnectionIds: function (id) {
         var connectionIds = [];
         var sons = $("[id^=father" + id + "]");
-        for (i = 0; i < sons.length; i++) {
+        for (var i = 0; i < sons.length; i++) {
             connectionIds.push(sons[i].id);
         }
         var father = $("[id$=-son" + id + "]")[0];
@@ -215,13 +213,13 @@ Meteor.drawingObject = {
     cleanupConnections: function () {
         var connections = Meteor.drawingObject._getAllConnections();
 
-        for (i = 0; i < connections.length; i++) {
+        for (var i = 0; i < connections.length; i++) {
             connections[i].remove();
         }
     },
     _drawConnections: function (id, useTimer) {
         var sonIds = Meteor.drawingObject._getSonObjectIds(id);
-        for (i = 0; i < sonIds.length; i++) {
+        for (var i = 0; i < sonIds.length; i++) {
             Meteor.drawingObject._drawLine(id, sonIds[i]);
         }
 
@@ -292,7 +290,7 @@ Meteor.drawingObject = {
     unConnect: function (sonId, persist) {
         var connect = $("[id$=-son" + sonId + "]");
 
-        for (i = 0; i < connect.length; i++) {
+        for (var i = 0; i < connect.length; i++) {
             connect[i].remove();
         }
         if (persist) {
@@ -326,10 +324,10 @@ Meteor.drawingObject = {
         var minX = Meteor.canvas.getDrawingWidth();
         var i;
 
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             minX = Math.min(selectedObjects[i].left, minX);
         }
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             Meteor.drawingObject._adaptPosition(selectedObjects[i], minX, selectedObjects[i].top);
         }
 
@@ -342,10 +340,10 @@ Meteor.drawingObject = {
         var maxX = 0;
         var i;
 
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             maxX = Math.max(selectedObjects[i].left + selectedObjects[i].width, maxX);
         }
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             Meteor.drawingObject._adaptPosition(selectedObjects[i], maxX - selectedObjects[i].width, selectedObjects[i].top);
         }
 
@@ -359,10 +357,10 @@ Meteor.drawingObject = {
         var minY = Meteor.canvas.getDrawingHeight();
         var i;
 
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             minY = Math.min(selectedObjects[i].top, minY);
         }
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, minY);
         }
 
@@ -376,11 +374,11 @@ Meteor.drawingObject = {
         var maxY = 0;
         var i, uiObject;
 
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             uiObject = $("#" + selectedObjects[i]._id);
             maxY = Math.max(selectedObjects[i].top + uiObject.height(), maxY);
         }
-        for (i = 0; i < selectedObjects.length; i++) {
+        for (var i = 0; i < selectedObjects.length; i++) {
             uiObject = $("#" + selectedObjects[i]._id);
             Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, maxY - uiObject.height());
         }
@@ -412,7 +410,7 @@ Meteor.drawingObject = {
         var i;
 
         if (left < 0 || top < 0) {
-            for (i = 0; i < selectedObjects.length; i++) {
+            for (var i = 0; i < selectedObjects.length; i++) {
                 if (left < 0 && selectedObjects[i].left + left <= 0) {
                     stop = true;
                 } else if (top < 0 && selectedObjects[i].top + top <= 0) {
@@ -421,7 +419,7 @@ Meteor.drawingObject = {
             }
         }
         if (!stop) {
-            for (i = 0; i < selectedObjects.length; i++) {
+            for (var i = 0; i < selectedObjects.length; i++) {
                 Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left + left, selectedObjects[i].top + top);
             }
 

@@ -132,9 +132,12 @@ Meteor.text = {
                 top: Meteor.grid.snapTop(event.pageY),
                 width: Meteor.text.getDefaultWidth(),
                 height: Meteor.text.getDefaultHeight(),
-                zIndex: Meteor.canvas.getMaxZIndex() + 1
+                zIndex: Meteor.canvas.getMaxZIndex() + 1,
+                fatherId: event.altKey ? Meteor.drawingObject.getFatherId() : null
             }, function (error, result) {
                 editId = result;
+                if (event.altKey) {
+                }
             });
         }
     },
