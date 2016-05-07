@@ -139,6 +139,7 @@ Meteor.text = {
                 if (event.altKey) {
                 }
             });
+            Meteor.drawingObject.clearFatherId();
         }
     },
 
