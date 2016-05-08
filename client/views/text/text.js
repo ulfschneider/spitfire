@@ -205,7 +205,7 @@ Meteor.text = {
                 if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                     Meteor.text.submitText();
                 } else {
-                    if (!event.altKey) {
+                    if (!event.altKey && Meteor.drawingObject.getFatherId()) {
                         //might be we created a new drawingObject, in that case we reset father here
                         Meteor.drawingObject.clearFatherId();
                     }
