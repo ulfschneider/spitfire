@@ -435,6 +435,7 @@ Meteor.canvas = {
 
     Template.canvas.helpers({
             drawingObjects: function () {
+                console.log("reactivity");
                 return Meteor.canvas._getDrawingObjects();
             },
             drawingWidth: function () {

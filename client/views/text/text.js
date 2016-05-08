@@ -136,10 +136,7 @@ Meteor.text = {
                 fatherId: event.altKey ? Meteor.drawingObject.getFatherId() : null
             }, function (error, result) {
                 editId = result;
-                if (event.altKey) {
-                }
             });
-            Meteor.drawingObject.clearFatherId();
         }
     },
 
@@ -208,6 +205,10 @@ Meteor.text = {
                 if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                     Meteor.text.submitText();
                 } else {
+                    if (!event.altKey) {
+                        //might be we created a new drawingObject, in that case we reset father here
+                        Meteor.drawingObject.clearFatherId();
+                    }
                     var text = event.target.value;
                     Meteor.text._startInputTimeout();
                     if (editText != text) {

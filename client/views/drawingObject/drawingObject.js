@@ -175,7 +175,8 @@ Meteor.drawingObject = {
             sonIds.push(sons[i].id);
         }
         return sonIds;
-    },
+    }
+    ,
     _getFatherObjectId: function (id) {
         var me = $("#" + id);
         var fatherId = me.attr("father");
@@ -183,7 +184,8 @@ Meteor.drawingObject = {
             return fatherId;
         }
         return "";
-    },
+    }
+    ,
     _getConnectionIds: function (id) {
         var connectionIds = [];
         var sons = $("[id^=father" + id + "]");
@@ -196,10 +198,12 @@ Meteor.drawingObject = {
             connectionIds.push(father.id);
         }
         return connectionIds;
-    },
+    }
+    ,
     _getAllConnections: function () {
         return $("[id^=father]");
-    },
+    }
+    ,
     _hasObject: function (drawingObjects, id) {
         var hasObject = false;
         $.each(drawingObjects, function (object) {
@@ -209,14 +213,16 @@ Meteor.drawingObject = {
             return hasObject;
         });
         return hasObject;
-    },
+    }
+    ,
     cleanupConnections: function () {
         var connections = Meteor.drawingObject._getAllConnections();
 
         for (var i = 0; i < connections.length; i++) {
             connections[i].remove();
         }
-    },
+    }
+    ,
     _drawConnections: function (id, useTimer) {
         var sonIds = Meteor.drawingObject._getSonObjectIds(id);
         for (var i = 0; i < sonIds.length; i++) {
