@@ -288,6 +288,7 @@ Meteor.drawingObject = {
         if (_fatherId) {
             Meteor.drawingObject.unConnect(sonId);
             Meteor.drawingObject._drawLine(_fatherId, sonId);
+
             Meteor.call("connectById", sonId, fatherId);
         }
         Meteor.drawingObject.setFatherId(sonId);
@@ -295,10 +296,7 @@ Meteor.drawingObject = {
     ,
     unConnect: function (sonId, persist) {
         var connect = $("[id$=-son" + sonId + "]");
-
-        for (var i = 0; i < connect.length; i++) {
-            connect[i].remove();
-        }
+        connect.remove();
         if (persist) {
             Meteor.call("unConnectById", sonId);
         }
@@ -584,7 +582,7 @@ Meteor.drawingObject = {
 
 
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
-//TODO no circular connections ??
 //TODO calling sequence for commands is not clear, undo/redo not stable
 //TODO performance
+//TODO allow multiple fathers
 
