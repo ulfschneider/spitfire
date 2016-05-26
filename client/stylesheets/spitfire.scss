@@ -1,4 +1,4 @@
-$line-height: 1.618 * 1em;
+$line-height: 22px;
 $font-size: 14px;
 $text-color: #111;
 $background-color: #fff;
@@ -140,10 +140,10 @@ a {
   text-decoration: none;
   outline: none;
   /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(87%, transparent), color-stop(92%, $text-color), color-stop(95%, #fff), color-stop(84%, transparent));*/
-  background-image: -webkit-linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
-  background-image: -moz-linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
-  background-image: -o-linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
-  background-image: linear-gradient(to bottom, transparent 91%, $text-color 93%, $text-color 100%);
+  background-image: -webkit-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
+  background-image: -moz-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
+  background-image: -o-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
+  background-image: linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
 
 }
 
@@ -224,6 +224,11 @@ a {
 .selected .text, .selected:hover .text {
   border: 2px solid $text-color;
   padding: 1px;
+}
+
+.connect .text, .connect:hover .text {
+  border: 2px dashed $text-color;
+  padding:1px;
 }
 
 .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {

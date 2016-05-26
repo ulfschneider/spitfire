@@ -6,6 +6,7 @@
             <h1>About {{appTitle}}</h1>
         </div>
 
+
         <p>{{appTitle}} is a virtual whiteboard to be shared by multiple persons at the same time. Users will be
             anonymous - so no one needs to sign in.</p>
 
@@ -18,6 +19,13 @@
                 people you want to work with. Anyone who has access to that URL can participate in your work.
             </p>
         {{/if}}
+
+        <p>{{appTitle}} is free to use. It is built and shared by <a href="http://ulf.codes"
+                                                                     target="_blank">Ulf&nbsp;Schneider</a>
+            and it is developed while obeying the agile mantra: Make the simplest thing that
+            will possibly work now. Validate. Repeat. Yay.
+        </p>
+
 
         <h3>Writing and editing</h3>
 
@@ -49,6 +57,19 @@
             <kbd>⌘</kbd>-<kbd>←</kbd> / <kbd>CTRL</kbd>-<kbd>←</kbd>. Align top, right or bottom by using the other
             arrow keys.</p>
 
+        <h3>Connect</h3>
+
+        <p>Draw a connection from one item to the other by holding down <kbd>Alt</kbd> (and keep down), click on the
+            father item and then click on the son item. Finally release the <kbd>Alt</kbd>-key.
+        </p>
+
+        <p>If you want to create a new item which should be connected to a father, again, hold down <kbd>Alt</kbd> (and
+            keep down), click on the father and then click at the position inside of the browser window where the new
+            item should be created. As the last step release the <kbd>Alt</kbd>-key.</p>
+
+        <p>You get rid of a connection by holding down the <kbd>Alt</kbd>-key while double clicking on the son item (the
+            one the connection arrow is pointing to).</p>
+
         <h3>Voting</h3>
 
         <p>Dot voting is possible by clicking on the ▲ symbol that appears top left when hovering
@@ -57,12 +78,11 @@
 
         <h3>Filtering</h3>
 
-        <p> You can filter out the contents you are interested in, simply by typing a text
+        <p>You can filter out those contents you are interested in, simply by typing a text
             pattern that has to be part of the contents you want to have on the screen (use the input area in the top
             left corner of the window). E.g. a filter of
             <mark>{{appTitle}}</mark>
-            will show you everything that does contain the
-            pattern
+            will show you everything that does contain the pattern
             <mark>{{appTitle}}</mark>
             . You can do negative filtering by putting the -- prefix in front of your
             filter. E.g.
@@ -95,17 +115,5 @@
         </p>
 
         <h2>* * *</h2>
-
-
-        <p>{{appTitle}} is free to use. It is built and shared by <a href="http://ulf.codes"
-                                                                     target="_blank">Ulf&nbsp;Schneider</a>
-            and it is developed while obeying the agile mantra: Make the simplest thing that
-            will possibly work now. Validate. Repeat. Yay.
-        </p>
-
-        <p>Please tell me how it fits for you and what you´d like to have different.</p>
-
-        <p>Ulf</p>
-
     </div>
 </template>

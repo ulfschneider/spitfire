@@ -92,7 +92,7 @@ Meteor.text = {
     ,
     submitText: function () {
         if (editId) {
-            var textControl = $("#textinput" + editId);
+            var textControl = $("#" + editId);
             Meteor.text._cleanUpInputTimeout();
             if (textControl) {
                 var text = textControl.val();
@@ -132,7 +132,8 @@ Meteor.text = {
                 top: Meteor.grid.snapTop(event.pageY),
                 width: Meteor.text.getDefaultWidth(),
                 height: Meteor.text.getDefaultHeight(),
-                zIndex: Meteor.canvas.getMaxZIndex() + 1
+                zIndex: Meteor.canvas.getMaxZIndex() + 1,
+                fatherId: event.altKey ? Meteor.drawingObject.getFatherId() : null
             }, function (error, result) {
                 editId = result;
             });
@@ -141,7 +142,7 @@ Meteor.text = {
 
     updateEditing: function () {
         if (editId) {
-            var textControl = $("#textinput" + editId);
+            var textControl = $("#" + editId);
             if (textControl) {
                 var text = textControl.val();
 
@@ -204,6 +205,10 @@ Meteor.text = {
                 if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                     Meteor.text.submitText();
                 } else {
+                    if (!event.altKey && Meteor.drawingObject.getFatherId()) {
+                        //might be we created a new drawingObject, in that case we reset father here
+                        Meteor.drawingObject.clearFatherId();
+                    }
                     var text = event.target.value;
                     Meteor.text._startInputTimeout();
                     if (editText != text) {
@@ -222,10 +227,15 @@ Meteor.text = {
         }
     );
 
+    Template.textInput.helpers({
+       father: function() {
+           return this.fatherId;
+       }
+    });
 
     Template.textInput.rendered = function () {
         if (Template.currentData()._id) {
-            var textControl = $("#textinput" + Template.currentData()._id);
+            var textControl = $("#" + Template.currentData()._id);
             textControl.val(editText);
             textControl.autosize();
             textControl.focus();
