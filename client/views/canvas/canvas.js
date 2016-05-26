@@ -448,7 +448,7 @@ Meteor.canvas = {
 
 
     Template.canvas.events({
-        "click #canvas, dblclick #canvas": function (event) {
+        "dblclick #canvas": function (event) {
             Meteor.canvas._cleanUpSelectArea();
             if (Meteor.text.isEditing()) {
                 Meteor.text.endEditing();
