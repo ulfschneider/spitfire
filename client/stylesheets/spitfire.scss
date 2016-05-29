@@ -1,4 +1,4 @@
-$line-height: 20px;
+$line-height: 22px;
 $font-size: 14px;
 $text-color: #111;
 $background-color: #fff;
@@ -139,7 +139,6 @@ a {
   color: $text-color;
   text-decoration: none;
   outline: none;
-  /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(87%, transparent), color-stop(92%, $text-color), color-stop(95%, #fff), color-stop(84%, transparent));*/
   background-image: -webkit-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
   background-image: -moz-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
   background-image: -o-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
@@ -172,10 +171,11 @@ a {
 
 .drawing-object {
   cursor: pointer;
-  display: inline-block;
+  display: block;
   position: absolute;
   vertical-align: top;
 }
+
 
 .drawing-object .text ul {
   padding-left: $line-height;
@@ -201,6 +201,10 @@ a {
 
 .drawing-object .text img {
   max-width:100%;
+}
+
+.drawing-object:hover {
+  z-index: 2147483645 !important;
 }
 
 .drawing-object:hover .text {
@@ -286,7 +290,10 @@ a {
 .drawing-object .controls {
   display: none;
   border: none;
-  height: 20px;
+  height: $line-height;
+  position:relative;
+  background:$background-color;
+  background:rgba(255,255,255, .9);
 }
 
 .drawing-object:hover .controls {
