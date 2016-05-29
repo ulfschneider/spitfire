@@ -1,5 +1,5 @@
-$line-height: 22px;
-$font-size: 14px;
+$line-height: 20px;
+$font-size: 15px;
 $text-color: #111;
 $background-color: #fff;
 
@@ -48,17 +48,18 @@ p {
 }
 
 h1, h2, h3 {
-  text-align: center;
+  text-align: left;
   font-weight: bold;
-  margin-top: 2*$line-height;
-  margin-bottom: 2*$line-height;
-}
-
-h3 {
-  text-align:left;
-  margin-top: $line-height;
+  margin-top: 1.62 * 1.62em;
   margin-bottom: 0;
 }
+
+h1, h2 {
+  text-align:center;
+  margin-bottom:1.62em;
+}
+
+
 
 mark {
   background: #eee;
@@ -121,15 +122,29 @@ textarea {
 
 .about {
   padding: 8px;
-  max-width: 600px;
+  max-width: 700px;
   margin: 50px auto;
+
+  p {
+    margin-bottom: 1.62em;
+  }
 }
 
 .about, .about * {
-  line-height: 1.8em;
+  font-size:17px;
+  line-height: 1.62em;
   font-family: "Input Sans", sans-serif;
 }
 
+
+ul.toc {
+  margin:0;
+  padding:0;
+}
+
+.toc li  {
+  list-style-type:none;
+}
 
 a {
   @extend %linkstyle;
