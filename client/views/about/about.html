@@ -2,7 +2,6 @@
     <div class="about">
         <div style="text-align:center;">
             <img src="/favicon-96x96.png" width=48px; height="48px;"/>
-
             <h1>About {{appTitle}}</h1>
         </div>
 
@@ -26,38 +25,52 @@
             will possibly work now. Validate. Repeat. Yay.
         </p>
 
+        <h3>Contents</h3>
+        <ul class="toc">
+            <li><a href="#writing-and-editing">Writing and editing</a></li>
+            <li><a href="#undo-and-redo">Undo and redo</a></li>
+            <li><a href="#drag-and-resize">Drag and resize</a></li>
+            <li><a href="#multi-select">Multi select</a></li>
+            <li><a href="#align">Align</a></li>
+            <li><a href="#connect">Connect</a></li>
+            <li><a href="#voting">Voting</a></li>
+            <li><a href="#filtering">Filtering</a></li>
+            <li><a href="#grid">Grid</a></li>
+            <li><a href="#import">Import</a></li>
+        </ul>
 
-        <h3>Writing and editing</h3>
+
+        <h3 id="writing-and-editing">Writing and editing</h3>
 
         <p>After creating or opening a session, you can write text by clicking
             anywhere in the browser window. Already existing text can also be edited by clicking on it. And hey,
             writing markdown is supported.</p>
 
-        <h3>Undo and redo</h3>
+        <h3 id="undo-and-redo">Undo and redo</h3>
 
         <p>Use <kbd>⌘</kbd>-<kbd>Z</kbd> (on a Mac) or <kbd>CTRL</kbd>-<kbd>Z</kbd> (on Windows) to undo your actions
             and
             <kbd>⌘</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> / <kbd>CTRL</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> to redo.
             You can only undo/redo what you have done during a session and not what other participants have done.</p>
 
-        <h3>Drag and resize</h3>
+        <h3 id="drag-and-resize">Drag and resize</h3>
 
         <p>Drag the text around and resize text boxes as you like.</p>
 
-        <h3>Multi select</h3>
+        <h3 id="multi-select">Multi select</h3>
 
         <p>Select multiple items by <kbd>⌘</kbd>-<kbd>CLICK</kbd> /
             <kbd>CTRL</kbd>-<kbd>CLICK</kbd> on the items. Alternatively you can <kbd>⌘</kbd>-<kbd>DRAG</kbd> /
             <kbd>CTRL</kbd>-<kbd>DRAG</kbd> to draw a rectangle on the screen. Any item that is touched by the rectangle
             will be selected.</p>
 
-        <h3>Align</h3>
+        <h3 id="align">Align</h3>
 
         <p>When you have selected multiple items, you can align the items left with
             <kbd>⌘</kbd>-<kbd>←</kbd> / <kbd>CTRL</kbd>-<kbd>←</kbd>. Align top, right or bottom by using the other
             arrow keys.</p>
 
-        <h3>Connect</h3>
+        <h3 id="connect">Connect</h3>
 
         <p>Draw a connection from one item to the other by holding down <kbd>Alt</kbd> (and keep down), click on the
             father item and then click on the son item. Finally release the <kbd>Alt</kbd>-key.
@@ -70,13 +83,13 @@
         <p>You get rid of a connection by holding down the <kbd>Alt</kbd>-key while double clicking on the son item (the
             one the connection arrow is pointing to).</p>
 
-        <h3>Voting</h3>
+        <h3 id="voting">Voting</h3>
 
         <p>Dot voting is possible by clicking on the ▲ symbol that appears top left when hovering
             over a
             text, down voting by clicking on the ▼ symbol.</p>
 
-        <h3>Filtering</h3>
+        <h3 id="filtering">Filtering</h3>
 
         <p>You can filter out those contents you are interested in, simply by typing a text
             pattern that has to be part of the contents you want to have on the screen (use the input area in the top
@@ -92,7 +105,7 @@
             Filtering won´t affect the other participants of a shared whiteboard session and it will ignore case.
         </p>
 
-        <h3>Grid</h3>
+        <h3 id="grid">Grid</h3>
 
         <p>In the top left corner you can define a grid in pixels. If you do so, elements will be snapped
             to that grid when they are dragged around or created. You can even define your grid in the URL of your
@@ -108,7 +121,7 @@
             affected.
         </p>
 
-        <h3>Import</h3>
+        <h3 id="import">Import</h3>
 
         <p>You can import any text file into {{appTitle}} by dragging and dropping the file on top of the {{appTitle}}
             editor window. Each line of the text file will become a seperate text object that will appear in your editor
