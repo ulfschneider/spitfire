@@ -1,6 +1,6 @@
 <template name="sessions">
     <div class="sessionData">
-        <header><b class="sessionsHeading">{{appTitle}} sessions</b> {{> loginButtons}}</header>
+        <header><b class="sessionsHeading">{{appTitle}} sessions</b> {{> loginButtons}} <a class="aboutLink" href="/about">?</a></header>
 
         {{#each sessionData}}
             {{> session}}
