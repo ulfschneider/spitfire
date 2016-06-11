@@ -1,11 +1,32 @@
 <template name="text">
+    <style>
+            {{#if textColor}}
+            #sizeable{{_id}} a {
+                color:{{textColor}};
+                background-image: -webkit-linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
+                background-image: -moz-linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
+                background-image: -o-linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
+                background-image: linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
+            }
+            #{{_id}} .ui-icon-gripsmall-diagonal-se {
+                         background: {{textColor}};
+                     }
+            {{/if}}
+
+            {{#if color}}
+            #sizeable{{_id}} a:hover {
+                color:{{color}};
+                background:{{textColor}};
+            }
+            {{/if}}
+    </style>
     {{#if hasSize}}
-        <div class="text sizeable" id="sizeable{{_id}}"
-             style="width:{{width}}px; height:{{height}}px;z-index:{{zIndex}};">
+        <div class="text {{inverse}} sizeable" id="sizeable{{_id}}"
+             style="width:{{width}}px; height:{{height}};z-index:{{zIndex}}; {{#if color}}background:{{color}}; background:rgba({{colorR}}, {{colorG}}, {{colorB}}, 0.6);{{/if}}{{#if textColor}}color:{{textColor}};{{/if}}">
             {{#autolink}}{{#markdown}}{{votableText}}{{/markdown}}{{/autolink}}</div>
     {{else}}
-        <div class="text sizeable"
-             id="sizeable{{_id}}" style="height:{{height}}px;z-index:{{zIndex}};">
+        <div class="text {{inverse}} sizeable"
+             id="sizeable{{_id}}" style="height:{{height}};z-index:{{zIndex}}; {{#if color}}background:{{color}}; background:rgba({{colorR}}, {{colorG}}, {{colorB}}, 0.6);{{/if}}{{#if textColor}}color:{{textColor}};{{/if}}">
             {{#autolink}}{{#markdown}}{{votableText}}{{/markdown}}{{/autolink}}</div>
     {{/if}}
 </template>

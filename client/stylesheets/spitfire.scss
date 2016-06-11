@@ -27,7 +27,7 @@ header {
   left: 0;
   top: 0;
   border: 0;
-  z-index: 2147483646;
+  z-index: 2147483646 !important;
   display: inline-block;
 
   background-color: $background-color;
@@ -118,6 +118,7 @@ textarea {
   display:inline-block;
   text-align:center;
   vertical-align:middle;
+  text-decoration:none;
 }
 
 .about {
@@ -131,9 +132,11 @@ textarea {
 }
 
 .about, .about * {
+  box-sizing:border-box;
   font-size:17px;
   line-height: 1.62em;
   font-family: "Input Sans", sans-serif;
+  color:$text-color;
 }
 
 
@@ -151,14 +154,13 @@ a {
 }
 
 %linkstyle {
-  color: $text-color;
-  text-decoration: none;
   outline: none;
-  background-image: -webkit-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
-  background-image: -moz-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
-  background-image: -o-linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
-  background-image: linear-gradient(to bottom, transparent 91%, $text-color 96%, $text-color 100%);
-
+  text-color: $text-color;
+  text-decoration:none;
+  background-image: -webkit-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  background-image: -moz-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  background-image: -o-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  background-image: linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
 }
 
 ::selection {
@@ -176,16 +178,8 @@ a {
   background: $text-color;
 }
 
-.sizing .ui-icon-gripsmall-diagonal-se {
-  background: $background-color;
-}
-
-.dragging .ui-icon-gripsmall-diagonal-se, .editing .ui-icon-gripsmall-diagonal-se {
-  background: transparent;
-}
 
 .drawing-object {
-  cursor: pointer;
   display: block;
   position: absolute;
   vertical-align: top;
@@ -200,11 +194,13 @@ a {
 .drawing-object .text {
   background:lightgoldenrodyellow;
   background: rgba(250,250,210, .6);
-  display: inline-block;
-  overflow: hidden;
-  border: 2px solid lightgoldenrodyellow;
+  display: block;
+  border:2px solid transparent;
   padding: 1px;
+  overflow: hidden;
+
   position: relative;
+  cursor: pointer;
 }
 
 .drawing-object .text p {
@@ -219,8 +215,14 @@ a {
   max-width:100%;
 }
 
-.drawing-object:hover {
+.drawing-object:hover, div.color-picker {
   z-index: 2147483645 !important;
+}
+
+div.tiny-color-pick {
+  margin-top:3px;
+  background:lightgoldenrodyellow;
+  background: rgba(250,250,210, .6);
 }
 
 .drawing-object:hover .text {
@@ -228,80 +230,117 @@ a {
   padding: 2px;
 }
 
-.drawing-object:hover .text a:hover {
-  color: $background-color;
-  background: $text-color;
-}
-
-.editing .text, .editing:hover .text {
-  color: $background-color;
-  background: $text-color;
-  -webkit-animation: glow 1500ms infinite;
-  -moz-animation: glow 1500ms infinite;
-  animation: glow 1500ms infinite;
-}
-
 .selected .text, .selected:hover .text {
-  border: 2px solid $text-color;
+  border: 2px dashed $text-color;
+  padding: 1px;
+}
+
+.selected .text.inverse, .selected:hover .text.inverse {
+  border: 2px dashed $background-color;
   padding: 1px;
 }
 
 .connect .text, .connect:hover .text {
-  border: 2px dashed $text-color;
-  padding:1px;
-}
-
-.dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
-  color: $background-color;
-  background: $text-color;
-  border: 2px solid $text-color;
+  border: 2px dotted $text-color;
   padding: 1px;
 }
 
-.editing .text a, .editing:hover .text a, .dragging .text a, .dragging:hover .text a, .sizing .text a, .sizing:hover .text a {
-  color: $background-color;
+.connect .text.inverse, .connect:hover .text.inverse {
+  border: 2px dotted $background-color;
+  padding: 1px;
 }
 
-.editing:hover .text a:hover, .dragging:hover .text a:hover, .sizing:hover .text a:hover {
-  color: $text-color;
-  background: $background-color;
+
+.editing .text, .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
+  border: 2px dashed $text-color;
+  -webkit-animation: glow 1000ms infinite;
+  -moz-animation: glow 1000ms infinite;
+  animation: glow 1000ms infinite;
+  padding: 1px;
+  min-height:$line-height;
+}
+
+.editing .text.inverse, .dragging .text.inverse, .dragging:hover .text.inverse, .sizing .text.inverse, .sizing:hover .text.inverse {
+  border: 2px dashed $background-color;
+  -webkit-animation: glow-inverse 1000ms infinite;
+  -moz-animation: glow-inverse 1000ms infinite;
+  animation: glow-inverse 1000ms infinite;
+  padding: 1px;
+  min-height:$line-height;
 }
 
 @-moz-keyframes glow {
   0% {
-    border: 2px solid $text-color;
+    border: 2px solid transparent;
   }
   50% {
-    border: 2px solid $background-color;
+    border: 2px solid $text-color;
   }
   100% {
-    border: 2px solid $text-color;
+    border: 2px solid transparent;
   }
 }
 
 @-webkit-keyframes glow {
   0% {
-    border: 2px solid $text-color;
+    border: 2px solid transparent;
   }
   50% {
-    border: 2px solid $background-color;
+    border: 2px solid $text-color;
   }
   100% {
-    border: 2px solid $text-color;
+    border: 2px solid transparent;
   }
 }
 
 @keyframes glow {
   0% {
+    border: 2px solid transparent;
+  }
+  50% {
     border: 2px solid $text-color;
+  }
+  100% {
+    border: 2px solid transparent;
+  }
+}
+
+@-moz-keyframes glow-inverse {
+  0% {
+    border: 2px solid transparent;
   }
   50% {
     border: 2px solid $background-color;
   }
   100% {
-    border: 2px solid $text-color;
+    border: 2px solid transparent;
   }
 }
+
+@-webkit-keyframes glow-inverse {
+  0% {
+    border: 2px solid transparent;
+  }
+  50% {
+    border: 2px solid $background-color;
+  }
+  100% {
+    border: 2px solid transparent;
+  }
+}
+
+@keyframes glow-inverse {
+  0% {
+    border: 2px solid transparent;
+  }
+  50% {
+    border: 2px solid $background-color;
+  }
+  100% {
+    border: 2px solid transparent;
+  }
+}
+
 
 .drawing-object .controls {
   display: none;
@@ -319,14 +358,14 @@ a {
 
 .drawing-object .controls a {
   cursor: pointer;
-  width: $line-height;
+  min-width: $line-height;
   text-align: center;
   text-decoration: none;
   background-image:none;
   display: inline-block;
 }
 
-.controls a.vote {
+.controls a.vote, .controls a.down-vote {
   margin-right: 5px;
   color: $text-color;
   float: left;
@@ -349,13 +388,13 @@ a {
 
 .controls a.delete {
   margin-left: $line-height;
-  color: red;
+  color: $text-color;
   float: right;
 }
 
 .controls a.delete:hover {
   background: red;
-  color: lightgoldenrodyellow;
+  color:$background-color;
 }
 
 .dragging:hover .controls, .sizing:hover .controls {
@@ -392,17 +431,6 @@ a {
 #nprogress .spinner-icon {
   border-top-color:$text-color;
   border-left-color:$text-color;
-}
-
-#overlay {
-  position: absolute;
-  z-index: 2147483646;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: transparent;
-  display: none;
 }
 
 #canvas {

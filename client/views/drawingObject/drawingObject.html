@@ -7,7 +7,9 @@
             <div class="controls">
                 <a class="vote" title="vote">&#x25b2;</a>
                 {{#if isVote}}<a class="down-vote" title="down vote">&#x25bc;</a>{{/if}}
-                <a class="delete" title="delete">&#x232b;</a></div>
+                {{> tinyColorPick }}
+                <a class="delete" title="delete">DEL</a>
+            </div>
             {{> text}}
         </div>
     {{/if}}

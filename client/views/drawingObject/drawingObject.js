@@ -51,12 +51,12 @@ Meteor.drawingObject = {
         if (id) {
             $("#sizeable" + id)
                 .resizable({
-                    minHeight: 22, minWidth: 22, autoHide: true, handles: "e, se"
+                    minHeight: 17, minWidth: 17, autoHide: true, handles: "e, se"
                 });
         } else {
             $(".sizeable")
                 .resizable({
-                    minHeight: 22, minWidth: 22, autoHide: true, handles: "e, se"
+                    minHeight: 17, minWidth: 17, autoHide: true, handles: "e, se"
                 });
         }
     }
@@ -529,6 +529,12 @@ Meteor.drawingObject = {
                     }
                 }
             },
+            "pick": function(event) {
+                before = Meteor.util.clone(this);
+                var after = Meteor.util.clone(this);
+                after.color = event.color;
+                Meteor.command.setColor(before, after);
+            },
 
 
             //must be last one, to not produce error: "must be attached ..."
@@ -585,4 +591,8 @@ Meteor.drawingObject = {
 //TODO calling sequence for commands is not clear, undo/redo not stable
 //TODO performance
 //TODO allow multiple fathers
+
+
+
+
 

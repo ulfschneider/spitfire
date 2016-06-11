@@ -5,13 +5,10 @@
 # but you can also edit it by hand.
 
 iron:router
-copleykj:jquery-autosize
-copleykj:autolinker
 markdown
 fourseven:scss
 accounts-ui
 accounts-password
-mrt:moment
 meteor-base
 mobile-experience
 mongo
@@ -25,8 +22,14 @@ random
 ejson
 spacebars
 check
+tinytest
+mrt:moment
 mrt:nprogress
-raix:ui-dropped-event
-linto:jquery-ui
 standard-minifier-css
 standard-minifier-js
+copleykj:jquery-autosize
+copleykj:autolinker
+raix:ui-dropped-event
+linto:jquery-ui
+
+us:tinycolorpick

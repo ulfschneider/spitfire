@@ -3,9 +3,11 @@ var editId;
 var initId;
 
 var INPUT_TIME_OUT = 1000 * 60 * 2; //2 minutes
-var INPUT_UPDATE = 1000; //ONE second
+var INPUT_UPDATE = 500; //half second
 var DEFAULT_WIDTH = 200;
 var DEFAULT_HEIGHT = 20;
+var TEXT_COLOR_DARK_BACKGROUND = "white";
+var TEXT_COLOR = "#111";
 
 var inputTimeoutId;
 var inputUpdateId;
@@ -178,6 +180,13 @@ Meteor.text = {
     },
     getDefaultHeight: function () {
         return DEFAULT_HEIGHT;
+    },
+    textColor: function(drawingObject) {
+        if (drawingObject.color && !Meteor.util.isLightHexColor(drawingObject.color)) {
+            return TEXT_COLOR_DARK_BACKGROUND;
+        } else {
+            return TEXT_COLOR;
+        }
     }
 
 
@@ -249,14 +258,45 @@ Meteor.text = {
         },
         votableText: function () {
             if (this.vote && this.vote > 0) {
-                return '<span class="vote-count">' + this.vote + '</span>' + this.text;
+                return '<span class="vote-count" style="background:' + Meteor.text.textColor(this) + '; '
+                    + (this.color ? 'color:' +this.color + ';' : '')
+                    +  '" >'
+                    + this.vote
+                    + '</span>'
+                    + this.text;
             } else {
                 return this.text;
             }
         },
         height: function () {
-            return ""; //will set auto height that fits to content
+            return "auto";
+        },
+        color: function() {
+            if (this.color) {
+                Meteor.tinyColorPick.setColor(this.color);
+            }
+            return this.color ? this.color : "";
+        },
+        colorR: function() {
+            return this.color ? Meteor.util.hexToR(this.color) : "";
+        },
+        colorG: function() {
+            return this.color ? Meteor.util.hexToG(this.color) : "";
+        },
+        colorB: function() {
+            return this.color ? Meteor.util.hexToB(this.color) : "";
+        },
+        textColor: function() {
+            return Meteor.text.textColor(this);
+        },
+        inverse: function() {
+            if (this.color && !Meteor.util.isLightHexColor(this.color)) {
+                return "inverse";
+            }
+            return "";
         }
+
+
 
     });
 
@@ -264,6 +304,7 @@ Meteor.text = {
         Meteor.drawingObject.enableDrag(Template.currentData()._id);
         Meteor.drawingObject.enableResize(Template.currentData()._id);
         Meteor.text._blankTargets(Template.currentData()._id);
+        Meteor.tinyColorPick.setColor(Template.currentData().color);
     }
 
 

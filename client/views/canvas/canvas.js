@@ -5,28 +5,6 @@ var selectArea = null;
 
 Meteor.canvas = {
 
-    setOverlay: function (overlay, id) {
-        if (overlay) {
-            $("#overlay")
-                .css("display", "block");
-        } else {
-            $("#overlay")
-                .css("display", "none");
-        }
-
-        if (overlay && id) {
-            $("#" + id)
-                .css("z-index", "2147483647");
-            $("#sizeable" + id)
-                .css("z-index", "2147483647");
-        } else if (!overlay && id) {
-            $("#" + id)
-                .css("z-index", "");
-            $("#sizeable" + id)
-                .css("z-index", "");
-        }
-
-    },
     getDrawingWidth: function () {
         return drawingWidth ? drawingWidth : 0;
     },
@@ -68,7 +46,7 @@ Meteor.canvas = {
         }
     },
     setDrawingHeight: function (height) {
-        if (height !== drawingHeight) {
+        if (height !== drawingHeight && !isNaN(height) ) {
             drawingHeight = height;
             var svg = Meteor.canvas.getSvg();
             if (svg) {
@@ -77,7 +55,7 @@ Meteor.canvas = {
         }
     },
     setDrawingWidth: function (width) {
-        if (width !== drawingWidth) {
+        if (width !== drawingWidth && !isNaN(width)) {
             drawingWidth = width;
             var svg = Meteor.canvas.getSvg();
             if (svg) {

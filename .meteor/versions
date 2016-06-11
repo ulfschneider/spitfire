@@ -89,9 +89,11 @@ standard-minifier-css@1.0.6
 standard-minifier-js@1.0.6
 templating@1.1.9
 templating-tools@1.0.4
+tinytest@1.0.10
 tracker@1.0.13
 ui@1.0.11
 underscore@1.0.8
 url@1.0.9
+us:tinycolorpick@1.0.0
 webapp@1.2.8
 webapp-hashing@1.0.9
