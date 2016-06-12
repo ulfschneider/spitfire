@@ -53,11 +53,11 @@ The following properties are the default settings
  ```
  var options = {
     opacity: .6,
-    colors: ['#ffffff', '#999999', '#000000',
-        '#006600', '#66cc00', '#ccff99',
-        '#990000', '#ff3300', '#ff9900',
-        '#003399', '#0066cc', '#99ccff',
-        '#999900', '#ffff00', '#ffff99'],
+    colors:  ['#000000', '#999999', '#ffffff',
+              '#006600', '#66cc00', '#ccff99',
+              '#990000', '#ff3300', '#ff9900',
+              '#003399', '#0066cc', '#99ccff',
+              '#999900', '#eeee00', '#ffff99'],
     colorsPerLine: 3
     };
  ```
