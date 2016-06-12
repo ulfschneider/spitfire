@@ -1,6 +1,10 @@
 var tinyColorPickOptions = {
     opacity: .6,
-    colors: ['#ffffff', '#999999', '#000000', '#66ff66', '#006600', '#ff9900', '#cc0000', '#99ccff', '#3399ff', '#000066', '#fafa33', '#fafad2'],
+    colors: ['#ffffff', '#999999', '#000000',
+        '#006600', '#66cc00', '#ccff99',
+        '#990000', '#ff3300', '#ff9900',
+        '#003399', '#0066cc', '#99ccff',
+        '#999900', '#fafa33', '#fafad2'],
     colorsPerLine: 3
 };
 
