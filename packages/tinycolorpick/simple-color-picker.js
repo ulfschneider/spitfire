@@ -60,7 +60,7 @@ $.fn.simpleColorPicker = function(options) {
             }
 		}
 
-		var box = $('<div id="' + prefix + 'color-picker" class="color-picker" style="position: absolute; left: 0px; top: 0px; width:' + (opts.colorsPerLine * 16 ) + 'px"><ul>' + colorsMarkup + '</ul><div style="clear: both;"></div></div>');
+		var box = $('<div id="' + prefix + 'color-picker" class="color-picker" style="position: absolute; left: 0px; top: 0px; width:' + (opts.colorsPerLine * 21 ) + 'px"><ul>' + colorsMarkup + '</ul><div style="clear: both;"></div></div>');
 		$('body').append(box);
 		box.hide();
 

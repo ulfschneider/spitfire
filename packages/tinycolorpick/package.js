@@ -1,7 +1,7 @@
 Package.describe({
-  name: "us:tinycolorpick",
+  name: "ulfeed:tinycolorpick",
   version: "1.0.0",
-  summary: "A wrapper package for http://rachel-carvalho.github.io/simple-color-picker/",
+  summary: "An adapted version of http://rachel-carvalho.github.io/simple-color-picker/",
   git: "",
   documentation: "README.md"
 });
@@ -24,6 +24,6 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use(["ecmascript", "templating", "jquery"]);
   api.use("tinytest");
-  api.use("us:tinycolorpick");
+  api.use("ulfeed:tinycolorpick");
   api.mainModule("tinyColorPick-tests.js");
 });

@@ -5,9 +5,9 @@
         <div class="drawing-object draggable {{editing}} {{sizing}} {{dragging}} {{selected}} {{connect}}" id="{{_id}}" father="{{father}}"
              style="left:{{left}}px; top:{{top}}px;z-index:{{zIndex}};">
             <div class="controls">
+                {{> tinyColorPick }}
                 <a class="vote" title="vote">&#x25b2;</a>
                 {{#if isVote}}<a class="down-vote" title="down vote">&#x25bc;</a>{{/if}}
-                {{> tinyColorPick }}
                 <a class="delete" title="delete">DEL</a>
             </div>
             {{> text}}

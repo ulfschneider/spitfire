@@ -592,6 +592,8 @@ Meteor.drawingObject = {
 //TODO performance
 //TODO allow multiple fathers
 
+//TODO package docu
+//TODO package test?
 
 
 
