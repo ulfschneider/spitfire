@@ -12,13 +12,11 @@ $font: "Input Sans Condensed", "Input Sans Cond", "Input Sans", sans-serif;
   line-height: $line-height;
 }
 
-
 body {
   margin: 0;
   border: 0;
   padding: 0;
 }
-
 
 header {
   margin: 0;
@@ -43,8 +41,8 @@ header * {
 }
 
 p {
-  margin:0;
-  margin-bottom:$line-height;
+  margin: 0;
+  margin-bottom: $line-height;
 }
 
 h1, h2, h3 {
@@ -55,11 +53,9 @@ h1, h2, h3 {
 }
 
 h1, h2 {
-  text-align:center;
-  margin-bottom:1.62em;
+  text-align: center;
+  margin-bottom: 1.62em;
 }
-
-
 
 mark {
   background: #eee;
@@ -110,20 +106,20 @@ textarea {
 }
 
 .aboutLink {
-  background-image:none;
+  background-image: none;
   background: $text-color;
   color: $background-color;
-  width:$line-height;
+  width: $line-height;
   height: $line-height;
-  display:inline-block;
-  text-align:center;
-  vertical-align:middle;
-  text-decoration:none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
 }
 
 .about {
   max-width: 700px;
-  padding:0 1.62em;
+  padding: 0 1.62em;
   margin: 1.62*1.62em auto;
 
   p {
@@ -132,21 +128,20 @@ textarea {
 }
 
 .about, .about * {
-  box-sizing:border-box;
-  font-size:17px;
+  box-sizing: border-box;
+  font-size: 17px;
   line-height: 1.62em;
   font-family: "Input Sans", sans-serif;
-  color:$text-color;
+  color: $text-color;
 }
-
 
 ul.toc {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 
-.toc li  {
-  list-style-type:none;
+.toc li {
+  list-style-type: none;
 }
 
 a {
@@ -156,7 +151,7 @@ a {
 %linkstyle {
   outline: none;
   text-color: $text-color;
-  text-decoration:none;
+  text-decoration: none;
   background-image: -webkit-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
   background-image: -moz-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
   background-image: -o-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
@@ -178,13 +173,11 @@ a {
   background: $text-color;
 }
 
-
 .drawing-object {
   display: block;
   position: absolute;
   vertical-align: top;
 }
-
 
 .drawing-object .text ul {
   padding-left: $line-height;
@@ -192,10 +185,10 @@ a {
 }
 
 .drawing-object .text {
-  background:lightgoldenrodyellow;
-  background: rgba(250,250,210, .6);
+  background: lightgoldenrodyellow;
+  background: rgba(250, 250, 210, .6);
   display: block;
-  border:2px solid transparent;
+  border: 2px solid transparent;
   padding: 1px;
   overflow: hidden;
 
@@ -210,9 +203,8 @@ a {
   position: relative;
 }
 
-
 .drawing-object .text img {
-  max-width:100%;
+  max-width: 100%;
 }
 
 .drawing-object:hover, div.color-picker {
@@ -249,14 +241,13 @@ a {
   padding: 1px;
 }
 
-
 .editing .text, .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
   border: 2px dashed $text-color;
   -webkit-animation: glow 1000ms infinite;
   -moz-animation: glow 1000ms infinite;
   animation: glow 1000ms infinite;
   padding: 1px;
-  min-height:$line-height;
+  min-height: $line-height;
 }
 
 .editing .text.inverse, .dragging .text.inverse, .dragging:hover .text.inverse, .sizing .text.inverse, .sizing:hover .text.inverse {
@@ -265,7 +256,7 @@ a {
   -moz-animation: glow-inverse 1000ms infinite;
   animation: glow-inverse 1000ms infinite;
   padding: 1px;
-  min-height:$line-height;
+  min-height: $line-height;
 }
 
 @-moz-keyframes glow {
@@ -340,20 +331,19 @@ a {
   }
 }
 
-
 .drawing-object .controls {
   display: none;
   border: none;
   height: $line-height;
-  position:relative;
-  background:$background-color;
-  background:rgba(255,255,255, 1.0);
+  position: relative;
+  background: $background-color;
+  background: rgba(255, 255, 255, 1.0);
 }
 
 .drawing-object:hover .controls {
   display: block;
   margin-top: -($line-height + 2);
-  padding-bottom:2px;
+  padding-bottom: 2px;
 }
 
 .drawing-object .controls a {
@@ -361,18 +351,28 @@ a {
   min-width: $line-height;
   height: $line-height;
   text-align: center;
-  vertical-align:center;
+  vertical-align: center;
   text-decoration: none;
-  background-image:none;
+  background-image: none;
   display: inline-block;
 }
 
 .controls div.tiny-color-pick {
-  float:left;
+  float: left;
   margin-right: 5px;
-  background:lightgoldenrodyellow;
-  background: rgba(250,250,210, .6);
+  background: lightgoldenrodyellow;
+  background: rgba(250, 250, 210, .6);
+  width: $line-height - 2;
+  height: $line-height - 2;
+}
 
+.controls div.color-picker {
+  margin-top: 3px;
+}
+
+.controls div.color-picker ul li {
+  width: $line-height - 2;
+  height: $line-height -2;
 }
 
 .controls a.vote, .controls a.down-vote {
@@ -404,7 +404,7 @@ a {
 
 .controls a.delete:hover {
   background: red;
-  color:$background-color;
+  color: $background-color;
 }
 
 .dragging:hover .controls, .sizing:hover .controls {
@@ -427,11 +427,10 @@ a {
   background: $background-color;
 }
 
-
 #nprogress .bar {
-  background:$text-color;
+  background: $text-color;
   z-index: 2147483647;
-  height:3px;
+  height: 3px;
 }
 
 #nprogress .peg {
@@ -439,8 +438,8 @@ a {
 }
 
 #nprogress .spinner-icon {
-  border-top-color:$text-color;
-  border-left-color:$text-color;
+  border-top-color: $text-color;
+  border-left-color: $text-color;
 }
 
 #canvas {
@@ -478,46 +477,44 @@ a {
 }
 
 .sessionData {
-  padding:8px;
+  padding: 8px;
   padding-top: 2*$line-height;
 }
 
 .sessionData dl {
-  margin-bottom:8px;
+  margin-bottom: 8px;
 }
 
 .sessionData dt {
-  float:left;
-  width:16em
+  float: left;
+  width: 16em
 }
 
 .sessionData dd {
-  margin-left:16em;
+  margin-left: 16em;
 }
 
 .accounts-dialog, .accounts-dialog * {
   font-family: $font;
   font-size: $font-size;
-  border-radius:0;
+  border-radius: 0;
 }
 
-
 #login-buttons a {
-  text-decoration:none;
-  background-image:none;
+  text-decoration: none;
+  background-image: none;
 }
 
 #login-buttons input[type=text], #login-buttons input[type=password], #login-buttons input[type=email] {
-  border:1px solid lightgray;
+  border: 1px solid lightgray;
 }
 
-
 #login-buttons .login-button, #login-buttons .login-button:active, #login-buttons .login-button:hover {
-  background-color:$text-color;
-  color:$background-color;
+  background-color: $text-color;
+  color: $background-color;
   font-family: $font;
   font-size: $font-size;
-  border:none;
+  border: none;
 }
 
 
