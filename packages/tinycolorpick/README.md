@@ -57,7 +57,7 @@ The following properties are the default settings
         '#006600', '#66cc00', '#ccff99',
         '#990000', '#ff3300', '#ff9900',
         '#003399', '#0066cc', '#99ccff',
-        '#999900', '#fafa33', '#fafad2'],
+        '#999900', '#ffff00', '#ffff99'],
     colorsPerLine: 3
     };
  ```

@@ -185,8 +185,8 @@ a {
 }
 
 .drawing-object .text {
-  background: lightgoldenrodyellow;
-  background: rgba(250, 250, 210, .6);
+  background: #ffff99;
+  background: rgba(255, 255, 153, .6);
   display: block;
   border: 2px solid transparent;
   padding: 1px;
@@ -360,8 +360,8 @@ a {
 .controls div.tiny-color-pick {
   float: left;
   margin-right: 5px;
-  background: lightgoldenrodyellow;
-  background: rgba(250, 250, 210, .6);
+  background: #ffff99;
+  background: rgba(255, 255, 153, .6);
   width: $line-height - 2;
   height: $line-height - 2;
 }
