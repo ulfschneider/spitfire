@@ -1,8 +1,11 @@
 <template name="text">
     <style>
+            {{#if textColor}}
             #{{_id}} .ui-icon-gripsmall-diagonal-se {
                          background: {{textColor}};
                      }
+            {{/if}}
+
             {{#if color}}
             #sizeable{{_id}} a:hover {
                 color:{{color}};
@@ -15,7 +18,6 @@
                 background-image: -o-linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
                 background-image: linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
             }
-
             {{/if}}
     </style>
     {{#if hasSize}}
