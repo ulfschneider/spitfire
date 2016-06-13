@@ -1,6 +1,13 @@
 <template name="text">
     <style>
-            {{#if textColor}}
+            #{{_id}} .ui-icon-gripsmall-diagonal-se {
+                         background: {{textColor}};
+                     }
+            {{#if color}}
+            #sizeable{{_id}} a:hover {
+                color:{{color}};
+                background:{{textColor}};
+            }
             #sizeable{{_id}} a {
                 color:{{textColor}};
                 background-image: -webkit-linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
@@ -8,16 +15,7 @@
                 background-image: -o-linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
                 background-image: linear-gradient(to bottom, transparent 94%, {{textColor}} 96%, {{textColor}} 100%);
             }
-            #{{_id}} .ui-icon-gripsmall-diagonal-se {
-                         background: {{textColor}};
-                     }
-            {{/if}}
 
-            {{#if color}}
-            #sizeable{{_id}} a:hover {
-                color:{{color}};
-                background:{{textColor}};
-            }
             {{/if}}
     </style>
     {{#if hasSize}}
