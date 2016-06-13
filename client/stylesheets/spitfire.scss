@@ -183,7 +183,7 @@ a {
 
 .drawing-object .text a:hover {
   background:$text-color;
-  color: #ffffbb;
+  color: #ffffd6; /*calculate with opacity in front of white background */
 }
 
 .drawing-object .text ul {

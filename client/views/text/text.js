@@ -259,7 +259,7 @@ Meteor.text = {
         votableText: function () {
             if (this.vote && this.vote > 0) {
                 return '<span class="vote-count" style="background:' + Meteor.text.textColor(this) + '; '
-                    + (this.color ? 'color:' +this.color + ';' : '')
+                    + (this.color ? 'color:' + Meteor.util.mixHexColor(this.color, .6, '#fff') + ';' : '')
                     +  '" >'
                     + this.vote
                     + '</span>'
@@ -276,6 +276,11 @@ Meteor.text = {
                 Meteor.tinyColorPick.setColor(this.color);
             }
             return this.color ? this.color : "";
+        },
+        colorMix: function() {
+            if (this.color) {
+                return Meteor.util.mixHexColor(this.color, .6, '#fff');
+            }
         },
         colorR: function() {
             return this.color ? Meteor.util.hexToR(this.color) : "";
