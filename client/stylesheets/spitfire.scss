@@ -119,7 +119,7 @@ textarea {
 
 .about {
   max-width: 700px;
-  padding: 0 1.62em;
+  padding: 0 1em;
   margin: 1.62*1.62em auto;
 
   p {
@@ -185,8 +185,8 @@ a {
 }
 
 .drawing-object .text {
-  background: #ffff99;
-  background: rgba(255, 255, 153, .6);
+  background: #ffffbb;
+  background: rgba(255, 255, 187, .6);
   display: block;
   border: 2px solid transparent;
   padding: 1px;
@@ -360,8 +360,8 @@ a {
 .controls div.tiny-color-pick {
   float: left;
   margin-right: 5px;
-  background: #ffff99;
-  background: rgba(255, 255, 153, .6);
+  background: #ffffbb;
+  background: rgba(255, 255, 187, .6);
   width: $line-height - 2;
   height: $line-height - 2;
 }
