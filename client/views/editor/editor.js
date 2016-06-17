@@ -74,10 +74,24 @@ Meteor.editor = {
         }
     });
 
+
     Template.editor.rendered = function () {
         document.title = Meteor.spitfire.documentTitle();
         Meteor.editor.maintainBoundaryMarker();
         Meteor.grid.maintainGrid();
     }
+
+    Template.editor.events({
+        "dropped #canvas": function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            Meteor.import.processFiles(Meteor.import.extractFiles(event));
+        },
+        "dragover #canvas": function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            Meteor.import.handleFileDrag(event);
+        }
+    });
 
 })();

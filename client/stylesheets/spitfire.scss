@@ -102,9 +102,10 @@ textarea {
   width: 3em;
 }
 
-.filter, .grid, #login-buttons, .sessionsHeading {
+.filter, .grid, #login-buttons, .sessionsHeading, .export {
   display: inline-block;
   margin-right: 2em;
+  @extend %nolinkstyle;
 }
 
 .aboutLink {
@@ -158,6 +159,10 @@ a {
   background-image: -moz-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
   background-image: -o-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
   background-image: linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+}
+
+%nolinkstyle {
+  background-image:none;
 }
 
 ::selection {
@@ -360,8 +365,9 @@ a {
   text-align: center;
   vertical-align: center;
   text-decoration: none;
-  background-image: none;
   display: inline-block;
+
+  @extend %nolinkstyle;
 }
 
 .controls div.tiny-color-pick {
@@ -509,7 +515,7 @@ div.color-picker ul li {
 
 #login-buttons a {
   text-decoration: none;
-  background-image: none;
+  @extend %nolinkstyle;
 }
 
 #login-buttons input[type=text], #login-buttons input[type=password], #login-buttons input[type=email] {

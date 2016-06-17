@@ -12,13 +12,13 @@ Meteor.filter = {
         if (filter && filter.indexOf("--") === 0) {
             filter = filter.substr(2);
             if (filter.length > 0) {
-                return "^((?!" + Meteor.spitfire.escapeRegEx(filter) + ").)*$";
+                return "^((?!" + Meteor.util.escapeRegEx(filter) + ").)*$";
             }
         }
         if (filter && (filter === "-" || filter === "--")) {
             return "";
         }
-        return Meteor.spitfire.escapeRegEx(filter);
+        return Meteor.util.escapeRegEx(filter);
 
     },
     getNumberFilter: function () {
