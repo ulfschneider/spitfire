@@ -79,6 +79,11 @@ Meteor.editor = {
         document.title = Meteor.spitfire.documentTitle();
         Meteor.editor.maintainBoundaryMarker();
         Meteor.grid.maintainGrid();
+        if (Meteor.spitfire.getHome() !== Router.current()
+                .location
+                .get().pathname) {
+            Router.go(Meteor.spitfire.getHome());
+        }
     }
 
     Template.editor.events({
