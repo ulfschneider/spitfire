@@ -25,20 +25,26 @@ Meteor.import = {
         var reader = new FileReader();
         reader.onload = (function () {
             return function (event) {
-                var lines = Meteor.import._getFileData(event.target.result);
+                var lines = Meteor.CSV.createJSON(event.target.result);
+
+                //var lines = Meteor.import._getFileData(event.target.result);
                 var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
                 var left = Meteor.grid.getGridIndent();
                 var width = Meteor.editor.getWidth();
                 var objectsToInsert = [];
                 for (var i = 0; i < lines.length; i++) {
                     objectsToInsert.push({
+                        _id: lines[i]._id,
                         sessionName: Meteor.spitfire.getSessionName(),
-                        text: lines[i],
-                        top: height,
-                        left: left,
-                        width: Meteor.text.getDefaultWidth(),
-                        height: Meteor.text.getDefaultHeight(),
-                        zIndex: Meteor.canvas.getMaxZIndex() + 1
+                        fatherId: lines[i].fatherId,
+                        text: lines[i].text,
+                        vote: lines[i].vote,
+                        top: lines[i].top,
+                        left: lines[i].left,
+                        width: lines[i].width,
+                        height: lines[i].height,
+                        color: lines[i].color,
+                        zIndex: lines[i].zIndex
                     });
                     left = left + Meteor.text.getDefaultWidth() + Meteor.text.getDefaultHeight();
                     if (left > width) {
