@@ -21,39 +21,100 @@ Meteor.import = {
             NProgress.done();
         }
     },
+    _processCSV: function(data) {
+        var lines = Meteor.CSV.createJSON(data);
+        var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
+        var left = Meteor.grid.getGridIndent();
+        var width = Meteor.editor.getWidth();
+        var objectsToInsert = [];
+        for (var i = 0; i < lines.length; i++) {
+            var object = {};
+            object.sessionName = Meteor.spitfire.getSessionName();
+            if (lines[i].text) {
+                object.text = lines[i].text;
+
+                if (lines[i]._id) {
+                    object._id = lines[i]._id;
+                }
+                if (lines[i].fatherId) {
+                    object.fatherId = lines[i].fatherId;
+                }
+                if (lines[i].vote) {
+                    object.vote = lines[i].vote;
+                }
+                if (lines[i].color) {
+                    object.color = lines[i].color;
+                }
+                if (lines[i].top) {
+                    object.top = lines[i].top;
+                } else {
+                    object.top = top;
+                }
+                if (lines[i].left) {
+                    object.left = lines[i].left;
+                } else {
+                    object.left = left;
+                }
+                if (lines[i].width) {
+                    object.width = lines[i].width;
+                } else {
+                    object.width = Meteor.text.getDefaultWidth();
+                }
+                if (lines[i].height) {
+                    object.height = lines[i].height;
+                } else {
+                    object.height = Meteor.text.getDefaultHeight();
+                }
+                if (lines[i].zIndex) {
+                    object.zIndex = lines[i].zIndex;
+                } else {
+                    object.zIndex = Meteor.canvas.getMaxZIndex() + 1;
+                }
+            }
+
+            objectsToInsert.push(object);
+            left = left + object.width + Meteor.text.getDefaultHeight();
+            if (left > width) {
+                height = height + 4 * Meteor.text.getDefaultHeight();
+                left = Meteor.grid.getGridIndent();
+            }
+        }
+        return objectsToInsert;
+    },
+    _processTXT: function(data) {
+        var lines = Meteor.import._getFileData(data);
+        var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
+        var left = Meteor.grid.getGridIndent();
+        var width = Meteor.editor.getWidth();
+        var objectsToInsert = [];
+        for (var i = 0; i < lines.length; i++) {
+            objectsToInsert.push({
+                sessionName: Meteor.spitfire.getSessionName(),
+                text: lines[i],
+                top: height,
+                left: left,
+                width: Meteor.text.getDefaultWidth(),
+                height: Meteor.text.getDefaultHeight(),
+                zIndex: Meteor.canvas.getMaxZIndex() + 1
+            });
+            left = left + Meteor.text.getDefaultWidth() + Meteor.text.getDefaultHeight();
+            if (left > width) {
+                height = height + 4 * Meteor.text.getDefaultHeight();
+                left = Meteor.grid.getGridIndent();
+            }
+        }
+        return objectsToInsert;
+    },
     processFile: function (file) {
         var reader = new FileReader();
         reader.onload = (function () {
             return function (event) {
-                var lines = Meteor.CSV.createJSON(event.target.result);
-
-                //var lines = Meteor.import._getFileData(event.target.result);
-                var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
-                var left = Meteor.grid.getGridIndent();
-                var width = Meteor.editor.getWidth();
-                var objectsToInsert = [];
-                for (var i = 0; i < lines.length; i++) {
-                    objectsToInsert.push({
-                        _id: lines[i]._id,
-                        sessionName: Meteor.spitfire.getSessionName(),
-                        fatherId: lines[i].fatherId,
-                        text: lines[i].text,
-                        vote: lines[i].vote,
-                        top: lines[i].top,
-                        left: lines[i].left,
-                        width: lines[i].width,
-                        height: lines[i].height,
-                        color: lines[i].color,
-                        zIndex: lines[i].zIndex
-                    });
-                    left = left + Meteor.text.getDefaultWidth() + Meteor.text.getDefaultHeight();
-                    if (left > width) {
-                        height = height + 4 * Meteor.text.getDefaultHeight();
-                        left = Meteor.grid.getGridIndent();
-                    }
+                var objectsToInsert = Meteor.import._processCSV(event.target.result);
+                if (!objectsToInsert.length) {
+                    objectsToInsert = Meteor.import._processTXT(event.target.result);
                 }
+                console.log(JSON.stringify(objectsToInsert));
                 Meteor.command.insert(objectsToInsert);
-
             }
         })(file);
         reader.readAsText(file);
