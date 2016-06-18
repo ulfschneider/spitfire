@@ -26,13 +26,6 @@ Meteor.import = {
         reader.onload = (function () {
             return function (event) {
                 var lines = Meteor.import._getFileData(event.target.result);
-
-                Papa.parse(event.target.result, {
-                    complete: function(results) {
-                        console.log("Finished:", results.data);
-                    }
-                });
-
                 var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
                 var left = Meteor.grid.getGridIndent();
                 var width = Meteor.editor.getWidth();
