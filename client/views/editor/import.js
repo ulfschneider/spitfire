@@ -21,7 +21,7 @@ Meteor.import = {
             NProgress.done();
         }
     },
-    _processCSV: function(data) {
+    _processCSV: function (data) {
         var lines = Meteor.CSV.createJSON(data);
         var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
         var left = Meteor.grid.getGridIndent();
@@ -70,18 +70,19 @@ Meteor.import = {
                 } else {
                     object.zIndex = Meteor.canvas.getMaxZIndex() + 1;
                 }
+                objectsToInsert.push(object);
+                left = left + object.width + Meteor.text.getDefaultHeight();
+                if (left > width) {
+                    height = height + 4 * Meteor.text.getDefaultHeight();
+                    left = Meteor.grid.getGridIndent();
+                }
+
             }
 
-            objectsToInsert.push(object);
-            left = left + object.width + Meteor.text.getDefaultHeight();
-            if (left > width) {
-                height = height + 4 * Meteor.text.getDefaultHeight();
-                left = Meteor.grid.getGridIndent();
-            }
         }
         return objectsToInsert;
     },
-    _processTXT: function(data) {
+    _processTXT: function (data) {
         var lines = Meteor.import._getFileData(data);
         var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
         var left = Meteor.grid.getGridIndent();
@@ -109,11 +110,11 @@ Meteor.import = {
         var reader = new FileReader();
         reader.onload = (function () {
             return function (event) {
+
                 var objectsToInsert = Meteor.import._processCSV(event.target.result);
                 if (!objectsToInsert.length) {
                     objectsToInsert = Meteor.import._processTXT(event.target.result);
                 }
-                console.log(JSON.stringify(objectsToInsert));
                 Meteor.command.insert(objectsToInsert);
             }
         })(file);

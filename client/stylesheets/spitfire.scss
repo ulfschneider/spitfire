@@ -234,27 +234,27 @@ a {
 }
 
 .selected .text, .selected:hover .text {
-  border: 2px dashed $text-color;
-  padding: 1px;
-}
-
-.selected .text.inverse, .selected:hover .text.inverse {
-  border: 2px dashed $background-color;
-  padding: 1px;
-}
-
-.connect .text, .connect:hover .text {
   border: 2px dotted $text-color;
   padding: 1px;
 }
 
-.connect .text.inverse, .connect:hover .text.inverse {
+.selected .text.inverse, .selected:hover .text.inverse {
   border: 2px dotted $background-color;
   padding: 1px;
 }
 
-.editing .text, .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
+.connect .text, .connect:hover .text {
   border: 2px dashed $text-color;
+  padding: 1px;
+}
+
+.connect .text.inverse, .connect:hover .text.inverse {
+  border: 2px dashed $background-color;
+  padding: 1px;
+}
+
+.editing .text, .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
+  border: 2px dotted $text-color;
   -webkit-animation: glow 1000ms infinite;
   -moz-animation: glow 1000ms infinite;
   animation: glow 1000ms infinite;
@@ -263,7 +263,7 @@ a {
 }
 
 .editing .text.inverse, .dragging .text.inverse, .dragging:hover .text.inverse, .sizing .text.inverse, .sizing:hover .text.inverse {
-  border: 2px dashed $background-color;
+  border: 2px dotted $background-color;
   -webkit-animation: glow-inverse 1000ms infinite;
   -moz-animation: glow-inverse 1000ms infinite;
   animation: glow-inverse 1000ms infinite;
@@ -501,11 +501,11 @@ div.color-picker ul li {
 
 .sessionData dt {
   float: left;
-  width: 16em
+  width: 12em
 }
 
 .sessionData dd {
-  margin-left: 16em;
+  margin-left: 12em;
 }
 
 .accounts-dialog, .accounts-dialog * {

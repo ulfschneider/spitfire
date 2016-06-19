@@ -590,9 +590,7 @@ Meteor.drawingObject = {
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects
 //TODO calling sequence for commands is not clear, undo/redo not stable
 //TODO performance
-//TODO allow multiple fathers
 
-//TODO package docu
 //TODO package test?
 
 
