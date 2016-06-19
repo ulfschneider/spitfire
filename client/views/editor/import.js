@@ -14,9 +14,9 @@ Meteor.import = {
                 var f = files[i];
                 if (f.type.match("text.*")) {
                     Meteor.import.processFile(f);
-                    Bert.alert("The file " + f.name + " has been imported into " + Meteor.spitfire.appTitle(), 'info', 'growl-top-right');
+                    Bert.alert("The file " + f.name + " has been imported into " + Meteor.spitfire.appTitle(), 'info', 'growl-bottom-right');
                 } else {
-                    Bert.alert("The file " + f.name + " could not be imported into " + Meteor.spitfire.appTitle(), 'danger', 'growl-top-right');
+                    Bert.alert("The file " + f.name + " could not be imported into " + Meteor.spitfire.appTitle(), 'danger', 'growl-bottom-right');
                 }
             }
             NProgress.done();
