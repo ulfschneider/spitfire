@@ -22,11 +22,16 @@ Meteor.import = {
         }
     },
     _processCSV: function (data) {
+
+        var objectsToInsert = [];
+
+
         var lines = Meteor.CSV.createJSON(data);
+
         var height = Meteor.canvas.getDrawingHeight() + 4 * Meteor.text.getDefaultHeight();
         var left = Meteor.grid.getGridIndent();
         var width = Meteor.editor.getWidth();
-        var objectsToInsert = [];
+
         for (var i = 0; i < lines.length; i++) {
             var object = {};
             object.sessionName = Meteor.spitfire.getSessionName();
@@ -78,8 +83,8 @@ Meteor.import = {
                 }
 
             }
-
         }
+
         return objectsToInsert;
     },
     _processTXT: function (data) {
