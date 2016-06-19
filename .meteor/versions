@@ -30,6 +30,7 @@ ecmascript-runtime@0.2.11
 ejson@1.0.12
 email@1.0.13
 fastclick@1.0.12
+fortawesome:fontawesome@4.4.0_1
 fourseven:scss@3.4.3
 geojson-utils@1.0.9
 harrison:papa-parse@1.1.1
@@ -90,6 +91,7 @@ standard-minifier-css@1.0.7
 standard-minifier-js@1.0.7
 templating@1.1.10
 templating-tools@1.0.4
+themeteorchef:bert@2.1.0
 tinytest@1.0.11
 tracker@1.0.14
 ui@1.0.11
