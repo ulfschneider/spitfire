@@ -131,16 +131,7 @@ Meteor.import = {
                 }
             })(file);
         }
-
-        /*
-         var objectsToInsert = Meteor.import._processCSV(event.target.result);
-         if (!objectsToInsert.length) {
-         objectsToInsert = Meteor.import._processTXT(event.target.result);
-         }
-         Meteor.command.insert(objectsToInsert);
-         */
-
-
+        
         reader.readAsText(file);
     },
     _getFileData: function (data) {
