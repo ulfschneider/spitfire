@@ -282,7 +282,7 @@ Meteor.drawingObject = {
     ,
     connect: function (sonId, fatherId) {
         var _fatherId = fatherId;
-        if (!_fatherId) {
+        if (Meteor.util.isUndefinedOrNull(_fatherId)) {
             _fatherId = Meteor.drawingObject.getFatherId();
         }
         if (_fatherId) {
@@ -441,7 +441,9 @@ Meteor.drawingObject = {
                 if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
                     event.preventDefault();
                     if (event.altKey) {
-                        Meteor.command.connect({_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
+                        Meteor.command.connect(
+                            {_id: this._id, fatherId: this.fatherId},
+                            {_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
                     } else if (event.ctrlKey || event.metaKey) {
                         if (Meteor.select.isSelected(this._id)) {
                             Meteor.command.unSelect(this);
@@ -458,7 +460,10 @@ Meteor.drawingObject = {
                 if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
                     Meteor.text.editText(this);
                 } else if (event.altKey) {
-                    Meteor.command.connect({_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
+                    Meteor.command.connect(
+                        {_id: this._id, fatherId: this.fatherId},
+                        {_id: this._id, fatherId: Meteor.drawingObject.getFatherId()}
+                    );
                 }
             },
             "dragstart": function (event) {
@@ -529,7 +534,7 @@ Meteor.drawingObject = {
                     }
                 }
             },
-            "pick": function(event) {
+            "pick": function (event) {
                 before = Meteor.util.clone(this);
                 var after = Meteor.util.clone(this);
                 after.color = event.color;
