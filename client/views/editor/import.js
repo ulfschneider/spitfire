@@ -12,7 +12,7 @@ Meteor.import = {
             NProgress.start();
             for (var i = 0; i < files.length; i++) {
                 var f = files[i];
-                console.log(f.type);
+
                 if (f.type.match("text/plain") || f.type.match("text/csv")) {
                     Meteor.import.processFile(f);
                     Bert.alert("The file " + f.name + " has been imported into " + Meteor.spitfire.appTitle(), 'info', 'growl-bottom-right');
@@ -115,16 +115,32 @@ Meteor.import = {
     },
     processFile: function (file) {
         var reader = new FileReader();
-        reader.onload = (function () {
-            return function (event) {
 
-                var objectsToInsert = Meteor.import._processCSV(event.target.result);
-                if (!objectsToInsert.length) {
-                    objectsToInsert = Meteor.import._processTXT(event.target.result);
+        if (file.type.match("text/csv")) {
+            reader.onload = (function () {
+                return function (event) {
+                    var objectsToInsert = Meteor.import._processCSV(event.target.result);
+                    Meteor.command.insert(objectsToInsert);
                 }
-                Meteor.command.insert(objectsToInsert);
-            }
-        })(file);
+            })(file);
+        } else if (file.type.match("text/plain")) {
+            reader.onload = (function () {
+                return function (event) {
+                    var objectsToInsert = Meteor.import._processTXT(event.target.result);
+                    Meteor.command.insert(objectsToInsert);
+                }
+            })(file);
+        }
+
+        /*
+         var objectsToInsert = Meteor.import._processCSV(event.target.result);
+         if (!objectsToInsert.length) {
+         objectsToInsert = Meteor.import._processTXT(event.target.result);
+         }
+         Meteor.command.insert(objectsToInsert);
+         */
+
+
         reader.readAsText(file);
     },
     _getFileData: function (data) {
