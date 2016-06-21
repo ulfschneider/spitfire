@@ -125,7 +125,7 @@ Meteor.text = {
     initEditing: function (event) {
         //initEditing - when a user creates items where an editId is not immediatly available
         if (event && !editId && !initId) {
-            initId = Meteor.spitfire.uid();
+            initId = Meteor.util.uid();
             Meteor.text._startInputTimeout();
             Meteor.call("initEditing", {
                 sessionName: Meteor.spitfire.getSessionName(),
