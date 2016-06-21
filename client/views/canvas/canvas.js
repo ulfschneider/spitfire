@@ -38,7 +38,7 @@ Meteor.canvas = {
             }
         }
         if (cleanup) {
-            if (!drawingObject.text) {
+            if (Meteor.util.isUndefinedOrNull(drawingObject.text)) {
                 Meteor.call("remove", drawingObject);
             } else {
                 Meteor.call("cleanUp", cleanupData);

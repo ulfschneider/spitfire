@@ -283,7 +283,7 @@ Meteor.drawingObject = {
     connect: function (sonId, fatherId) {
         var _fatherId = fatherId;
 
-        if (!Meteor.utils.isUndefinedOrNull(_fatherId)) {
+        if (Meteor.util.isUndefinedOrNull(_fatherId)) {
             _fatherId = Meteor.drawingObject.getFatherId();
         }
         if (_fatherId) {
