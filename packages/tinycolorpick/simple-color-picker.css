@@ -1,5 +1,0 @@
-div.color-picker { border-left: 1px solid #111; border-top: 1px solid #111; position: absolute;  left: 0px; top: 0px; padding: 0px; }
-div.color-picker ul { list-style: none; padding: 0px; margin: 0px; float: left; background:white; }
-div.color-picker ul li { display: block; width: 20px; height: 20px; border-right: 1px solid #111; border-bottom: 1px solid #111; margin: 0px; float: left; cursor: pointer; }
-
-div.tiny-color-pick {display:inline-block; width:20px; height:20px; border:1px solid #111; cursor:pointer;}
