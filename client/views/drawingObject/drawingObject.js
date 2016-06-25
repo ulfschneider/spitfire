@@ -435,162 +435,159 @@ Meteor.drawingObject = {
 }
 ;
 
-(function () {
 
-    Template.drawingObject.events({
-            "click .text a": function (event) {
-                if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
-                    event.preventDefault();
-                    if (event.altKey) {
-                        Meteor.command.connect(
-                            {_id: this._id, fatherId: this.fatherId},
-                            {_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
-                    } else if (event.ctrlKey || event.metaKey) {
-                        if (Meteor.select.isSelected(this._id)) {
-                            Meteor.command.unSelect(this);
-                        } else {
-                            Meteor.command.select(this);
-                        }
-                    }
-                }
-                event.stopPropagation();
-            },
-            "click .text, dblclick .text": function (event) {
+Template.drawingObject.events({
+        "click .text a": function (event) {
+            if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) {
                 event.preventDefault();
-                event.stopPropagation();
-                if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
-                    Meteor.text.editText(this);
-                } else if (event.altKey) {
+                if (event.altKey) {
                     Meteor.command.connect(
                         {_id: this._id, fatherId: this.fatherId},
-                        {_id: this._id, fatherId: Meteor.drawingObject.getFatherId()}
-                    );
-                }
-            },
-            "dragstart": function (event) {
-
-                if (!event.ctrlKey && !event.metaKey) {
-                    if (!Meteor.select.isSelected(this._id)) {
-                        Meteor.command.unSelect();
-                    }
-                    if (Meteor.select.isSelected()) {
-                        before = Meteor.select.getSelectedObjects();
-                    } else {
-                        before = Meteor.util.clone(this);
-                    }
-                    Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1);
-                }
-            },
-            "drag": function (event) {
-                if (!event.ctrlKey && !event.metaKey) {
-                    var editor = $("#editor");
-                    if (event.pageX + this.width > editor.width()) {
-                        editor.width(editor.width() + 100);
-                    }
-                    if (event.pageY + this.height > editor.height()) {
-                        editor.height(editor.height() + 100);
-                    }
-                    Meteor.drawingObject.updatePosition(this); //intentionally not changing z-index and not persisting
-
-                }
-            },
-            "dragstop": function (event) {
-                if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.drawingObject._snapToGrid(this);
-                    Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1, true);
-                }
-            },
-            "resizestart": function () {
-                sizeId = this._id;
-                Meteor.command.unSelect();
-                before = Meteor.util.clone(this);
-                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
-            },
-            "resize": function () {
-                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex());
-            },
-            "resizestop": function () {
-                sizeId = null;
-                Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true, true);
-            },
-
-            "click .vote, dblclick .vote": function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-
-                Meteor.drawingObject.vote(this);
-            },
-            "click .down-vote, dblclick .down-vote": function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-
-                Meteor.drawingObject.downVote(this);
-            },
-            "click .sizeable": function (event) {
-                if (event.metaKey || event.ctrlKey) {
+                        {_id: this._id, fatherId: Meteor.drawingObject.getFatherId()});
+                } else if (event.ctrlKey || event.metaKey) {
                     if (Meteor.select.isSelected(this._id)) {
                         Meteor.command.unSelect(this);
                     } else {
                         Meteor.command.select(this);
                     }
                 }
-            },
-            "pick": function (event) {
-                before = Meteor.util.clone(this);
-                var after = Meteor.util.clone(this);
-                after.color = event.color;
-                Meteor.command.setColor(before, after);
-            },
-
-
-            //must be last one, to not produce error: "must be attached ..."
-            "click .delete, dblclick .delete": function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-
-                Meteor.drawingObject.remove(this);
             }
+            event.stopPropagation();
+        },
+        "click .text, dblclick .text": function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (!event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
+                Meteor.text.editText(this);
+            } else if (event.altKey) {
+                Meteor.command.connect(
+                    {_id: this._id, fatherId: this.fatherId},
+                    {_id: this._id, fatherId: Meteor.drawingObject.getFatherId()}
+                );
+            }
+        },
+        "dragstart": function (event) {
+
+            if (!event.ctrlKey && !event.metaKey) {
+                if (!Meteor.select.isSelected(this._id)) {
+                    Meteor.command.unSelect();
+                }
+                if (Meteor.select.isSelected()) {
+                    before = Meteor.select.getSelectedObjects();
+                } else {
+                    before = Meteor.util.clone(this);
+                }
+                Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1);
+            }
+        },
+        "drag": function (event) {
+            if (!event.ctrlKey && !event.metaKey) {
+                var editor = $("#editor");
+                if (event.pageX + this.width > editor.width()) {
+                    editor.width(editor.width() + 100);
+                }
+                if (event.pageY + this.height > editor.height()) {
+                    editor.height(editor.height() + 100);
+                }
+                Meteor.drawingObject.updatePosition(this); //intentionally not changing z-index and not persisting
+
+            }
+        },
+        "dragstop": function (event) {
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.drawingObject._snapToGrid(this);
+                Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1, true);
+            }
+        },
+        "resizestart": function () {
+            sizeId = this._id;
+            Meteor.command.unSelect();
+            before = Meteor.util.clone(this);
+            Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true);
+        },
+        "resize": function () {
+            Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex());
+        },
+        "resizestop": function () {
+            sizeId = null;
+            Meteor.drawingObject.resize(this, Meteor.canvas.getMaxZIndex() + 1, true, true);
+        },
+
+        "click .vote, dblclick .vote": function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            Meteor.drawingObject.vote(this);
+        },
+        "click .down-vote, dblclick .down-vote": function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            Meteor.drawingObject.downVote(this);
+        },
+        "click .sizeable": function (event) {
+            if (event.metaKey || event.ctrlKey) {
+                if (Meteor.select.isSelected(this._id)) {
+                    Meteor.command.unSelect(this);
+                } else {
+                    Meteor.command.select(this);
+                }
+            }
+        },
+        "pick": function (event) {
+            before = Meteor.util.clone(this);
+            var after = Meteor.util.clone(this);
+            after.color = event.color;
+            Meteor.command.setColor(before, after);
+        },
+
+
+        //must be last one, to not produce error: "must be attached ..."
+        "click .delete, dblclick .delete": function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            Meteor.drawingObject.remove(this);
         }
-    );
+    }
+);
 
-    Template.drawingObject.rendered = function () {
-        Meteor.drawingObject.enableDrag(Template.currentData()._id);
-        Meteor.drawingObject._drawConnections(Template.currentData()._id);
-    };
+Template.drawingObject.rendered = function () {
+    Meteor.drawingObject.enableDrag(Template.currentData()._id);
+    Meteor.drawingObject._drawConnections(Template.currentData()._id);
+};
 
 
-    Template.drawingObject.helpers({
-        isEditing: function () {
-            return Meteor.spitfire.isEditing(this);
-        },
-        isVote: function () {
-            return this.vote > 0;
-        },
-        editing: function () {
-            return this.editing ? "editing" : "";
-        },
-        dragging: function () {
-            return this.dragging ? "dragging" : "";
-        },
-        sizing: function () {
-            return this.sizing ? "sizing" : "";
-        },
-        selected: function () {
-            return Meteor.select.isSelected(this._id) ? "selected" : "";
-        },
-        isConnect: function () {
-            return Meteor.drawingObject.getFatherId() === this._id;
-        },
-        father: function () {
-            Meteor.drawingObject._drawConnections(this._id);
-            return this.fatherId;
-        },
-        connect: function () {
-            return Meteor.drawingObject.getFatherId() === this._id ? "connect" : "";
-        }
-    });
-
-})();
+Template.drawingObject.helpers({
+    isEditing: function () {
+        return Meteor.spitfire.isEditing(this);
+    },
+    isVote: function () {
+        return this.vote > 0;
+    },
+    editing: function () {
+        return this.editing ? "editing" : "";
+    },
+    dragging: function () {
+        return this.dragging ? "dragging" : "";
+    },
+    sizing: function () {
+        return this.sizing ? "sizing" : "";
+    },
+    selected: function () {
+        return Meteor.select.isSelected(this._id) ? "selected" : "";
+    },
+    isConnect: function () {
+        return Meteor.drawingObject.getFatherId() === this._id;
+    },
+    father: function () {
+        Meteor.drawingObject._drawConnections(this._id);
+        return this.fatherId;
+    },
+    connect: function () {
+        return Meteor.drawingObject.getFatherId() === this._id ? "connect" : "";
+    }
+});
 
 
 //TODO undo/redo not working properly for both - simple and together with creating/removing drawingObjects

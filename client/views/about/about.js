@@ -1,8 +1,5 @@
+Template.about.rendered = function () {
+    document.title = "About";
+};
 
-
-(function () {
-    Template.about.rendered = function () {
-        document.title = "About";
-    };
-})();
 

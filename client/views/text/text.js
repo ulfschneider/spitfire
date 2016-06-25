@@ -172,7 +172,8 @@ Meteor.text = {
     _blankTargets: function (id) {
         var childLinks = $("#sizeable" + id + " a");
         for (var i = 0; i < childLinks.length; i++) {
-            $(childLinks[i]).attr("target", "_blank");
+            $(childLinks[i])
+                .attr("target", "_blank");
         }
     },
     getDefaultWidth: function () {
@@ -181,7 +182,7 @@ Meteor.text = {
     getDefaultHeight: function () {
         return DEFAULT_HEIGHT;
     },
-    textColor: function(drawingObject) {
+    textColor: function (drawingObject) {
         if (drawingObject.color && !Meteor.util.isLightHexColor(drawingObject.color)) {
             return TEXT_COLOR_DARK_BACKGROUND;
         } else {
@@ -193,124 +194,121 @@ Meteor.text = {
 };
 
 
-(function () {
-    Template.textInput.events({
-            "click, dblclick, mousedown": function (event) {
-                event.stopPropagation();
-            },
-            "keydown": function (event) {
-                event.stopPropagation();
-            },
-            "keypress": function (event) {
-                if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
-                    if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
-                        event.preventDefault();
-                        Meteor.text.submitText();
-                    }
-                }
-                event.stopPropagation();
-            },
-            "keyup": function (event) {
-                if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+Template.textInput.events({
+        "click, dblclick, mousedown": function (event) {
+            event.stopPropagation();
+        },
+        "keydown": function (event) {
+            event.stopPropagation();
+        },
+        "keypress": function (event) {
+            if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
+                if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
+                    event.preventDefault();
                     Meteor.text.submitText();
-                } else {
-                    if (!event.altKey && Meteor.drawingObject.getFatherId()) {
-                        //might be we created a new drawingObject, in that case we reset father here
-                        Meteor.drawingObject.clearFatherId();
-                    }
-                    var text = event.target.value;
-                    Meteor.text._startInputTimeout();
-                    if (editText != text) {
-                        editText = text;
-                        Meteor.text._setInputUpdate();
-                    }
                 }
-                event.preventDefault();
-                event.stopPropagation();
-            },
-
-            "focusout, blur": function () {
+            }
+            event.stopPropagation();
+        },
+        "keyup": function (event) {
+            if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
                 Meteor.text.submitText();
-            }
-
-        }
-    );
-
-    Template.textInput.helpers({
-       father: function() {
-           return this.fatherId;
-       }
-    });
-
-    Template.textInput.rendered = function () {
-        if (Template.currentData()._id) {
-            var textControl = $("#" + Template.currentData()._id);
-            textControl.val(editText);
-            textControl.autosize();
-            textControl.focus();
-        }
-    };
-
-
-    Template.text.helpers({
-        hasSize: function () {
-            return this.width && this.width > 0 && this.height && this.height > 0;
-        },
-        votableText: function () {
-            if (this.vote && this.vote > 0) {
-                return '<span class="vote-count" style="background:' + Meteor.text.textColor(this) + '; '
-                    + (this.color ? 'color:' + Meteor.util.mixHexColor(this.color, .6, '#fff') + ';' : '')
-                    +  '" >'
-                    + this.vote
-                    + '</span>'
-                    + this.text;
             } else {
-                return this.text;
+                if (!event.altKey && Meteor.drawingObject.getFatherId()) {
+                    //might be we created a new drawingObject, in that case we reset father here
+                    Meteor.drawingObject.clearFatherId();
+                }
+                var text = event.target.value;
+                Meteor.text._startInputTimeout();
+                if (editText != text) {
+                    editText = text;
+                    Meteor.text._setInputUpdate();
+                }
             }
+            event.preventDefault();
+            event.stopPropagation();
         },
-        height: function () {
-            return "auto";
-        },
-        color: function() {
-            if (this.color) {
-                Meteor.tinyColorPick.setColor(this.color);
-            }
-            return this.color ? this.color : "";
-        },
-        colorMix: function() {
-            if (this.color) {
-                return Meteor.util.mixHexColor(this.color, .6, '#fff');
-            }
-        },
-        colorR: function() {
-            return this.color ? Meteor.util.hexToR(this.color) : "";
-        },
-        colorG: function() {
-            return this.color ? Meteor.util.hexToG(this.color) : "";
-        },
-        colorB: function() {
-            return this.color ? Meteor.util.hexToB(this.color) : "";
-        },
-        textColor: function() {
-            return Meteor.text.textColor(this);
-        },
-        inverse: function() {
-            if (this.color && !Meteor.util.isLightHexColor(this.color)) {
-                return "inverse";
-            }
-            return "";
+
+        "focusout, blur": function () {
+            Meteor.text.submitText();
         }
 
+    }
+);
+
+Template.textInput.helpers({
+    father: function () {
+        return this.fatherId;
+    }
+});
+
+Template.textInput.rendered = function () {
+    if (Template.currentData()._id) {
+        var textControl = $("#" + Template.currentData()._id);
+        textControl.val(editText);
+        textControl.autosize();
+        textControl.focus();
+    }
+};
 
 
-    });
-
-    Template.text.rendered = function () {
-        Meteor.drawingObject.enableDrag(Template.currentData()._id);
-        Meteor.drawingObject.enableResize(Template.currentData()._id);
-        Meteor.text._blankTargets(Template.currentData()._id);
-        Meteor.tinyColorPick.setColor(Template.currentData().color);
+Template.text.helpers({
+    hasSize: function () {
+        return this.width && this.width > 0 && this.height && this.height > 0;
+    },
+    votableText: function () {
+        if (this.vote && this.vote > 0) {
+            return '<span class="vote-count" style="background:' + Meteor.text.textColor(this) + '; '
+                + (this.color ? 'color:' + Meteor.util.mixHexColor(this.color, .6, '#fff') + ';' : '')
+                + '" >'
+                + this.vote
+                + '</span>'
+                + this.text;
+        } else {
+            return this.text;
+        }
+    },
+    height: function () {
+        return "auto";
+    },
+    color: function () {
+        if (this.color) {
+            Meteor.tinyColorPick.setColor(this.color);
+        }
+        return this.color ? this.color : "";
+    },
+    colorMix: function () {
+        if (this.color) {
+            return Meteor.util.mixHexColor(this.color, .6, '#fff');
+        }
+    },
+    colorR: function () {
+        return this.color ? Meteor.util.hexToR(this.color) : "";
+    },
+    colorG: function () {
+        return this.color ? Meteor.util.hexToG(this.color) : "";
+    },
+    colorB: function () {
+        return this.color ? Meteor.util.hexToB(this.color) : "";
+    },
+    textColor: function () {
+        return Meteor.text.textColor(this);
+    },
+    inverse: function () {
+        if (this.color && !Meteor.util.isLightHexColor(this.color)) {
+            return "inverse";
+        }
+        return "";
     }
 
 
-})();
+});
+
+Template.text.rendered = function () {
+    Meteor.drawingObject.enableDrag(Template.currentData()._id);
+    Meteor.drawingObject.enableResize(Template.currentData()._id);
+    Meteor.text._blankTargets(Template.currentData()._id);
+    Meteor.tinyColorPick.setColor(Template.currentData().color);
+}
+
+

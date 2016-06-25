@@ -1,5 +1,3 @@
-"use strict";
-
 Meteor.auth = {
     setAuth: function (auth) {
         if (Meteor.auth.isAuth() !== (true === auth)) {

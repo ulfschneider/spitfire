@@ -151,56 +151,53 @@ Meteor.grid = {
     }
 };
 
+Template.grid.events({
+        "keypress": function (event) {
+            if (event.which && event.which === 13 ||
+                event.keyCode && event.keyCode === 13) {
+                event.preventDefault();
+                event.currentTarget.blur();
+            }
+            event.stopPropagation();
+        },
+        "keyup #xgrid": function (event) {
+            var x = parseInt(event.target.value);
+            Meteor.grid.setXGrid(x);
+
+            if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+                event.preventDefault();
+                event.currentTarget.blur();
+            }
+            event.stopPropagation();
+        },
+        "keyup #ygrid": function (event) {
+            var y = parseInt(event.target.value);
+            Meteor.grid.setYGrid(y);
+            if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+                event.preventDefault();
+                event.currentTarget.blur();
+            }
+
+            event.stopPropagation();
+        },
+        "keydown": function (event) {
+            event.stopPropagation();
+        }
+    }
+);
+
+Template.grid.rendered = function () {
+    var xgrid = $("#xgrid");
+    var ygrid = $("#ygrid");
+    var grid = Meteor.grid.getGrid();
+    xgrid.val(grid.x);
+    ygrid.val(grid.y);
+
+};
+
 (function () {
-
-
     $(window)
         .on("resize", function () {
             Meteor.grid.maintainGrid();
         });
-
-    Template.grid.events({
-            "keypress": function (event) {
-                if (event.which && event.which === 13 ||
-                    event.keyCode && event.keyCode === 13) {
-                    event.preventDefault();
-                    event.currentTarget.blur();
-                }
-                event.stopPropagation();
-            },
-            "keyup #xgrid": function (event) {
-                var x = parseInt(event.target.value);
-                Meteor.grid.setXGrid(x);
-
-                if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
-                    event.preventDefault();
-                    event.currentTarget.blur();
-                }
-                event.stopPropagation();
-            },
-            "keyup #ygrid": function (event) {
-                var y = parseInt(event.target.value);
-                Meteor.grid.setYGrid(y);
-                if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
-                    event.preventDefault();
-                    event.currentTarget.blur();
-                }
-
-                event.stopPropagation();
-            },
-            "keydown": function (event) {
-                event.stopPropagation();
-            }
-        }
-    );
-
-    Template.grid.rendered = function () {
-        var xgrid = $("#xgrid");
-        var ygrid = $("#ygrid");
-        var grid = Meteor.grid.getGrid();
-        xgrid.val(grid.x);
-        ygrid.val(grid.y);
-
-    };
-
 })();

@@ -1,5 +1,3 @@
-
-
 Meteor.filter = {
     setFilter: function (filter) {
         Session.set("filter", filter); //reactivity needed
@@ -28,35 +26,33 @@ Meteor.filter = {
     }
 };
 
-(function () {
 
-    Template.filter.events({
-            "keypress": function (event) {
-                if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
-                    event.preventDefault();
-                    event.currentTarget.blur();
-                }
-                event.stopPropagation();
-            },
-
-            "keyup": function (event) {
-                Meteor.filter.setFilter(event.target.value);
-
-                if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
-                    event.preventDefault();
-                    event.currentTarget.blur();
-                }
-
-                event.stopPropagation();
-            },
-            "keydown": function (event) {
-                event.stopPropagation();
+Template.filter.events({
+        "keypress": function (event) {
+            if (event.which && event.which === 13 || event.keyCode && event.keyCode === 13) {
+                event.preventDefault();
+                event.currentTarget.blur();
             }
-        }
-    );
+            event.stopPropagation();
+        },
 
-    Template.filter.rendered = function () {
-        var filter = $("#filter");
-        filter.val(Meteor.filter.getFilter());
-    };
-})();
+        "keyup": function (event) {
+            Meteor.filter.setFilter(event.target.value);
+
+            if (event.which && event.which === 27 || event.keyCode && event.keyCode === 27) {
+                event.preventDefault();
+                event.currentTarget.blur();
+            }
+
+            event.stopPropagation();
+        },
+        "keydown": function (event) {
+            event.stopPropagation();
+        }
+    }
+);
+
+Template.filter.rendered = function () {
+    var filter = $("#filter");
+    filter.val(Meteor.filter.getFilter());
+};

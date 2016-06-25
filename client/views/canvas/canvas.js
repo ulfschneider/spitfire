@@ -242,6 +242,59 @@ Meteor.canvas = {
     }
 };
 
+
+Template.canvas.helpers({
+        drawingObjects: function () {
+            return Meteor.canvas._getDrawingObjects();
+        },
+        drawingWidth: function () {
+            return Meteor.canvas.getDrawingWidth();
+        },
+        drawingHeight: function () {
+            return Meteor.canvas.getDrawingHeight();
+        }
+    }
+);
+
+
+Template.canvas.events({
+    "click #canvas": function (event) {
+        Meteor.canvas._cleanUpSelectArea();
+        if (!event.ctrlKey && !event.metaKey) {
+            Meteor.command.unSelect();
+        }
+        Meteor.text.endEditing();
+    },
+    "dblclick #canvas": function (event) {
+        if (Meteor.spitfire.hasSessionName()) {
+            event.preventDefault();
+            event.stopPropagation();
+            Meteor.text.endEditing();
+            if (!event.ctrlKey && !event.metaKey) {
+                Meteor.text.initEditing(event);
+            }
+        }
+    },
+    "mousedown": function (event) {
+        Meteor.canvas._cleanUpSelectArea();
+        Meteor.text.endEditing();
+        if (event.ctrlKey || event.metaKey) {
+            selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
+        }
+    },
+    "mousemove": function (event) {
+        if (selectArea && (event.ctrlKey || event.metaKey)) {
+            Meteor.canvas._selectByArea(event);
+        }
+    },
+    "mouseup": function (event) {
+        if (event.ctrlKey || event.metaKey) {
+            Meteor.canvas._selectByArea(event);
+        }
+        Meteor.canvas._cleanUpSelectArea();
+    }
+});
+
 (function () {
     $(document)
         .on("keyup", function (event) {
@@ -335,58 +388,5 @@ Meteor.canvas = {
                 }
             }
         });
-
-    Template.canvas.helpers({
-            drawingObjects: function () {
-                return Meteor.canvas._getDrawingObjects();
-            },
-            drawingWidth: function () {
-                return Meteor.canvas.getDrawingWidth();
-            },
-            drawingHeight: function () {
-                return Meteor.canvas.getDrawingHeight();
-            }
-        }
-    );
-
-
-    Template.canvas.events({
-        "click #canvas": function (event) {
-            Meteor.canvas._cleanUpSelectArea();
-            if (!event.ctrlKey && !event.metaKey) {
-                Meteor.command.unSelect();
-            }
-            Meteor.text.endEditing();
-        },
-        "dblclick #canvas": function (event) {
-            if (Meteor.spitfire.hasSessionName()) {
-                event.preventDefault();
-                event.stopPropagation();
-                Meteor.text.endEditing();
-                if (!event.ctrlKey && !event.metaKey) {
-                    Meteor.text.initEditing(event);
-                }
-            }
-        },
-        "mousedown": function (event) {
-            Meteor.canvas._cleanUpSelectArea();
-            Meteor.text.endEditing();
-            if (event.ctrlKey || event.metaKey) {
-                selectArea = {left: event.pageX, top: event.pageY, width: 0, height: 0};
-            }
-        },
-        "mousemove": function (event) {
-            if (selectArea && (event.ctrlKey || event.metaKey)) {
-                Meteor.canvas._selectByArea(event);
-            }
-        },
-        "mouseup": function (event) {
-            if (event.ctrlKey || event.metaKey) {
-                Meteor.canvas._selectByArea(event);
-            }
-            Meteor.canvas._cleanUpSelectArea();
-        }
-    });
-
 
 })();

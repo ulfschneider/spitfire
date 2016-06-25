@@ -1,5 +1,3 @@
-
-
 Meteor.editor = {
 
     _isTopMarker: function () {
@@ -57,6 +55,37 @@ Meteor.editor = {
     }
 };
 
+Template.editor.helpers({
+    isAuth: function () {
+        return Meteor.auth.isAuth();
+    }
+});
+
+
+Template.editor.rendered = function () {
+    document.title = Meteor.spitfire.documentTitle();
+    Meteor.editor.maintainBoundaryMarker();
+    Meteor.grid.maintainGrid();
+    if (Meteor.spitfire.getHome() !== Router.current()
+            .location
+            .get().pathname) {
+        Router.go(Meteor.spitfire.getHome());
+    }
+}
+
+Template.editor.events({
+    "dropped #canvas": function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        Meteor.import.processFiles(Meteor.import.extractFiles(event));
+    },
+    "dragover #canvas": function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        Meteor.import.handleFileDrag(event);
+    }
+});
+
 (function () {
     $(window)
         .on("scroll", function () {
@@ -66,37 +95,4 @@ Meteor.editor = {
         .on("resize", function () {
             Meteor.editor.maintainBoundaryMarker();
         });
-
-
-    Template.editor.helpers({
-        isAuth: function () {
-            return Meteor.auth.isAuth();
-        }
-    });
-
-
-    Template.editor.rendered = function () {
-        document.title = Meteor.spitfire.documentTitle();
-        Meteor.editor.maintainBoundaryMarker();
-        Meteor.grid.maintainGrid();
-        if (Meteor.spitfire.getHome() !== Router.current()
-                .location
-                .get().pathname) {
-            Router.go(Meteor.spitfire.getHome());
-        }
-    }
-
-    Template.editor.events({
-        "dropped #canvas": function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            Meteor.import.processFiles(Meteor.import.extractFiles(event));
-        },
-        "dragover #canvas": function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            Meteor.import.handleFileDrag(event);
-        }
-    });
-
 })();
