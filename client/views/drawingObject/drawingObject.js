@@ -1,5 +1,6 @@
 var dragTime;
 var sizeId;
+var dragIds;
 var CLEANUP_DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
 var MOVE_TIME_OUT = 100; //millisecnds
 var before;
@@ -471,9 +472,12 @@ Template.drawingObject.events({
             if (!event.ctrlKey && !event.metaKey) {
                 if (!Meteor.select.isSelected(this._id)) {
                     Meteor.command.unSelect();
+                    dragIds = [this._id];
+
                 }
                 if (Meteor.select.isSelected()) {
                     before = Meteor.select.getSelectedObjects();
+                    dragIds = Meteor.select.getSelectedIds();
                 } else {
                     before = Meteor.util.clone(this);
                 }
@@ -494,6 +498,7 @@ Template.drawingObject.events({
             }
         },
         "dragstop": function (event) {
+            dragIds = null;
             if (!event.ctrlKey && !event.metaKey) {
                 Meteor.drawingObject._snapToGrid(this);
                 Meteor.drawingObject.updatePosition(this, true, Meteor.canvas.getMaxZIndex() + 1, true);
@@ -566,13 +571,21 @@ Template.drawingObject.helpers({
         return this.vote > 0;
     },
     editing: function () {
-        return this.editing ? "editing" : "";
+        return this.editing && this._id != Meteor.text.editId() ? "editing" : "";
     },
     dragging: function () {
-        return this.dragging ? "dragging" : "";
+        if (this.dragging) {
+            var compareId = this._id;
+            if (Meteor.util.isUndefinedOrNull(_.find(dragIds, function (id) {
+                    return id == compareId;
+                }))) {
+                return "dragging";
+            }
+        }
+        return "";
     },
     sizing: function () {
-        return this.sizing ? "sizing" : "";
+        return this.sizing && this._id != sizeId ? "sizing" : "";
     },
     selected: function () {
         return Meteor.select.isSelected(this._id) ? "selected" : "";

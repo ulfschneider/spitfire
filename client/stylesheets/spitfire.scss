@@ -283,6 +283,7 @@ a {
     margin-top: -($line-height + 2);
     position:absolute;
     padding:0 4px;
+    z-index: 2147483646;
 }
 
 .editing:before {
