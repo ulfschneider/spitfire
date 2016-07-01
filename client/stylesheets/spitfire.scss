@@ -85,6 +85,7 @@ textarea {
   resize: none;
 }
 
+
 #filter, #xgrid, #ygrid {
   border: 0;
   border-bottom: 1px solid lightgray;
@@ -187,6 +188,10 @@ a {
   vertical-align: top;
 }
 
+.drawing-object ul {
+  margin:0;
+}
+
 .drawing-object .text a:hover {
   background:$text-color;
   color: #ffffd6; /*calculate with opacity in front of white background */
@@ -272,6 +277,26 @@ a {
   min-height: $line-height;
 }
 
+.editing:before, .dragging:before, .sizing:before {
+    color:$background-color;
+    background-color: $text-color;
+    margin-top: -$line-height;
+    position:absolute;
+    padding:0 4px;
+}
+
+.editing:before {
+  content:"editing";
+}
+
+.dragging:before {
+  content:"dragging";
+}
+
+.sizing:before {
+  content:"sizing";
+}
+
 @-moz-keyframes glow {
   0% {
     border: 2px dotted transparent;
@@ -343,6 +368,8 @@ a {
     border: 2px dotted transparent;
   }
 }
+
+
 
 .drawing-object .controls {
   display: none;

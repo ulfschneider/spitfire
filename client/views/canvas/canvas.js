@@ -388,5 +388,4 @@ Template.canvas.events({
                 }
             }
         });
-
 })();
