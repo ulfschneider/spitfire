@@ -280,7 +280,7 @@ a {
 .editing:before, .dragging:before, .sizing:before {
     color:$background-color;
     background-color: $text-color;
-    margin-top: -$line-height;
+    margin-top: -($line-height + 2);
     position:absolute;
     padding:0 4px;
 }
