@@ -229,37 +229,38 @@ a {
   z-index: 2147483645 !important;
 }
 
-.drawing-object:hover .text {
+.text:hover {
   border: 1px dashed $text-color;
   padding: 2px;
 }
 
-.drawing-object:hover .text.inverse {
+
+.text.inverse:hover {
   border: 1px dashed $background-color;
   padding: 2px;
 }
 
-.selected .text, .selected:hover .text {
+.selected .text, .selected .text:hover {
   border: 2px dotted $text-color;
   padding: 1px;
 }
 
-.selected .text.inverse, .selected:hover .text.inverse {
+.selected .text.inverse, .selected .text.inverse:hover {
   border: 2px dotted $background-color;
   padding: 1px;
 }
 
-.connect .text, .connect:hover .text {
+.connect .text, .connect .text:hover {
   border: 2px dashed $text-color;
   padding: 1px;
 }
 
-.connect .text.inverse, .connect:hover .text.inverse {
+.connect .text.inverse, .connect .text.inverse:hover {
   border: 2px dashed $background-color;
   padding: 1px;
 }
 
-.editing .text, .dragging .text, .dragging:hover .text, .sizing .text, .sizing:hover .text {
+.editing .text, .dragging .text, .sizing .text, .editing .text:hover, .dragging .text:hover, .sizing .text:hover {
   border: 2px dotted $text-color;
   -webkit-animation: glow 1000ms infinite;
   -moz-animation: glow 1000ms infinite;
@@ -268,7 +269,7 @@ a {
   min-height: $line-height;
 }
 
-.editing .text.inverse, .dragging .text.inverse, .dragging:hover .text.inverse, .sizing .text.inverse, .sizing:hover .text.inverse {
+.editing .text.inverse, .dragging .text.inverse, .sizing .text.inverse, .editing .text.inverse:hover, .dragging .text.inverse:hover, .sizing .text.inverse:hover {
   border: 2px dotted $background-color;
   -webkit-animation: glow-inverse 1000ms infinite;
   -moz-animation: glow-inverse 1000ms infinite;
