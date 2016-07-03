@@ -183,7 +183,7 @@ Meteor.text = {
         return DEFAULT_HEIGHT;
     },
     textColor: function (drawingObject) {
-        if (drawingObject.color && !Meteor.util.isLightHexColor(drawingObject.color)) {
+        if (drawingObject.color && !Meteor.util.isLightColor(drawingObject.color)) {
             return TEXT_COLOR_DARK_BACKGROUND;
         } else {
             return TEXT_COLOR;
@@ -259,7 +259,7 @@ Template.text.helpers({
     votableText: function () {
         if (this.vote && this.vote > 0) {
             return '<span class="vote-count" style="background:' + Meteor.text.textColor(this) + '; '
-                + (this.color ? 'color:' + Meteor.util.mixHexColor(this.color, .6, '#fff') + ';' : '')
+                + (this.color ? 'color:' + Meteor.util.mixColor(this.color, .6, '#fff') + ';' : '')
                 + '" >'
                 + this.vote
                 + '</span>'
@@ -279,23 +279,23 @@ Template.text.helpers({
     },
     colorMix: function () {
         if (this.color) {
-            return Meteor.util.mixHexColor(this.color, .6, '#fff');
+            return Meteor.util.mixColor(this.color, .6, '#fff');
         }
     },
     colorR: function () {
-        return this.color ? Meteor.util.hexToR(this.color) : "";
+        return this.color ? Meteor.util.colorToR(this.color) : "";
     },
     colorG: function () {
-        return this.color ? Meteor.util.hexToG(this.color) : "";
+        return this.color ? Meteor.util.colorToG(this.color) : "";
     },
     colorB: function () {
-        return this.color ? Meteor.util.hexToB(this.color) : "";
+        return this.color ? Meteor.util.colorToB(this.color) : "";
     },
     textColor: function () {
         return Meteor.text.textColor(this);
     },
     inverse: function () {
-        if (this.color && !Meteor.util.isLightHexColor(this.color)) {
+        if (this.color && !Meteor.util.isLightColor(this.color)) {
             return "inverse";
         }
         return "";
