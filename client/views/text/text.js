@@ -171,10 +171,9 @@ Meteor.text = {
     ,
     _blankTargets: function (id) {
         var childLinks = $("#sizeable" + id + " a");
-        for (var i = 0; i < childLinks.length; i++) {
-            $(childLinks[i])
-                .attr("target", "_blank");
-        }
+        _.each(childLinks, function (childLink) {
+            $(childLink).attr("target", "_blank");
+        });
     },
     getDefaultWidth: function () {
         return DEFAULT_WIDTH;

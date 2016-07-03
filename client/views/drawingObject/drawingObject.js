@@ -114,19 +114,22 @@ Meteor.drawingObject = {
                 var yOffset = position.top - drawingObject.top;
 
                 var selectedObjects = Meteor.select.getSelectedObjects();
-                for (var i = 0; i < selectedObjects.length; i++) {
-                    $("#" + selectedObjects[i]._id)
+
+                _.each(selectedObjects, function (selectedObject) {
+                    $("#" + selectedObject._id)
                         .css({
-                            left: selectedObjects[i].left + xOffset,
-                            top: selectedObjects[i].top + yOffset
+                            left: selectedObject.left + xOffset,
+                            top: selectedObject.top + yOffset
                         });
 
-                    selectedObjects[i].left = selectedObjects[i].left + xOffset;
-                    selectedObjects[i].top = selectedObjects[i].top + yOffset;
-                    selectedObjects[i].zIndex = zIndex;
-                    selectedObjects[i].dragging = stop ? null : new Date();
-                    Meteor.drawingObject._drawConnections(selectedObjects[i]._id, true);
-                }
+                    selectedObject.left = selectedObject.left + xOffset;
+                    selectedObject.top = selectedObject.top + yOffset;
+                    selectedObject.zIndex = zIndex;
+                    selectedObject.dragging = stop ? null : new Date();
+                    Meteor.drawingObject._drawConnections(selectedObject._id, true);
+
+                });
+
 
                 if (stop) {
                     Meteor.command.position(before, selectedObjects);
@@ -172,9 +175,9 @@ Meteor.drawingObject = {
     _getSonObjectIds: function (id) {
         var sonIds = [];
         var sons = $("[father=" + id + "]");
-        for (var i = 0; i < sons.length; i++) {
-            sonIds.push(sons[i].id);
-        }
+        _.each(sons, function (son) {
+            sonIds.push(son.id);
+        });
         return sonIds;
     }
     ,
@@ -190,9 +193,10 @@ Meteor.drawingObject = {
     _getConnectionIds: function (id) {
         var connectionIds = [];
         var sons = $("[id^=father" + id + "]");
-        for (var i = 0; i < sons.length; i++) {
-            connectionIds.push(sons[i].id);
-        }
+
+        _.each(sons, function (son) {
+            connectionIds.push(son.id);
+        });
         var father = $("[id$=-son" + id + "]")[0];
 
         if (father) {
@@ -207,7 +211,7 @@ Meteor.drawingObject = {
     ,
     _hasObject: function (drawingObjects, id) {
         var hasObject = false;
-        $.each(drawingObjects, function (object) {
+        _.each(drawingObjects, function (object) {
             if (object._id === id) {
                 hasObject = true;
             }
@@ -219,16 +223,17 @@ Meteor.drawingObject = {
     cleanupConnections: function () {
         var connections = Meteor.drawingObject._getAllConnections();
 
-        for (var i = 0; i < connections.length; i++) {
-            connections[i].remove();
-        }
+        _.each(connections, function (connection) {
+            connection.remove();
+        });
     }
     ,
     _drawConnections: function (id, useTimer) {
         var sonIds = Meteor.drawingObject._getSonObjectIds(id);
-        for (var i = 0; i < sonIds.length; i++) {
-            Meteor.drawingObject._drawLine(id, sonIds[i]);
-        }
+
+        _.each(sonIds, function (sonId) {
+            Meteor.drawingObject._drawLine(id, sonId);
+        });
 
         var fatherId = Meteor.drawingObject._getFatherObjectId(id);
         if (fatherId) {
@@ -328,14 +333,14 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         var before = Meteor.util.clone(selectedObjects);
         var minX = Meteor.canvas.getDrawingWidth();
-        var i;
 
-        for (var i = 0; i < selectedObjects.length; i++) {
-            minX = Math.min(selectedObjects[i].left, minX);
-        }
-        for (var i = 0; i < selectedObjects.length; i++) {
-            Meteor.drawingObject._adaptPosition(selectedObjects[i], minX, selectedObjects[i].top);
-        }
+        _.each(selectedObjects, function (selectedObject) {
+            minX = Math.min(selectedObject.left, minX);
+        });
+
+        _.each(selectedObjects, function (selectedObject) {
+            Meteor.drawingObject._adaptPosition(selectedObject, minX, selectedObject.top);
+        });
 
         Meteor.command.position(before, selectedObjects);
     }
@@ -344,14 +349,14 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         var before = Meteor.util.clone(selectedObjects);
         var maxX = 0;
-        var i;
 
-        for (var i = 0; i < selectedObjects.length; i++) {
-            maxX = Math.max(selectedObjects[i].left + selectedObjects[i].width, maxX);
-        }
-        for (var i = 0; i < selectedObjects.length; i++) {
-            Meteor.drawingObject._adaptPosition(selectedObjects[i], maxX - selectedObjects[i].width, selectedObjects[i].top);
-        }
+        _.each(selectedObjects, function (selectedObject) {
+            maxX = Math.max(selectedObject.left + selectedObject.width, maxX);
+        });
+
+        _.each(selectedObjects, function (selectedObject) {
+            Meteor.drawingObject._adaptPosition(selectedObject, maxX - selectedObject.width, selectedObject.top);
+        });
 
         Meteor.command.position(before, selectedObjects);
 
@@ -361,14 +366,14 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         var before = Meteor.util.clone(selectedObjects);
         var minY = Meteor.canvas.getDrawingHeight();
-        var i;
 
-        for (var i = 0; i < selectedObjects.length; i++) {
-            minY = Math.min(selectedObjects[i].top, minY);
-        }
-        for (var i = 0; i < selectedObjects.length; i++) {
-            Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, minY);
-        }
+        _.each(selectedObjects, function (selectedObject) {
+            minY = Math.min(selectedObject.top, minY);
+        });
+
+        _.each(selectedObjects, function (selectedObject) {
+            Meteor.drawingObject._adaptPosition(selectedObject, selectedObject.left, minY);
+        });
 
         Meteor.command.position(before, selectedObjects);
 
@@ -378,16 +383,16 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         var before = Meteor.util.clone(selectedObjects);
         var maxY = 0;
-        var i, uiObject;
 
-        for (var i = 0; i < selectedObjects.length; i++) {
-            uiObject = $("#" + selectedObjects[i]._id);
-            maxY = Math.max(selectedObjects[i].top + uiObject.height(), maxY);
-        }
-        for (var i = 0; i < selectedObjects.length; i++) {
-            uiObject = $("#" + selectedObjects[i]._id);
-            Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left, maxY - uiObject.height());
-        }
+        _.each(selectedObjects, function (selectedObject) {
+            var uiObject = $("#" + selectedObject._id);
+            maxY = Math.max(selectedObject.top + uiObject.height(), maxY);
+        });
+
+        _.each(selectedObjects, function (selectedObject) {
+            var uiObject = $("#" + selectedObject._id);
+            Meteor.drawingObject._adaptPosition(selectedObject, selectedObject.left, maxY - uiObject.height());
+        });
 
         Meteor.command.position(before, selectedObjects);
 
@@ -413,21 +418,20 @@ Meteor.drawingObject = {
         var selectedObjects = Meteor.select.getSelectedObjects();
         var before = Meteor.util.clone(selectedObjects);
         var stop = false;
-        var i;
 
         if (left < 0 || top < 0) {
-            for (var i = 0; i < selectedObjects.length; i++) {
-                if (left < 0 && selectedObjects[i].left + left <= 0) {
+            _.each(selectedObjects, function (selectedObject) {
+                if (left < 0 && selectedObject.left + left <= 0) {
                     stop = true;
-                } else if (top < 0 && selectedObjects[i].top + top <= 0) {
+                } else if (top < 0 && selectedObject.top + top <= 0) {
                     stop = true;
                 }
-            }
+            });
         }
         if (!stop) {
-            for (var i = 0; i < selectedObjects.length; i++) {
-                Meteor.drawingObject._adaptPosition(selectedObjects[i], selectedObjects[i].left + left, selectedObjects[i].top + top);
-            }
+            _.each(selectedObjects, function (selectedObject) {
+                Meteor.drawingObject._adaptPosition(selectedObject, selectedObject.left + left, selectedObject.top + top);
+            });
 
             Meteor.command.position(before, selectedObjects);
         }
