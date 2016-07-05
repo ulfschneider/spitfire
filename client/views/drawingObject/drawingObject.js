@@ -4,6 +4,7 @@ var dragIds;
 var CLEANUP_DRAG_OR_SIZE_TIME_OUT = 1000 * 30; //milliseconds interval
 var MOVE_TIME_OUT = 100; //millisecnds
 var before;
+var color;
 
 
 Meteor.drawingObject = {
@@ -168,6 +169,12 @@ Meteor.drawingObject = {
     },
     getFatherId: function () {
         return Session.get("fatherId");
+    },
+    getCurrentColor: function() {
+        return color;
+    },
+    setCurrentColor:function(c) {
+        color = c;
     },
     setFatherId: function (fatherId) {
         Session.set("fatherId", fatherId);

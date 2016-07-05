@@ -135,6 +135,7 @@ Meteor.text = {
                 width: Meteor.text.getDefaultWidth(),
                 height: Meteor.text.getDefaultHeight(),
                 zIndex: Meteor.canvas.getMaxZIndex() + 1,
+                color: Meteor.drawingObject.getCurrentColor(),
                 fatherId: event.altKey ? Meteor.drawingObject.getFatherId() : null
             }, function (error, result) {
                 editId = result;
