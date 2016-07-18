@@ -157,15 +157,11 @@ a {
 %linkstyle {
   outline: none;
   color: $text-color;
-  text-decoration: none;
-  background-image: -webkit-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
-  background-image: -moz-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
-  background-image: -o-linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
-  background-image: linear-gradient(to bottom, transparent 94%, $text-color 96%, $text-color 100%);
+  text-decoration: underline;
 }
 
 %nolinkstyle {
-  background-image:none;
+  text-decoration:none;
 }
 
 ::selection {
@@ -193,9 +189,14 @@ a {
   margin:0;
 }
 
-.drawing-object .text a:hover {
+.drawing-object .text a:hover, .text a:hover *  {
   background:$text-color;
   color: #ffffd6; /*calculate with opacity in front of white background */
+}
+
+.about a:hover, .about a:hover * {
+  background:$text-color;
+  color:$background-color;
 }
 
 .drawing-object .text ul {
