@@ -247,7 +247,7 @@ Meteor.drawingObject = {
             Meteor.drawingObject._drawLine(fatherId, id);
         }
         if (useTimer) {
-            setTimeout(function () {
+            Meteor.setTimeout(function () {
                 Meteor.drawingObject._drawConnections(id);
             }, MOVE_TIME_OUT);
         }

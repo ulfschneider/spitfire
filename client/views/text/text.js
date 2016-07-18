@@ -48,7 +48,7 @@ Meteor.text = {
     },
     _startInputTimeout: function () {
         Meteor.text._cleanUpInputTimeout();
-        inputTimeoutId = setTimeout(function () {
+        inputTimeoutId = Meteor.setTimeout(function () {
             if (Meteor.text.editId()) {
                 Meteor.text.removeEditingById(Meteor.text.editId());
             }
@@ -64,7 +64,7 @@ Meteor.text = {
     ,
     _setInputUpdate: function () {
         if (!Meteor.text._hasInputUpdate()) {
-            inputUpdateId = setTimeout(function () {
+            inputUpdateId = Meteor.setTimeout(function () {
                 Meteor.text.updateEditing();
                 Meteor.text._cleanUpInputUpdate();
             }, INPUT_UPDATE);
