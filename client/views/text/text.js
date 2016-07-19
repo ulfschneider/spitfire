@@ -57,7 +57,7 @@ Meteor.text = {
     },
     _cleanUpInputTimeout: function () {
         if (inputTimeoutId) {
-            clearTimeout(inputTimeoutId);
+            Meteor.clearTimeout(inputTimeoutId);
             inputTimeoutId = null;
         }
     }
@@ -75,7 +75,7 @@ Meteor.text = {
     },
     _cleanUpInputUpdate: function () {
         if (inputUpdateId) {
-            clearTimeout(inputUpdateId);
+            Meteor.clearTimeout(inputUpdateId);
             inputUpdateId = null;
         }
     }

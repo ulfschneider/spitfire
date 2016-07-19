@@ -10,7 +10,7 @@ Meteor.import = {
     processFiles: function (files) {
         if (files && files.length > 0) {
             NProgress.start();
-            _.each(files, function(f) {
+            _.each(files, function (f) {
 
                 if (f.type.match("text/plain") || f.type.match("text/csv")) {
                     Meteor.import.processFile(f);
@@ -34,7 +34,7 @@ Meteor.import = {
         var left = Meteor.grid.getGridIndent();
         var width = Meteor.editor.getWidth();
 
-        _.each(lines, function(line) {
+        _.each(lines, function (line) {
             var object = {};
             object.sessionName = Meteor.spitfire.getSessionName();
             if (line.text) {
@@ -95,7 +95,7 @@ Meteor.import = {
         var left = Meteor.grid.getGridIndent();
         var width = Meteor.editor.getWidth();
         var objectsToInsert = [];
-        _.each(lines, function(line) {
+        _.each(lines, function (line) {
             objectsToInsert.push({
                 sessionName: Meteor.spitfire.getSessionName(),
                 text: line,
@@ -115,15 +115,15 @@ Meteor.import = {
     },
     processFile: function (file) {
         var reader = new FileReader();
-
-        if (file.type.match("text/csv")) {
+        
+        if (file.type.match("text/csv") || Meteor.util.isFileExtension(file.name, "csv")) {
             reader.onload = (function () {
                 return function (event) {
                     var objectsToInsert = Meteor.import._processCSV(event.target.result);
                     Meteor.command.insert(objectsToInsert);
                 }
             })(file);
-        } else if (file.type.match("text/plain")) {
+        } else if (file.type.match("text/plain") || Meteor.util.isFileExtension(file.name, "txt")) {
             reader.onload = (function () {
                 return function (event) {
                     var objectsToInsert = Meteor.import._processTXT(event.target.result);
@@ -131,7 +131,7 @@ Meteor.import = {
                 }
             })(file);
         }
-        
+
         reader.readAsText(file);
     },
     _getFileData: function (data) {
@@ -140,7 +140,7 @@ Meteor.import = {
         if (data) {
             var lines = data.split("\n");
 
-            _.each(lines, function(line) {
+            _.each(lines, function (line) {
                 var l = $.trim(Meteor.util.replaceLineBreaks(line, " "));
                 if (l.length > 0) {
                     trimmedLines.push(l);
