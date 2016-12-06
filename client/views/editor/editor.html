@@ -27,10 +27,10 @@
         <div id="editor">
             <header>
                 {{#if hasSessionName}}
-                    <b>{{sessionName}}</b> {{>filter}} {{>grid}} {{>exportAction}} {{#if isAuth}}{{> loginButtons}}{{/if}} <a class="aboutLink" href="/about" title="Read about {{appTitle}}">?</a>
+                    <b>{{sessionName}}</b> {{>filter}} {{>grid}} {{>exportAction}} {{#if isAuth}}{{> loginButtons}}{{/if}} <a class="about-link" href="/about" title="Read about {{appTitle}}">?</a>
                 {{else}}
                     Welcome to {{appTitle}} • append <b>/a-session-name</b> to your current browser URL and press <kbd>ENTER</kbd> to start a
-                    whiteboard session {{#if isAuth}} • {{> loginButtons}}{{/if}} <a class="aboutLink" href="/about">?</a>
+                    whiteboard session {{#if isAuth}} • {{> loginButtons}}{{/if}} <a class="about-link" href="/about">?</a>
                 {{/if}}
             </header>
 

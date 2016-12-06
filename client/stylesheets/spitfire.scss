@@ -111,7 +111,7 @@ textarea {
   @extend %nolinkstyle;
 }
 
-.aboutLink {
+.about-link {
   background-image: none;
   background: $text-color;
   color: $background-color;
@@ -121,6 +121,7 @@ textarea {
   text-align: center;
   vertical-align: middle;
   text-decoration: none;
+  border-radius: 3px;
 }
 
 .about {
