@@ -12,11 +12,11 @@ Meteor.import = {
             NProgress.start();
             _.each(files, function (f) {
 
-                if (f.type.match("text/plain") || f.type.match("text/csv")) {
+                if (f.type.match("text/plain") || f.type.match("text/csv") || f.type.match("application/vnd.ms-excel")) {
                     Meteor.import.processFile(f);
                     Bert.alert("The file " + f.name + " has been imported into " + Meteor.spitfire.appTitle(), 'info', 'growl-bottom-right');
                 } else {
-                    Bert.alert("You can only import files with a MIME-Type of text/plain or text/csv into " + Meteor.spitfire.appTitle() + ". Usually these files end with .txt or .csv", 'danger', 'growl-bottom-right');
+                    Bert.alert("You can only import files with a MIME-Type of text/plain, text/csv or application/vnd.ms-excel into " + Meteor.spitfire.appTitle() + ". Usually these files end with .txt or .csv", 'danger', 'growl-bottom-right');
                 }
             });
 
