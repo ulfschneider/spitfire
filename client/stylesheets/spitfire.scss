@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700,700i&display=swap');
+
 $line-height: 22px;
-$font-size: 15px;
-$about-font-size: 17px;
+$font-size: 17px;
+$about-font-size: 20px;
 $text-color: #111;
 $background-color: #fff;
 
-$font: "Input Sans Condensed", "Input Sans Cond", "Input Sans", sans-serif;
+$font: "IBM Plex Sans", sans-serif;
 
 * {
   font-family: $font;
@@ -40,7 +42,7 @@ header {
 }
 
 header * {
-  font-family: "Input Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 p {
@@ -138,7 +140,7 @@ textarea {
   box-sizing: border-box;
   font-size:$about-font-size;
   line-height: 1.62em;
-  font-family: "Input Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   color: $text-color;
 }
 
