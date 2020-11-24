@@ -1,0 +1,13 @@
+spitfire:
+  image: hwestphal/spitfire
+  ports:
+    - "8080:8080"
+  links:
+    - mongo
+  environment:
+    - ROOT_URL=http://localhost:8080
+    - MONGO_URL=mongodb://mongo:27017/spitfire
+
+mongo:
+  image: mongo:latest
+  command: mongod
