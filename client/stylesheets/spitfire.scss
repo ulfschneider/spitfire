@@ -1,571 +1,597 @@
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700,700i&display=swap');
-
 $line-height: 22px;
 $font-size: 17px;
 $about-font-size: 20px;
 $text-color: #111;
 $background-color: #fff;
-
-$font: "IBM Plex Sans", sans-serif;
-
+$font: "IBM Plex Sans",
+sans-serif;
 * {
-  font-family: $font;
-  font-size: $font-size;
-  outline: none;
-  line-height: $line-height;
+    font-family: $font;
+    font-size: $font-size;
+    outline: none;
+    line-height: $line-height;
 }
 
 body {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
 header {
-  margin: 0;
-  padding: 8px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  border: 0;
-  z-index: 2147483646 !important;
-  display: inline-block;
-
-  background-color: $background-color;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    margin: 0;
+    padding: 8px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border: 0;
+    z-index: 2147483646 !important;
+    display: inline-block;
+    background-color: $background-color;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 header * {
-  font-family: "IBM Plex Sans", sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
 }
 
 p {
-  margin: 0;
-  margin-bottom: $line-height;
+    margin: 0;
+    margin-bottom: $line-height;
 }
 
-h1, h2, h3 {
-  text-align: left;
-  font-weight: bold;
-  margin-top: 1.62 * 1.62em;
-  margin-bottom: 0;
+h1,
+h2,
+h3 {
+    text-align: left;
+    font-weight: bold;
+    margin-top: 1.62 * 1.62em;
+    margin-bottom: 0;
 }
 
-h1, h2 {
-  text-align: center;
-  margin-bottom: 1.62em;
+h1,
+h2 {
+    text-align: center;
+    margin-bottom: 1.62em;
 }
 
 mark {
-  background: #eee;
+    background: #eee;
 }
 
 kbd {
-  background: #eee;
-  margin: 0;
-  border: 1px solid lightgray;
-  text-transform: uppercase;
-  padding: 2px;
-  border-radius: 3px;
+    background: #eee;
+    margin: 0;
+    border: 1px solid lightgray;
+    text-transform: uppercase;
+    padding: 2px;
+    border-radius: 2px;
 }
 
 textarea {
-  position: absolute;
-  z-index: 2147483646;
-  border: 2px solid $text-color;
-  padding: 1px;
-  margin: 0;
-  color: $text-color;
-  min-width: $line-height;
-  min-height: $line-height;
-  height: $line-height;
-  resize: none;
+    position: absolute;
+    z-index: 2147483646;
+    border: 2px solid $text-color;
+    padding: 1px;
+    margin: 0;
+    color: $text-color;
+    min-width: $line-height;
+    min-height: $line-height;
+    height: $line-height;
+    resize: none;
 }
 
-
-#filter, #xgrid, #ygrid {
-  border: 0;
-  border-bottom: 1px solid lightgray;
+#filter,
+#xgrid,
+#ygrid {
+    border: 0;
+    border-bottom: 1px solid lightgray;
 }
 
-#filter:hover, #filter:focus, #xgrid:hover, #xgrid:focus, #ygrid:hover, #ygrid:focus {
-  border-bottom: 1px solid $text-color;
+#filter:hover,
+#filter:focus,
+#xgrid:hover,
+#xgrid:focus,
+#ygrid:hover,
+#ygrid:focus {
+    border-bottom: 1px solid $text-color;
 }
 
 #filter {
-  width: 10em;
+    width: 10em;
 }
 
-#xgrid, #ygrid {
-  width: 3em;
+#xgrid,
+#ygrid {
+    width: 3em;
 }
 
-
-.filter, .grid, #login-buttons, .sessionsHeading, .export {
-  display: inline-block;
-  margin-right: 2em;
-  @extend %nolinkstyle;
+.filter,
+.grid,
+#login-buttons,
+.sessionsHeading,
+.export {
+    display: inline-block;
+    margin-right: 2em;
+    @extend %nolinkstyle;
 }
 
 .about-link {
-  background-image: none;
-  background: $text-color;
-  color: $background-color;
-  width: $line-height;
-  height: $line-height;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  border-radius: 3px;
+    background-image: none;
+    background: $text-color;
+    color: $background-color;
+    width: $line-height;
+    height: $line-height;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    border-radius: 2px;
 }
 
 .about {
-  max-width: 700px;
-  padding: 0 1em;
-  margin: 1.62*1.62em auto;
-
-  p {
-    margin-bottom: 1.62em;
-  }
+    max-width: 700px;
+    padding: 0 1em;
+    margin: 1.62*1.62em auto;
+    p {
+        margin-bottom: 1.62em;
+    }
 }
 
-.about, .about * {
-  box-sizing: border-box;
-  font-size:$about-font-size;
-  line-height: 1.62em;
-  font-family: "IBM Plex Sans", sans-serif;
-  color: $text-color;
+.about,
+.about * {
+    box-sizing: border-box;
+    font-size: $about-font-size;
+    line-height: 1.62em;
+    font-family: "IBM Plex Sans", sans-serif;
+    color: $text-color;
 }
 
 ul.toc {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .toc li {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 a {
-  @extend %linkstyle;
+    @extend %linkstyle;
 }
 
 %linkstyle {
-  outline: none;
-  color: $text-color;
-  text-decoration: underline;
+    outline: none;
+    color: $text-color;
+    text-decoration: underline;
 }
 
 %nolinkstyle {
-  text-decoration:none;
+    text-decoration: none;
 }
 
 ::selection {
-  color: $background-color;
-  background: cornflowerblue;
+    color: $background-color;
+    background: cornflowerblue;
 }
 
 .ui-icon-gripsmall-diagonal-se {
-  background: transparent;
-  width: 12px;
-  height: 12px;
+    background: transparent;
+    width: 12px;
+    height: 12px;
 }
 
 .ui-icon-gripsmall-diagonal-se {
-  background: $text-color;
+    background: $text-color;
 }
 
 .drawing-object {
-  display: block;
-  position: absolute;
-  vertical-align: top;
+    display: block;
+    position: absolute;
+    vertical-align: top;
 }
 
 .drawing-object ul {
-  margin:0;
+    margin: 0;
 }
 
-.drawing-object .text a:hover, .text a:hover *  {
-  background:$text-color;
-  color: #ffffd6; /*calculate with opacity in front of white background */
+.drawing-object .text a:hover,
+.text a:hover * {
+    background: $text-color;
+    color: #ffffd6;
+    /*calculate with opacity in front of white background */
 }
 
-.about a:hover, .about a:hover * {
-  background:$text-color;
-  color:$background-color;
+.about a:hover,
+.about a:hover * {
+    background: $text-color;
+    color: $background-color;
 }
 
 .drawing-object .text ul {
-  padding-left: $line-height;
-
+    padding-left: $line-height;
 }
 
 .drawing-object .text {
-  background: #ffffbb;
-  background: rgba(255, 255, 187, .6);
-  display: block;
-  border: 2px solid transparent;
-  padding: 1px;
-  overflow: hidden;
-
-  position: relative;
-  cursor: pointer;
+    background: #ffffbb;
+    background: rgba(255, 255, 187, .6);
+    display: block;
+    border: 2px solid transparent;
+    padding: 1px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
 }
 
 .drawing-object .text p {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  position: relative;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 .drawing-object .text img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
-.drawing-object:hover, div.color-picker {
-  z-index: 2147483645 !important;
+.drawing-object:hover,
+div.color-picker {
+    z-index: 2147483645 !important;
 }
 
 .text:hover {
-  border: 1px dashed $text-color;
-  padding: 2px;
+    border: 1px dashed $text-color;
+    padding: 2px;
 }
-
 
 .text.inverse:hover {
-  border: 1px dashed $background-color;
-  padding: 2px;
+    border: 1px dashed $background-color;
+    padding: 2px;
 }
 
-.selected .text, .selected .text:hover {
-  border: 2px dotted $text-color;
-  padding: 1px;
+.selected .text,
+.selected .text:hover {
+    border: 2px dotted $text-color;
+    padding: 1px;
 }
 
-.selected .text.inverse, .selected .text.inverse:hover {
-  border: 2px dotted $background-color;
-  padding: 1px;
+.selected .text.inverse,
+.selected .text.inverse:hover {
+    border: 2px dotted $background-color;
+    padding: 1px;
 }
 
-.connect .text, .connect .text:hover {
-  border: 2px dashed $text-color;
-  padding: 1px;
+.connect .text,
+.connect .text:hover {
+    border: 2px dashed $text-color;
+    padding: 1px;
 }
 
-.connect .text.inverse, .connect .text.inverse:hover {
-  border: 2px dashed $background-color;
-  padding: 1px;
+.connect .text.inverse,
+.connect .text.inverse:hover {
+    border: 2px dashed $background-color;
+    padding: 1px;
 }
 
-.editing .text, .dragging .text, .sizing .text, .editing .text:hover, .dragging .text:hover, .sizing .text:hover {
-  border: 2px dotted $text-color;
-  -webkit-animation: glow 1000ms infinite;
-  -moz-animation: glow 1000ms infinite;
-  animation: glow 1000ms infinite;
-  padding: 1px;
-  min-height: $line-height;
+.editing .text,
+.dragging .text,
+.sizing .text,
+.editing .text:hover,
+.dragging .text:hover,
+.sizing .text:hover {
+    border: 2px dotted $text-color;
+    -webkit-animation: glow 1000ms infinite;
+    -moz-animation: glow 1000ms infinite;
+    animation: glow 1000ms infinite;
+    padding: 1px;
+    min-height: $line-height;
 }
 
-.editing .text.inverse, .dragging .text.inverse, .sizing .text.inverse, .editing .text.inverse:hover, .dragging .text.inverse:hover, .sizing .text.inverse:hover {
-  border: 2px dotted $background-color;
-  -webkit-animation: glow-inverse 1000ms infinite;
-  -moz-animation: glow-inverse 1000ms infinite;
-  animation: glow-inverse 1000ms infinite;
-  padding: 1px;
-  min-height: $line-height;
+.editing .text.inverse,
+.dragging .text.inverse,
+.sizing .text.inverse,
+.editing .text.inverse:hover,
+.dragging .text.inverse:hover,
+.sizing .text.inverse:hover {
+    border: 2px dotted $background-color;
+    -webkit-animation: glow-inverse 1000ms infinite;
+    -moz-animation: glow-inverse 1000ms infinite;
+    animation: glow-inverse 1000ms infinite;
+    padding: 1px;
+    min-height: $line-height;
 }
 
-.editing:before, .dragging:before, .sizing:before {
-    color:$background-color;
+.editing:before,
+.dragging:before,
+.sizing:before {
+    color: $background-color;
     background-color: $text-color;
     margin-top: -($line-height + 2);
-    position:absolute;
-    padding:0 4px;
+    position: absolute;
+    padding: 0 4px;
     z-index: 2147483646;
 }
 
 .editing:before {
-  content:"editing";
+    content: "editing";
 }
 
 .dragging:before {
-  content:"dragging";
+    content: "dragging";
 }
 
 .sizing:before {
-  content:"sizing";
+    content: "sizing";
 }
 
 @-moz-keyframes glow {
-  0% {
-    border: 2px dotted transparent;
-  }
-  50% {
-    border: 2px dotted $text-color;
-  }
-  100% {
-    border: 2px dotted transparent;
-  }
+    0% {
+        border: 2px dotted transparent;
+    }
+    50% {
+        border: 2px dotted $text-color;
+    }
+    100% {
+        border: 2px dotted transparent;
+    }
 }
 
 @-webkit-keyframes glow {
-  0% {
-    border: 2px dotted transparent;
-  }
-  50% {
-    border: 2px dotted $text-color;
-  }
-  100% {
-    border: 2px dotted transparent;
-  }
+    0% {
+        border: 2px dotted transparent;
+    }
+    50% {
+        border: 2px dotted $text-color;
+    }
+    100% {
+        border: 2px dotted transparent;
+    }
 }
 
 @keyframes glow {
-  0% {
-    border: 2px dotted transparent;
-  }
-  50% {
-    border: 2px dotted $text-color;
-  }
-  100% {
-    border: 2px dotted transparent;
-  }
+    0% {
+        border: 2px dotted transparent;
+    }
+    50% {
+        border: 2px dotted $text-color;
+    }
+    100% {
+        border: 2px dotted transparent;
+    }
 }
 
 @-moz-keyframes glow-inverse {
-  0% {
-    border: 2px dotted transparent;
-  }
-  50% {
-    border: 2px dotted $background-color;
-  }
-  100% {
-    border: 2px dotted transparent;
-  }
+    0% {
+        border: 2px dotted transparent;
+    }
+    50% {
+        border: 2px dotted $background-color;
+    }
+    100% {
+        border: 2px dotted transparent;
+    }
 }
 
 @-webkit-keyframes glow-inverse {
-  0% {
-    border: 2px dotted transparent;
-  }
-  50% {
-    border: 2px dotted $background-color;
-  }
-  100% {
-    border: 2px dotted transparent;
-  }
+    0% {
+        border: 2px dotted transparent;
+    }
+    50% {
+        border: 2px dotted $background-color;
+    }
+    100% {
+        border: 2px dotted transparent;
+    }
 }
 
 @keyframes glow-inverse {
-  0% {
-    border: 2px dotted transparent;
-  }
-  50% {
-    border: 2px dotted $background-color;
-  }
-  100% {
-    border: 2px dotted transparent;
-  }
+    0% {
+        border: 2px dotted transparent;
+    }
+    50% {
+        border: 2px dotted $background-color;
+    }
+    100% {
+        border: 2px dotted transparent;
+    }
 }
 
-
-
 .drawing-object .controls {
-  display: none;
-  border: none;
-  height: $line-height;
-  position: relative;
-  background: $background-color;
-  background: rgba(255, 255, 255, .8);
+    display: none;
+    border: none;
+    height: $line-height;
+    position: relative;
+    background: $background-color;
+    background: rgba(255, 255, 255, .8);
 }
 
 .drawing-object:hover .controls {
-  display: block;
-  margin-top: -($line-height + 2);
-  padding-bottom: 2px;
+    display: block;
+    margin-top: -($line-height + 2);
+    padding-bottom: 2px;
 }
 
 .drawing-object .controls a {
-  cursor: pointer;
-  min-width: $line-height;
-  height: $line-height;
-  text-align: center;
-  vertical-align: center;
-  text-decoration: none;
-  display: inline-block;
-
-  @extend %nolinkstyle;
+    cursor: pointer;
+    min-width: $line-height;
+    height: $line-height;
+    text-align: center;
+    vertical-align: center;
+    text-decoration: none;
+    display: inline-block;
+    @extend %nolinkstyle;
 }
 
 .controls div.tiny-color-pick {
-  float: left;
-  margin-right: 5px;
-  background: #ffffbb;
-  background: rgba(255, 255, 187, .6);
-  width: $line-height - 2;
-  height: $line-height - 2;
+    float: left;
+    margin-right: 5px;
+    background: #ffffbb;
+    background: rgba(255, 255, 187, .6);
+    width: $line-height - 2;
+    height: $line-height - 2;
 }
 
 div.color-picker {
-  margin-top: 2px;
+    margin-top: 2px;
 }
 
 div.color-picker ul li {
-  width: $line-height - 2;
-  height: $line-height -2;
+    width: $line-height - 2;
+    height: $line-height -2;
 }
 
-.controls a.vote, .controls a.down-vote {
-  margin-right: 5px;
-  color: $text-color;
-  float: left;
+.controls a.vote,
+.controls a.down-vote {
+    margin-right: 5px;
+    color: $text-color;
+    float: left;
 }
 
 .controls a.vote:hover {
-  color: $background-color;
-  background: $text-color;
+    color: $background-color;
+    background: $text-color;
 }
 
 .controls a.down-vote {
-  color: $text-color;
-  float: left;
+    color: $text-color;
+    float: left;
 }
 
 .controls a.down-vote:hover {
-  color: $background-color;
-  background: $text-color;
+    color: $background-color;
+    background: $text-color;
 }
 
 .controls a.delete {
-  margin-left: $line-height;
-  color: $text-color;
-  float: right;
+    margin-left: $line-height;
+    color: $text-color;
+    float: right;
 }
 
 .controls a.delete:hover {
-  background: red;
-  color: $background-color;
+    background: red;
+    color: $background-color;
 }
 
-.dragging:hover .controls, .sizing:hover .controls {
-  display: none;
+.dragging:hover .controls,
+.sizing:hover .controls {
+    display: none;
 }
 
 .vote-count {
-  background: $text-color;
-  color: $background-color;
-  display: inline-block;
-  position: relative;
-  min-width: $line-height;
-  text-align: center;
-  vertical-align: middle;
-  margin-right: 5px;
+    background: $text-color;
+    color: $background-color;
+    display: inline-block;
+    position: relative;
+    min-width: $line-height;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
-
 #nprogress .bar {
-  background: $text-color;
-  z-index: 2147483647;
-  height: 3px;
+    background: $text-color;
+    z-index: 2147483647;
+    height: 3px;
 }
 
 #nprogress .peg {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 #nprogress .spinner-icon {
-  border-top-color: $text-color;
-  border-left-color: $text-color;
+    border-top-color: $text-color;
+    border-left-color: $text-color;
 }
 
 #canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding-top: 2*$line-height;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 2*$line-height;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #editor {
-  position: absolute;
-  top: 0;
-  left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #editor .boundary-marker {
-  display: none;
-  background: red;
-  position: fixed;
-  z-index: 2147483647;
+    display: none;
+    background: red;
+    position: fixed;
+    z-index: 2147483647;
 }
 
 #selectArea {
-  border: 1px solid red;
-  background: red;
-  position: absolute;
-  display: none;
+    border: 1px solid red;
+    background: red;
+    position: absolute;
+    display: none;
 }
 
 .sessionData {
-  padding: 8px;
-  padding-top: 2*$line-height;
+    padding: 8px;
+    padding-top: 2*$line-height;
 }
 
 .sessionData dl {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .sessionData dt {
-  float: left;
-  width: 12em
+    float: left;
+    width: 12em
 }
 
 .sessionData dd {
-  margin-left: 12em;
+    margin-left: 12em;
 }
 
-.accounts-dialog, .accounts-dialog * {
-  font-family: $font;
-  font-size: $font-size;
-  border-radius: 0;
+.accounts-dialog,
+.accounts-dialog * {
+    font-family: $font;
+    font-size: $font-size;
+    border-radius: 0;
 }
 
 #login-buttons a {
-  text-decoration: none;
-  @extend %nolinkstyle;
+    text-decoration: none;
+    @extend %nolinkstyle;
 }
 
-#login-buttons input[type=text], #login-buttons input[type=password], #login-buttons input[type=email] {
-  border: 1px solid lightgray;
+#login-buttons input[type=text],
+#login-buttons input[type=password],
+#login-buttons input[type=email] {
+    border: 1px solid lightgray;
 }
 
-#login-buttons .login-button, #login-buttons .login-button:active, #login-buttons .login-button:hover {
-  background-color: $text-color;
-  color: $background-color;
-  font-family: $font;
-  font-size: $font-size;
-  border: none;
+#login-buttons .login-button,
+#login-buttons .login-button:active,
+#login-buttons .login-button:hover {
+    background-color: $text-color;
+    color: $background-color;
+    font-family: $font;
+    font-size: $font-size;
+    border: none;
 }
 
 .bert-alert {
-  background:$text-color !important;
-  border-radius: 0px !important;
+    background: $text-color !important;
+    border-radius: 2px !important;
 }
-
-
-
