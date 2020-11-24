@@ -5,16 +5,18 @@
             <h1>About {{appTitle}}</h1>
         </div>
 
-
         <p>{{appTitle}} is a virtual whiteboard to be shared by multiple persons at the same time. Users will be
             anonymous - so no one needs to sign in.</p>
 
         {{#if hasSessionName}}
-            <p><a href="{{home}}">Just go back to <b>{{sessionName}}</b></a> and share the URL with the
+            <p>
+                <a href="{{home}}">Go back to <b>{{sessionName}}</b>
+                </a> and share the URL with the
                 people you want to work with. Anyone who has access to that URL can participate in your work.
             </p>
         {{else}}
-            <p><a href="/">Just start a new session</a> and share the URL with the
+            <p>
+                <a href="/">Start a new session</a> and share the URL with the
                 people you want to work with. Anyone who has access to that URL can participate in your work.
             </p>
         {{/if}}
@@ -27,20 +29,46 @@
 
         <h3>Contents</h3>
         <ul class="toc">
-            <li><a href="#writing-and-editing">Writing and editing</a></li>
-            <li><a href="#undo-and-redo">Undo and redo</a></li>
-            <li><a href="#drag-and-resize">Drag and resize</a></li>
-            <li><a href="#multi-select">Multi select</a></li>
-            <li><a href="#align">Align</a></li>
-            <li><a href="#connect">Connect</a></li>
-            <li><a href="#colors">Colors</a></li>
-            <li><a href="#voting">Voting</a></li>
-            <li><a href="#filtering">Filtering</a></li>
-            <li><a href="#grid">Grid</a></li>
-            <li><a href="#import">Import</a></li>
-            <li><a href="#export">Export</a></li>
+            <li>
+                <a href="#writing-and-editing">Writing and editing</a>
+            </li>
+            <li>
+                <a href="#commands">Commands</a>
+            </li>
+            <li>
+                <a href="#undo-and-redo">Undo and redo</a>
+            </li>
+            <li>
+                <a href="#drag-and-resize">Drag and resize</a>
+            </li>
+            <li>
+                <a href="#multi-select">Multi select</a>
+            </li>
+            <li>
+                <a href="#align">Align</a>
+            </li>
+            <li>
+                <a href="#connect">Connect</a>
+            </li>
+            <li>
+                <a href="#colors">Colors</a>
+            </li>
+            <li>
+                <a href="#voting">Voting</a>
+            </li>
+            <li>
+                <a href="#filtering">Filtering</a>
+            </li>
+            <li>
+                <a href="#grid">Grid</a>
+            </li>
+            <li>
+                <a href="#import">Import</a>
+            </li>
+            <li>
+                <a href="#export">Export</a>
+            </li>
         </ul>
-
 
         <h3 id="writing-and-editing">Writing and editing</h3>
 
@@ -50,41 +78,41 @@
             supported.
         </p>
 
+        <h3 id="commands">Commands</h3>
+        <p>Commands are started holding the key <kbd>⌘</kbd> on a Mac, and <kbd>CTRL</kbd> on other platforms. 
+        Throughout this document <kbd>CMD</kbd> is used to describe either one of the command keys.
+        </p>
+
         <h3 id="undo-and-redo">Undo and redo</h3>
 
-        <p>Use <kbd>⌘</kbd>-<kbd>Z</kbd> (on a Mac) or <kbd>CTRL</kbd>-<kbd>Z</kbd> (on Windows) to undo your actions
-            and
-            <kbd>⌘</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> / <kbd>CTRL</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> to redo.
-            You can only undo/redo what you have done during a session and not what other participants have done.</p>
-
+        <p>Use <kbd>CMD</kbd>-<kbd>Z</kbd> to undo your actions
+            and <kbd>CMD</kbd>-<kbd>SHIFT</kbd>-<kbd>Z</kbd> to redo the last action.
+            You can only undo/redo what you have done by yourself during a session and not what other participants have done.</p>
         <h3 id="drag-and-resize">Drag and resize</h3>
 
         <p>Drag the text around and resize text boxes as you like.</p>
 
         <h3 id="multi-select">Multi select</h3>
 
-        <p>Select multiple items by <kbd>⌘</kbd>-<kbd>CLICK</kbd> /
-            <kbd>CTRL</kbd>-<kbd>CLICK</kbd> on the items. Alternatively you can <kbd>⌘</kbd>-<kbd>DRAG</kbd> /
-            <kbd>CTRL</kbd>-<kbd>DRAG</kbd> to draw a rectangle on the screen. Any item that is touched by the rectangle
+        <p>Select multiple items by holding <kbd>CMD</kbd> and <kbd>CLICKING</kbd> on the items. Alternatively you can hold <kbd>CMD</kbd> and <kbd>DRAG</kbd> to draw a rectangle on the screen. Any item that is touched by the rectangle
             will be selected.</p>
 
         <h3 id="align">Align</h3>
 
         <p>When you have selected multiple items, you can align the items left with
-            <kbd>⌘</kbd>-<kbd>←</kbd> / <kbd>CTRL</kbd>-<kbd>←</kbd>. Align top, right or bottom by using the other
+            <kbd>CMD</kbd>-<kbd>←</kbd>. Align top, right or bottom by using the other
             arrow keys.</p>
 
         <h3 id="connect">Connect</h3>
 
-        <p>Draw a connection from one item to the other by holding down <kbd>Alt</kbd> (and keep down), click on the
-            father item and then click on the son item. Finally release the <kbd>Alt</kbd>-key.
+        <p>Draw a connection from one item to the other by holding down <kbd>Alt</kbd> and click on the
+            parent item and then click on the child item. Finally release the <kbd>Alt</kbd> key.
         </p>
 
-        <p>If you want to create a new item which should be connected to a father, again, hold down <kbd>Alt</kbd> (and
-            keep down), click on the father and then double click at the position inside of the browser window where the
-            new item should be created. As the last step release the <kbd>Alt</kbd>-key.</p>
+        <p>If you want to create a new item which should be connected to a parent, again, hold down <kbd>Alt</kbd>, click on the parent and then double click at the position inside of the browser window where the
+            new item should be created. As the last step release the <kbd>Alt</kbd> key.</p>
 
-        <p>You get rid of a connection by holding down the <kbd>Alt</kbd>-key while double clicking on the son item (the
+        <p>You get rid of a connection by holding down the <kbd>Alt</kbd> key while double clicking on the child item (the
             one the connection arrow is pointing to).</p>
 
         <h3 id="colors">Colors</h3>
@@ -98,7 +126,6 @@
 
         <p>Dot voting is possible by clicking on the ▲ symbol that appears top left when hovering
             over a text, down voting by clicking on the ▼ symbol.</p>
-
 
         <h3 id="filtering">Filtering</h3>
 
@@ -149,7 +176,6 @@
         <p>You have done smart things with {{appTitle}} and want to work further on it with different tools? Use the
             export action in the header of the editor window to get a .csv file from your current session.
         </p>
-
 
         <p style="text-align:center;">* * *</p>
     </div>
